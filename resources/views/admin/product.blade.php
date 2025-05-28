@@ -13,13 +13,21 @@
     </div>
 
     <div class="search-add">
-      <div class="search-bar">
-        <input type="text" placeholder="Search by ID or title or author">
-        <i class="fa-solid fa-magnifying-glass"></i>
+      <div style="display: flex; align-items: center; gap: 10px;">
+      <form action="{{ route('product') }}" method="GET" class="search-bar">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by ID, title or author then hit 'Enter'">
+      </form>
+
+      <form action="{{ route('product') }}" method="GET">
+        <button type="submit" class="clear">Clear</button>
+      </form>
       </div>
-      <a href="add-product"><button class="add-btn">
-        <i class="fa-solid fa-plus"></i> Add New Book
-      </button></a>
+
+      <a href="{{ route('add-product') }}">
+        <button class="add-btn">
+          <i class="fa-solid fa-plus"></i> Add New Book
+        </button>
+      </a>
     </div>
 
     <div class="table-container-product">
@@ -35,18 +43,18 @@
           </tr>
         </thead>
         <tbody>
-    @foreach ($products as $book)
+    @foreach ($products as $product)
     <tr>
-        <td>{{ $book['id'] }}</td>
-        <td>{{ $book['title'] }}</td>
-        <td>{{ $book['author'] }}</td>
-        <td>Rp. {{ number_format($book['price'], 0, ',', '.') }}</td>
-        <td>{{ $book['stock'] }}</td>
+        <td>{{ $product->id }}</td>
+        <td><div class="truncate-text" title="{{ $product->products_title }}">{{ $product->products_title }}</div></td>
+        <td><div class="truncate-text" title="{{ $product->products_author_name }}">{{ $product->products_author_name }}</div></td>
+        <td>Rp {{ number_format($product->products_price, 0, ',', '.') }}</td>
+        <td>{{ $product->products_stock }}</td>
         <td>
             <a href="{{ route('edit-product') }}" class="edit">
                 <i class="fa-solid fa-pen"></i> Edit
             </a>
-            <a href="{{ route('product', ['delete_id' => $book['id']]) }}" onclick="return confirm('Yakin ingin menghapus?')" class="delete">
+            <a href="{{ route('product', ['delete_id' => $product['id']]) }}" onclick="return confirm('Yakin ingin menghapus?')" class="delete">
                 <i class="fa-solid fa-trash"></i> Delete
             </a>
         </td>
@@ -56,7 +64,4 @@
       </table>
     </div>  
 </div>
-
 @endsection
-        
-

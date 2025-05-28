@@ -39,8 +39,8 @@
                 @foreach ($books as $book)
                 <tr>
                     <td>{{ $book['id'] }}</td>
-                    <td>{{ $book['title'] }}</td>
-                    <td>{{ $book['author'] }}</td>
+                    <td><div class="truncate-text">{{ $book['title'] }}</div></td>
+                    <td><div class="truncate-text">{{ $book['author'] }}</div></td>
                     <td>Rp. {{ number_format($book['price'], 0, ',', '.') }}</td>
                     <td>{{ $book['stock'] }}</td>
                 </tr>

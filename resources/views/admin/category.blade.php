@@ -33,13 +33,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($category as $cat)
+                @foreach ($categories as $cat)
                 <tr>
                     <td>{{ $cat['id'] }}</td>
-                    <td>{{ $cat['nama_category'] }}</td>
+                    <td>{{ $cat['categories_name'] }}</td>
                     <td>{{ $cat['total_books'] }}</td>
                     <td>
-                        <a href="{{ route('category-books') }}" class="edit">
+                        <a href="{{ route('category-books', ['categoryId' => $cat['id']]) }}" class="edit">
                             <i class="fa-solid fa-eye"></i> View All Books
                         </a>
                         <a href="{{ route('edit-category') }}" class="edit">

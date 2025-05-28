@@ -22,6 +22,12 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.
 
 Route::get('/search-redirect', [ProductController::class, 'redirectToProductDetail'])->name('search.redirect');
 
+//BARU CELIN
+Route::post('/add-product-post', [StoreController::class, 'show_add_product_post'])
+-> name('add-product-post');
+
+Route::post('/edit-product-post', [StoreController::class, 'show_edit_product_post'])
+-> name('edit-product-post');
 
 // INI PUNYA FELI
 
@@ -71,7 +77,7 @@ Route::get('/edit-product', [StoreController::class, 'show_edit_product'])
 Route::get('/category', [StoreController::class, 'show_category'])
 ->name('category');
 
-Route::get('/categorybooks', [StoreController::class, 'show_category_books'])
+Route::get('/categorybooks{categoryId}', [StoreController::class, 'show_category_books'])
 ->name('category-books');
 
 Route::get('/add-category', [StoreController::class, 'show_add_category'])

@@ -14,6 +14,16 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px; /* adjust to your preferred width */
+    display: inline-block;
+    vertical-align: middle;
+    cursor: default; /* so the cursor looks normal */
+}
+
 .header h1 {
     margin: 0;
 }
@@ -59,17 +69,47 @@ body {
     color: #888;
 }
 
+.clear {
+    background-color: #eee6ff;
+    color: rgb(107, 35, 208);
+    border: none;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.clear:hover {
+    background-color: #d7c6fa;
+    color: rgb(107, 35, 208);
+    border: none;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
 .add-btn {
     background-color: #b18dfc;
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 8px 14px; /* reduced padding */
+    padding: 8px 14px;
     font-weight: 600;
-    font-size: 14px; /* smaller font */
+    font-size: 14px;
     cursor: pointer;
     margin-right: 10px;
-    white-space: nowrap; /* prevent wrapping */
+    white-space: nowrap;
 }
 
 .add-btn i {

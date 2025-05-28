@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StoreController extends Controller
 {
@@ -26,50 +29,30 @@ class StoreController extends Controller
         return view('user.home', []);
     }
 
-    public function show_category_books()
+    public function show_category_books($categoryId)
     {
-        $categoryName = "Arts and Photography";
-        $title = 'Category';
+        $category = Category::with('products')->find($categoryId);
+        $title = "Category";
 
-        $books = [
-            [
-                'id' => 'PF001',
-                'title' => 'Belajar Website Pemula',
-                'author' => 'Celin Celin',
-                'price' => 500000,
-                'stock' => 100,
-            ],
-            [
-                'id' => 'PF002',
-                'title' => 'Desain UI/UX',
-                'author' => 'Feli Feli',
-                'price' => 450000,
-                'stock' => 80,
-            ],
-            [
-                'id' => 'PF003',
-                'title' => 'Fotografi Dasar',
-                'author' => 'Angel Angel',
-                'price' => 300000,
-                'stock' => 75,
-            ],
-            [
-                'id' => 'PF004',
-                'title' => 'Melukis Indah',
-                'author' => 'Evelin Evelin',
-                'price' => 300000,
-                'stock' => 75,
-            ],
-            [
-                'id' => 'PF005',
-                'title' => 'Seni Website',
-                'author' => 'Varrel Varrel',
-                'price' => 300000,
-                'stock' => 75,
-            ],
-        ];
+        if (!$category) {
+            return redirect()->route('category')->with('error', 'Category not found.');
+        }
 
-        return view('admin.category-books', compact('categoryName', 'books', 'title'));
+        $books = $category->products->map(function ($book) {
+            return [
+                'id' => $book->id,
+                'title' => $book->products_title,
+                'author' => $book->products_author_name,
+                'price' => $book->products_price,
+                'stock' => $book->products_stock,
+            ];
+        });
+
+       return view('admin.category-books', [
+        'books' => $books,
+        'categoryName' => $category->categories_name,
+        'title' => $title
+    ]);
     }
 
     public function show_add_category()
@@ -113,17 +96,15 @@ class StoreController extends Controller
     public function show_product(Request $request)
     {
         $title = 'Product';
-        $products = [
-            ['id' => 'PF001', 'title' => 'Belajar Website untuk Pemula', 'author' => 'Celin Celin W.', 'price' => 500000, 'stock' => 100],
-            ['id' => 'PF002', 'title' => 'Laravel untuk UMKM', 'author' => 'Felicia', 'price' => 350000, 'stock' => 80],
-            ['id' => 'PF003', 'title' => 'Dasar-dasar JavaScript', 'author' => 'Angeline', 'price' => 250000, 'stock' => 60],
-        ];
+        $search = $request->input('search');
 
-        if ($request->has('delete_id')) {
-            $deleteId = $request->input('delete_id');
-            $products = array_filter($products, fn($book) => $book['id'] != $deleteId);
-            $products = array_values($products);
-        }
+        $products = Product::query()
+            ->when($search, function ($query, $search) {
+                $query->where('id', $search)
+                    ->orWhere('products_title', 'like', "%$search%")
+                    ->orWhere('products_author_name', 'like', "%$search%");
+            })
+            ->get(['id', 'products_title', 'products_author_name', 'products_price', 'products_stock']);
 
         return view('admin.product', compact('title', 'products'));
     }
@@ -154,21 +135,23 @@ class StoreController extends Controller
     {
         $title = 'Category';
 
-        $category = [
-            ['id' => 1, 'nama_category' => 'Arts & Photography', 'total_books' => 10],
-            ['id' => 2, 'nama_category' => 'Non-Fiksi', 'total_books' => 5],
-            ['id' => 3, 'nama_category' => 'Biografi', 'total_books' => 7],
-        ];
-        // Kalau ada request ID untuk dihapus
+        // If there's a delete request, delete first
         if ($request->has('delete_id')) {
             $deleteId = $request->input('delete_id');
-            // Filter data yang tidak sesuai dengan ID yang dihapus
-            $category = array_filter($category, function ($cat) use ($deleteId) {
-                return $cat['id'] != $deleteId;
-            });
-            // Reset index array
-            $category = array_values($category);
+            Category::destroy($deleteId);
         }
-        return view('admin.category', compact('title', 'category'));
+
+        // Query categories along with count of linked products in category_product table
+       $categories = DB::table('categories')
+        ->leftJoin('category_product', 'categories.id', '=', 'category_product.categories_id')
+        ->select(
+            'categories.id',
+            'categories.categories_name as nama_category',
+            DB::raw('COUNT(category_product.products_id) as total_books')
+        )
+        ->groupBy('categories.id', 'categories.categories_name')
+        ->get();
+
+        return view('admin.category', compact('title', 'categories'));
     }
 }
