@@ -1,0 +1,65 @@
+ body {
+     background-color: #f8f3ff;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ .status-card {
+     max-width: 480px;
+     margin: 5rem auto;
+     background: white;
+     border-radius: 15px;
+     box-shadow: 0 8px 30px rgba(97, 67, 157, 0.15);
+     padding: 2.5rem 3rem;
+     text-align: center;
+ }
+
+ .status-title {
+     color: #6c33ff;
+     font-weight: 700;
+     margin-bottom: 1.5rem;
+ }
+
+ .status-label {
+     font-weight: 600;
+     color: #555;
+     margin-top: 1.2rem;
+ }
+
+ .status-value {
+     font-weight: 700;
+     font-size: 1.3rem;
+     color: #6c33ff;
+     margin-bottom: 0.7rem;
+ }
+
+ .status-paid {
+     color: #28a745;
+     font-weight: 700;
+     font-size: 1.2rem;
+     margin-top: 1rem;
+ }
+
+ .status-note {
+     font-size: 0.9rem;
+     color: #777;
+     margin-top: 0.3rem;
+     font-style: italic;
+ }
+
+ .btn-view-orders {
+     margin-top: 2rem;
+     background-color: #6c33ff;
+     border: none;
+     padding: 0.65rem 2.5rem;
+     font-weight: 600;
+     color: white;
+     border-radius: 50px;
+     transition: background-color 0.3s ease;
+     text-decoration: none;
+     display: inline-block;
+ }
+
+ .btn-view-orders:hover {
+     background-color: #4b2399;
+     color: white;
+ }

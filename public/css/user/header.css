@@ -1,0 +1,129 @@
+.top-bar {
+    background-color: #3d0d5d;
+    padding: 16px 24px;
+}
+
+.brand-text {
+    color: white;
+}
+
+.brand-subtitle {
+    font-size: 0.9rem;
+    color: #dcdcdc;
+}
+
+.search-wrapper {
+    position: relative;
+    max-width: 450px;
+    width: 100%;
+    flex: 1;
+}
+
+.search-wrapper input {
+    padding-left: 38px;
+    border-radius: 8px;
+}
+
+.search-wrapper .fa-search {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+@media (max-width: 576px) {
+    .search-wrapper {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 10px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+}
+
+.bottom-bar {
+    background-color: #f8f9fa;
+    padding: 0px 20px;
+    border-top: 1px solid #ddd;
+    padding-left: 3rem;
+    /* jarak kiri */
+    padding-right: 3rem;
+    /* jarak kanan */
+}
+
+.navbar .nav-link {
+    color: #000;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    color: #6f42c1;
+}
+
+.icon-badge {
+    position: relative;
+    display: inline-block;
+}
+
+.icon-badge .badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background-color: #8079f7;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    line-height: 1;
+}
+
+.hover-dropdown:hover>.dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    display: none;
+    position: absolute;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+
+.nav-link span {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background-color: #8079f7;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    line-height: 1;
+}

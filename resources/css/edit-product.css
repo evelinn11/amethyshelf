@@ -1,0 +1,194 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f5f5f5;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.add-book-form {
+    min-width: 200px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin-left: 20px;
+}
+
+.addnew h2 {
+    font-size: 25px;
+    margin-left: 25px;
+    margin-top: 7px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.form-container {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+}
+
+.section {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+
+.section-title {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.note {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 12px;
+}
+
+.photo-upload {
+    display: flex;
+    gap: 17px;
+    flex-wrap: wrap;
+}
+
+.photo-slot {
+    width: 100px;
+    text-align: center;
+}
+
+.photo-box {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+}
+
+.photo-slot p {
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.photo-slot a {
+    font-size: 11px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.form-split {
+    display: flex;
+    gap: 25px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    margin-left: 15px;
+}
+
+.column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    padding-left: 8px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.radio-group {
+    white-space: nowrap;
+}
+
+.radio-group input {
+    margin-right: 6px;
+}
+
+.radio-group label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+.btn {
+    padding: 10px 24px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.cancel {
+    background: #999;
+    color: white;
+}
+
+.finish {
+    background: #b38cf8;
+    color: white;
+}
+
+.cancel:hover {
+    background: #777;
+    color: white;
+}
+
+.finish:hover {
+    background: #9a6de0;
+    color: white;
+}

@@ -1,0 +1,154 @@
+body {
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.text-purple {
+    color: #6c33ff;
+    font-weight: 600;
+}
+
+.btn-purple {
+    background-color: #b497ff;
+    color: #2e2e2e;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-purple:hover {
+    background-color: #7a49ff;
+    color: white;
+}
+w .btn-purple-outline {
+    background-color: transparent;
+    border: 2px solid #b497ff;
+    color: #6c33ff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-purple-outline:hover {
+    background-color: #6c33ff;
+    color: white;
+    border-color: #6c33ff;
+}
+
+.table thead th {
+    border-bottom: 2px solid #a084ff;
+}
+
+.table tbody tr:not(:last-child) {
+    border-bottom: 1px solid #c9bfff;
+}
+
+.wishlist-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table-scroll-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.wishlist-table {
+    min-width: 736px; /* 👈 Keeps the table from shrinking */
+}
+
+.text-remove {
+    margin-left: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wishlist-table {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .wishlist-table thead {
+        display: none;
+    }
+
+    .wishlist-table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        background: #fdfdfd;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .wishlist-table tbody td {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border: none;
+        word-break: break-word;
+    }
+
+    .wishlist-table tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #6c33ff;
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .wishlist-table tbody td:first-child {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .wishlist-table tbody td:first-child img {
+        width: 50px;
+        height: 70px;
+    }
+
+    .wishlist-table tbody td .btn {
+        padding: 4px 10px;
+        font-size: 0.9rem;
+    }
+
+    .no-wrap-buttons {
+        display: flex;
+        flex-wrap: nowrap !important;
+    }
+
+    .no-wrap-buttons > * {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .no-wrap-buttons > * {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+
+    /* .wishlist-table tbody td:last-child {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-top: 0.5rem;
+    } */
+}

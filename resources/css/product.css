@@ -1,0 +1,146 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.admin {
+    font-weight: bold;
+}
+
+.container {
+    padding: 20px 40px;
+}
+
+.container h2 {
+    margin-bottom: 10px;
+}
+
+.search-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.search-bar {
+    position: relative;
+    width: 550px;
+    margin-left: 22px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 4px 50px 4px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.search-bar i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.add-btn {
+    background-color: #b18dfc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px; /* reduced padding */
+    font-weight: 600;
+    font-size: 14px; /* smaller font */
+    cursor: pointer;
+    margin-right: 10px;
+    white-space: nowrap; /* prevent wrapping */
+}
+
+.add-btn i {
+    margin-right: 5px;
+}
+
+.add-btn:hover {
+    background-color: #996bfa;
+}
+
+.table-container-product {
+    border: 2px solid #c7b3ff;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin-left: 20px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.table-container-product table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.table-container-product thead {
+    background-color: #e6dffe;
+}
+
+.table-container-product th,
+.table-container-product td {
+    padding: 8px 19px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.edit {
+    color: #007bff;
+    margin-right: 10px;
+    text-decoration: underline;
+}
+
+.edit i {
+    margin-right: 4px;
+}
+
+.delete {
+    color: red;
+    text-decoration: underline;
+}
+
+.delete i {
+    margin-right: 4px;
+}
+
+@media (max-width: 768px) {
+    .add-btn {
+        width: 90%;
+        text-align: center;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    .search-bar {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .add-btn {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,20 @@
+.button-purple {
+    background-color: #3C1361;
+    border-color: #3C1361;
+}
+
+.button-purple:hover {
+    background-color: #5936a2;
+    border-color: #5936a2;
+}
+
+.text-purple {
+    color: #3C1361;
+}
+
+.badge-status {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
