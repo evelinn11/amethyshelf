@@ -22,7 +22,7 @@
       </button></a>
     </div>
 
-    <div class="table-container-product"> <!-- Reusing same class for consistency -->
+    <div class="table-container-product"> 
         <table>
             <thead>
                 <tr>
@@ -35,13 +35,10 @@
             <tbody>
                 @foreach ($categories as $cat)
                 <tr>
-                    <td>{{ $cat['id'] }}</td>
-                    <td>{{ $cat['categories_name'] }}</td>
-                    <td>{{ $cat['total_books'] }}</td>
+                    <td>{{ $cat->id }}</td>
+                    <td>{{ $cat->categories_name }}</td>
+                    <td>{{ $cat->products->count() }}</td>
                     <td>
-                        <a href="{{ route('category-books', ['categoryId' => $cat['id']]) }}" class="edit">
-                            <i class="fa-solid fa-eye"></i> View All Books
-                        </a>
                         <a href="{{ route('edit-category') }}" class="edit">
                             <i class="fa-solid fa-pen"></i> Edit
                         </a>

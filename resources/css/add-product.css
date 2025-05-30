@@ -13,6 +13,14 @@ body {
     align-items: center;
     margin-bottom: 30px;
 }
+.input-error {
+    border: 2px solid red;
+}
+.error-message {
+    color: red;
+    font-size: 0.85em;
+    margin-top: 4px;
+}
 
 .photo-slot,
 .photo-upload > div:not(.photo-slot) {

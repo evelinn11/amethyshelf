@@ -13,10 +13,10 @@
 <div class="sidebar">
     <h2 class="sidebar-title">AMETHYSHELF</h2>
     <ul class="sidebar-menu">
-        <li><a href="dashboard"><span class="iconify" data-icon="mdi:home" data-inline="false"></span> Dashboard</a></li>
-        <li><a href="product"><span class="iconify" data-icon="mdi:book" data-inline="false"></span> Products</a></li>
-        <li><a href="category"><span class="iconify" data-icon="mdi:category" data-inline="false"></span> Category</a></li>
-        <li><a href="admin-orders"><span class="iconify" data-icon="mdi:cart" data-inline="false"></span> Orders</a></li>
+        <li><a href="{{ route("dashboard") }}"><span class="iconify" data-icon="mdi:home" data-inline="false"></span> Dashboard</a></li>
+        <li><a href="{{ route("product") }}"><span class="iconify" data-icon="mdi:book" data-inline="false"></span> Products</a></li>
+        <li><a href="{{ route("category") }}"><span class="iconify" data-icon="mdi:category" data-inline="false"></span> Category</a></li>
+        <li><a href="{{ route("admin-orders") }}"><span class="iconify" data-icon="mdi:cart" data-inline="false"></span> Orders</a></li>
         <li><a href=""><span class="iconify" data-icon="mdi:account" data-inline="false"></span> Users</a></li>   
     </ul>
     <hr>

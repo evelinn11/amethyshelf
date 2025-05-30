@@ -10,8 +10,6 @@ class Category extends Model
     protected $fillable = ['name'];
     protected $table = 'categories';
 
-
-
     // RELATION TO PRODUCTS (many to many)
     public function products()
     {

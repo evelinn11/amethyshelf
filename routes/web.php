@@ -22,13 +22,6 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.
 
 Route::get('/search-redirect', [ProductController::class, 'redirectToProductDetail'])->name('search.redirect');
 
-//BARU CELIN
-Route::post('/add-product-post', [StoreController::class, 'show_add_product_post'])
--> name('add-product-post');
-
-Route::post('/edit-product-post', [StoreController::class, 'show_edit_product_post'])
--> name('edit-product-post');
-
 // INI PUNYA FELI
 
 
@@ -62,6 +55,16 @@ Route::get('/orders/{id}/details', [OrderController::class, 'details'])->name('o
 
 // DIBAWAH INI ADMIN
 
+//BARU CELIN
+Route::post('/add-product-post', [StoreController::class, 'show_add_product_post'])
+-> name('add-product-post');
+
+Route::post('/edit-product-post', [StoreController::class, 'show_edit_product_post'])
+-> name('edit-product-post');
+
+Route::delete('/product/{id}', [StoreController::class, 'destroy'])->name('product.destroy');
+//
+
 Route::get('/dashboard', [StoreController::class, 'show_dash'])
 -> name('dashboard');
 
@@ -71,8 +74,9 @@ Route::get('/add-product', [StoreController::class, 'show_add_product'])
 Route::get('/product', [StoreController::class, 'show_product'])
 -> name('product');
 
-Route::get('/edit-product', [StoreController::class, 'show_edit_product'])
+Route::get('/edit-product/{id}', [StoreController::class, 'show_edit_product'])
 ->name('edit-product');
+
 
 Route::get('/category', [StoreController::class, 'show_category'])
 ->name('category');

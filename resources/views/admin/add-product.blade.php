@@ -13,6 +13,24 @@
     </div>
     <div class="add-book-form">
 
+    @if (session('error'))
+    <script>
+        window.onload = function () {
+            document.getElementById('popupMessage').textContent = '{{ session('error') }}';
+            document.getElementById('popup1').style.display = 'flex';
+        };
+    </script>
+    @endif
+
+    @if (session('success'))
+    <script>
+        window.onload = function () {
+            document.getElementById('popupMessage').textContent = '{{ session('success') }}';
+            document.getElementById('popup1').style.display = 'flex';
+        };
+    </script>
+    @endif
+
     <form action="{{ route("add-product-post") }}" method="POST" enctype="multipart/form-data">
     @csrf
       <!-- Photo Upload -->
@@ -21,9 +39,12 @@
               <p class="note">Upload up to 3 photo</p>
               <div class="photo-upload" id="photoArea">
                   <!-- Hidden file input -->
-                  <input type="file" name="photos[]" accept="image/*" style="display: none;" class="photo-input" onchange="handlePhotoUpload(this)" />
-              </div>
+                  <input type="file" name="product_images[]" multiple  accept="image/*" style="display: none;" class="photo-input" onchange="handlePhotoUpload(this)" />
+                </div>
           </div>
+                   @if ($errors->has('product_images.*'))
+                      <p class="error-message">{{ $errors->first('product_images.*') }}</p>
+                  @endif
 
         <!-- Form Fields -->
         <div class="form-split">
@@ -31,15 +52,20 @@
           <div class="column">
             <div class="form-group">
               <label>Book Title</label>
-              <input type="text" id="bookTitle" name="book_title" placeholder="Maximum 100 characters" />
+              <input type="text" value="{{ old('products_title') }}" id="bookTitle" name="products_title" placeholder="Maximum 100 characters" class="{{ $errors->has('products_title') ? 'input-error' : '' }}"/>
+               @if ($errors->has('products_title'))
+                <p class="error-message">{{ $errors->first('products_title') }}</p>
+              @endif
             </div>
             <div class="row">
               <div class="form-group">
                 <label>Published Year</label>
-                <select name="published_year" required>
+                <select name="products_published_year" required>
                   <option value="">Select Year</option>
                   @for ($year = 2025; $year >= 2000; $year--)
-                      <option value="{{ $year }}">{{ $year }}</option>
+                    <option value="{{ $year }}" {{ old('products_published_year') == $year ? 'selected' : '' }}>
+                        {{ $year }}
+                    </option>
                   @endfor
               </select>
               </div>
@@ -52,12 +78,18 @@
                       <input type="checkbox" id="category-{{ $category->id }}" name="categories[]" value="{{ $category->id }}">
                       <label for="category-{{ $category->id }}">{{ $category->categories_name }}</label>
                     </div>
-                  @endforeach    
+                  @endforeach   
+                  @if ($errors->has('categories'))
+                    <p class="error-message">{{ $errors->first('categories') }}</p>
+                  @endif 
                 </div>         
               </div>
             <div class="form-group">
               <label>Summary</label>
-              <textarea rows="5" name="summary"></textarea>
+              <textarea rows="5" name="products_summary" class="{{ $errors->has('products_summary') ? 'input-error' : '' }}">{{ old('products_summary') }}</textarea>
+               @if ($errors->has('products_summary'))
+                <p class="error-message">{{ $errors->first('products_summary') }}</p>
+              @endif
             </div>
           </div>
 
@@ -65,33 +97,54 @@
           <div class="column">
             <div class="form-group">
               <label>Author Name</label>
-              <input type="text" name="author_name" placeholder="Maximum 50 characters" />
+              <input type="text" value="{{ old('products_author_name') }}"name="products_author_name" placeholder="Maximum 50 characters" class="{{ $errors->has('products_author_name') ? 'input-error' : '' }}"/>
+               @if ($errors->has('products_author_name'))
+                <p class="error-message">{{ $errors->first('products_author_name') }}</p>
+              @endif
             </div>
             <div class="form-group">
               <label>Publisher Name</label>
-              <input type="text" name="publisher_name" placeholder="Maximum 50 characters" />
+              <input type="text" value="{{ old('products_publisher_name') }}"name="products_publisher_name" placeholder="Maximum 50 characters" class="{{ $errors->has('products_publisher_name') ? 'input-error' : '' }}"/>
+               @if ($errors->has('products_publisher_name'))
+                <p class="error-message">{{ $errors->first('products_publisher_name') }}</p>
+              @endif
             </div>
             <div class="row">
               <div class="form-group">
                 <label>Price</label>
-                <input type="number" name="price" placeholder="Enter numbers only" />
+                <input type="number" value="{{ old('products_price') }}"name="products_price" placeholder="Enter numbers only" class="{{ $errors->has('products_price') ? 'input-error' : '' }}"/>
+                 @if ($errors->has('products_price'))
+                <p class="error-message">{{ $errors->first('products_price') }}</p>
+              @endif
               </div>
               <div class="form-group">
                 <label>Stock</label>
-                <input type="number" name="stock" placeholder="Enter numbers only" />
+                <input type="number" value="{{ old('products_stock') }}"name="products_stock" placeholder="Enter numbers only" class="{{ $errors->has('products_stock') ? 'input-error' : '' }}"/>
+                 @if ($errors->has('products_stock'))
+                <p class="error-message">{{ $errors->first('products_stock') }}</p>
+              @endif
               </div>
             </div>
             <div class="form-group">
                 <label>Total Pages</label>
-                <input type="text" name="total_pages" />
-            </div>
+                <input type="text" value="{{ old('products_total_pages') }}"name="products_total_pages" class="{{ $errors->has('products_total_pages') ? 'input-error' : '' }}"/>
+                 @if ($errors->has('products_total_pages'))
+                <p class="error-message">{{ $errors->first('products_total_pages') }}</p>
+              @endif
+              </div>
             <div class="form-group">
               <label>Language</label>
-              <input type="text" name="language" />
+              <input type="text" value="{{ old('products_languange') }}"name="products_languange" class="{{ $errors->has('products_languange') ? 'input-error' : '' }}"/>
+               @if ($errors->has('products_languange'))
+                <p class="error-message">{{ $errors->first('products_languange') }}</p>
+              @endif
             </div>
             <div class="form-group">
               <label>ISBN</label>
-              <input type="text" name="isbn" />
+              <input type="text" value="{{ old('products_isbn') }}"name="products_isbn" class="{{ $errors->has('products_isbn') ? 'input-error' : '' }}"/>
+               @if ($errors->has('products_isbn'))
+                <p class="error-message">{{ $errors->first('products_isbn') }}</p>
+              @endif
             </div>
           </div>
         </div>
@@ -99,35 +152,24 @@
         <!-- Buttons TYPE HRS SUBMIT BUAT INSERT KE DB--> 
       <div class="form-actions">
         <a href="{{ route('product') }}" class="btn cancel">Cancel</a>        
-        <button type="button" class="btn finish" onclick="showPopup('popup1')">Finish</button>
+        <button type="submit" class="btn finish">Finish</button>
       </div>
 
+      @if (session('success'))
       <!-- Popup -->
-      <div class="popup-overlay" id="popup1" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+      <div class="popup-overlay" id="popup1" style="display:flex; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
         <div class="popup-content" style="background:white; padding:20px; border-radius:8px; text-align:center; min-width:300px;">
           <h2>Success!</h2>
-          <p id="popupMessage">Buku berhasil diupload</p>
+          <p>{{ session('success') }}</p>
           <div class="form-buttons" style="margin-top:20px;">
             <a href="{{ route('product') }}" class="btn close">Close</a>
           </div>
         </div>
       </div>
+      @endif
     </form>
 
 <script>
-  function showPopup(popupId) {
-    const title = document.getElementById('bookTitle').value.trim();
-    const popupMessage = document.getElementById('popupMessage');
-
-    if (title) {
-      popupMessage.textContent = `"${title}" berhasil diupload`;
-    } else {
-      popupMessage.textContent = 'Buku berhasil diupload';
-    }
-
-    document.getElementById(popupId).style.display = 'flex';
-  }
-
   //Photo
   let photoCount = 0;
   const maxPhotos = 3;
@@ -137,7 +179,7 @@
 
       const input = document.createElement('input');
       input.type = 'file';
-      input.name = 'photos[]';
+      input.name = 'product_images[]';
       input.accept = 'image/*';
       input.className = 'photo-input';
       input.style.display = 'none';

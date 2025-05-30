@@ -13,6 +13,66 @@ body {
     align-items: center;
     margin-bottom: 30px;
 }
+.input-error {
+    border: 2px solid red;
+}
+.error-message {
+    color: red;
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+
+.photo-slot,
+.photo-upload > div:not(.photo-slot) {
+    /* photo-slot and previews */
+    flex: 0 0 auto; /* prevent shrinking */
+    width: 100px; /* fixed width */
+    height: 140px; /* fixed height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.photo-upload {
+    display: flex;
+    flex-wrap: nowrap; /* no wrapping */
+    gap: 10px; /* space between photos */
+    overflow-x: auto; /* allow horizontal scroll if overflow */
+    align-items: flex-start;
+}
+
+.photo-upload > div:not(.photo-slot):hover .remove-photo-link {
+    display: block;
+}
+
+/* max 21 category*/
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns */
+    gap: 5px 10px; /* Row gap then column gap */
+    margin-top: 8px; /* Add space only after title */
+}
+
+.checkbox-item {
+    display: -webkit-inline-box;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #333;
+}
+
+.checkbox-group input[type="checkbox"],
+.checkbox-group label {
+    flex-shrink: 0;
+}
+
+.checkbox-group label {
+    font-size: 13px;
+    cursor: pointer;
+    color: rgb(101, 101, 101);
+}
 
 .add-book-form {
     min-width: 200px;
@@ -121,8 +181,7 @@ body {
 
 .row {
     display: flex;
-    align-items: flex-start;
-    margin-bottom: 6px;
+    flex-wrap: wrap;
 }
 
 input,
