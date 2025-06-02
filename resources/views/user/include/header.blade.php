@@ -1,15 +1,11 @@
 <!-- Top Bar -->
 <div class="top-bar">
-    <div class="d-flex justify-content-between align-items-center header-content">
-        <div class="d-flex align-items-center gap-4 w-100">
+    <div class="d-flex justify-content-between align-items-center header-content gap-3">
+        <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
             <div>
                 <h4 class="brand-text mb-0">AMETHYSHELF</h4>
                 <div class="brand-subtitle">ISB's Largest Bookstore</div>
             </div>
-            {{-- <div class="search-wrapper" style="flex:1;">
-                <i class="fas fa-search"></i>
-                <input type="text" class="form-control" placeholder="Cari Produk">
-            </div> --}}
             <form action="{{ route('search.redirect') }}" method="GET" class="search-wrapper" style="flex:1;">
                 <i class="fas fa-search"></i>
                 <input type="text" name="q" class="form-control" placeholder="Cari Produk" required>
@@ -21,7 +17,7 @@
                 <a class="nav-link dropdown-toggle" href="#" role="button">
                     Felicia <i class="fas fa-user ms-2"></i>
                 </a>
-                <ul class="dropdown-menu" style="min-width:120px; height:80px;">
+                <ul class="dropdown-menu" style="min-width:120px; height:90px;">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li>
                         <form id="logout-form" action="{{ route('signout') }}" method="POST" style="display: none;">

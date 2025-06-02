@@ -10,6 +10,7 @@
     width: 100%;
     top: 0;
     left: 0;
+    height: 80px; /* pastikan ini */
 }
 
 .bottom-bar {
@@ -18,13 +19,16 @@
     border-top: 1px solid #ddd;
     padding-left: 3rem;
     padding-right: 3rem; 
-    margin-top: 80px; /* sesuai tinggi .top-bar */
     position: fixed;
     z-index: 900;
     width: 100%;
-    top: 80;
+    height:auto;
+    /* top: 0; */
     left: 0;
+    top: 80px; /* ini penting agar tidak nabrak top-bar */
 }
+
+
 
 .brand-text {
     color: white;
@@ -67,17 +71,38 @@
         align-items: flex-start;
         gap: 2rem;
     }
+
+    .top-bar{
+        background-color: #3d0d5d;
+        height: 110px; /* pastikan ini */
+    }
+
+    .bottom-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        top: 110px;
+        /* margin-bottom: 100rem; */
+
+    }
+
+    .navbar-collapse {
+        flex-direction: column;
+    }
+
 }
 
-/* .bottom-bar {
+
+.bottom-bar {
     background-color: #f8f9fa;
     padding: 0px 20px;
     border-top: 1px solid #ddd;
     padding-left: 3rem;
-    /* jarak kiri 
+    /*jarak kiri  */
     padding-right: 3rem;
-    /* jarak kanan 
-} */
+    /* jarak kanan   */
+}
 
 .navbar .nav-link {
     color: #000;
