@@ -6,45 +6,63 @@ use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
-    //
-    protected $wishlist;
-
-    public function __construct()
+    public function add(Request $request)
     {
-        $this->wishlist = [
-            [
-                'id' => 1,
-                'title' => 'Bumi Manusia',
-                'author' => 'Pramoedya Ananta Toer',
-                'price' => 100000,
-                'image' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-            ],
-            [
-                'id' => 2,
-                'title' => 'Bumi Manusia',
-                'author' => 'Pramoedya Ananta Toer',
-                'price' => 100000,
-                'image' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-            ],
+        $wishlist = session()->get('wishlist', []);
+
+        $wishlist[] = [
+            'title' => $request->product_name,
+            'author' => $request->product_author,
+            'price' => $request->product_price,
+            'image' => $request->product_image,
         ];
+
+        session(['wishlist' => $wishlist]);
+
+        return redirect()->route('wishlist.index')->with('success', 'Produk ditambahkan ke wishlist!');
     }
 
-    public function index()
+    public function show()
     {
-        return view('user.wishlist', ['wishlist' => $this->wishlist]);
+        $wishlist = session()->get('wishlist', []);
+        return view('user.wishlist', compact('wishlist'));
     }
 
-    public function addToCart(Request $request)
+    public function remove($index)
     {
-        $id = $request->input('id');
-        // TODO: Tambahkan ke keranjang
-        return back()->with('success', 'Item berhasil ditambahkan ke keranjang.');
+    $wishlist = session()->get('wishlist', []);
+
+    if (isset($wishlist[$index])) {
+        unset($wishlist[$index]);
+        // Reindex array supaya key-nya rapi
+        $wishlist = array_values($wishlist);
+        session(['wishlist' => $wishlist]);
     }
 
-    public function remove(Request $request)
-    {
-        $id = $request->input('id');
-        // TODO: Hapus dari wishlist
-        return back()->with('success', 'Item berhasil dihapus dari wishlist.');
+    return redirect()->route('wishlist.index')->with('success', 'Produk dihapus dari wishlist!');
     }
+
+    public function moveToCart($index)
+    {
+    $wishlist = session()->get('wishlist', []);
+    $cart = session()->get('cart', []);
+
+    if (isset($wishlist[$index])) {
+        $item = $wishlist[$index];
+
+        // Tambahkan quantity saat masuk ke cart
+        $cart[] = [
+            'title' => $item['title'],
+            'author' => $item['author'],
+            'price' => $item['price'],
+            'image' => $item['image'],
+            'quantity' => 1,
+        ];
+
+        session(['cart' => $cart]);
+    }
+
+    return redirect()->route('wishlist.index')->with('success', 'Item berhasil ditambahkan ke cart!');
+    }
+
 }

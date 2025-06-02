@@ -5,85 +5,98 @@
 @endpush
 
 @section('content')
-<div class="container py-4" style="min-height: 70vh;">
-    <h3 class="my-4">My Wishlist</h3>
 
-    <div id="success-message" class="alert alert-success d-none" role="alert">
-        Add to cart successful!
-    </div>
+<div class="wishlist-container container mt-4">
+    <h2>My Wishlist</h2>
 
-    @php
-        $wishlist = [
-            [
-                'title' => 'Bumi Manusia',
-                'author' => 'Pramoedya Ananta Toer',
-                'price' => 100000,
-                'image' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-            ],
-            [
-                'title' => 'Bumi Manusia',
-                'author' => 'Pramoedya Ananta Toer',
-                'price' => 200000,
-                'image' => 'https://covers.openlibrary.org/b/id/7222246-L.jpg',
-            ],
-        ];
-    @endphp
-
-    @if (count($wishlist) === 0)
-        <div class="alert alert-info text-center">Your wishlist is empty.</div>
-    @else
-    <div class="table-responsive">
-        <table class="table cart-table shadow-sm">
-            <thead>
+    @if(!empty($wishlist) && count($wishlist) > 0)
+        <table class="table table-bordered">
+            <thead class="table-secondary">
                 <tr>
-                    <th>Book Title</th>
+                    <th>Cover</th>
+                    <th>Title</th>
+                    <th>Author</th>
                     <th>Price</th>
+                    <th>Action</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($wishlist as $item)
+                @foreach ($wishlist as $index => $item)
                     <tr>
-                        <td class="d-flex align-items-center gap-3">
-                            <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" width="60" height="80" />
-                            <div>
-                                <div class="fw-semibold">{{ $item['title'] }}</div>
-                                <div class="text-muted small">By {{ $item['author'] }}</div>
-                            </div>
+                        <td><img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" width="60"></td>
+                        <td>{{ $item['title'] }}</td>
+                        <td>{{ $item['author'] }}</td>
+                        <td>Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
+                        <td>
+                            <form action="{{ route('wishlist.remove', $index) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this item from your wishlist?');">
+                                @csrf
+                                <button type="submit">Remove</button>
+                            </form>
                         </td>
-                        <td class="align-middle">Rp{{ number_format($item['price'], 0, ',', '.') }}</td>
-                        <td class="align-middle">
-                            <div class="gap-2 no-wrap-buttons">
-                                <button class="btn btn-primary" onclick="addToCart(this)">Add To Cart</button>
-                                <span class="text-remove ms-2" onclick="removeRow(this)">Remove</span>
-                            </div>
+                        <td>
+                            <form action="{{ route('wishlist.moveToCart', $index) }}" method="POST" onsubmit="return confirm('Add this item to cart?');">
+                            @csrf
+                            <button type="submit" class="btn btn-purple-outline">Add To Cart</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
+    @else
+        <div class="alert alert-info">Wishlist kamu masih kosong.</div>
     @endif
 </div>
 
-<script>
-    function removeRow(el) {
-        if (!confirm('Are you sure you want to remove this item from your wishlist?')) return;
-        const row = el.closest('tr');
-        row.remove();
-    }
+@endsection
 
-    function addToCart(button) {
+<style>
+    .text-purple {
+        color: #6c33ff;
+        font-weight: 600;
+    }
+    .btn-purple {
+        background-color: #b497ff;
+        color: #2e2e2e;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .btn-purple:hover {
+        background-color: #7a49ff;
+        color: white;
+    }
+    .btn-purple-outline {
+        background-color: transparent;
+        border: 2px solid #b497ff;
+        color: #6c33ff;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .btn-purple-outline:hover {
+        background-color: #6c33ff;
+        color: white;
+        border-color: #6c33ff;
+    }
+    .table thead th {
+        border-bottom: 2px solid #a084ff;
+    }
+    .table tbody tr:not(:last-child) {
+        border-bottom: 1px solid #c9bfff;
+    }
+</style>
+
+<script>
+    function removeRow(button) {
+        if (!confirm('Are you sure you want to remove this item from your wishlist?')) return;
         const row = button.closest('tr');
         row.remove();
-
-        const message = document.getElementById('success-message');
-        message.classList.remove('d-none');
-        message.classList.add('show');
-
-        setTimeout(() => {
-            message.classList.add('d-none');
-        }, 2000);
     }
 </script>
-@endsection

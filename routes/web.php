@@ -27,30 +27,54 @@ Route::get('/search-redirect', [ProductController::class, 'redirectToProductDeta
 
 
 
+// ini cart, wishlist, payment, checkout
+
 Route::get('/home', [HomeController::class, 'show'])->name('home.show');
 
+// Halaman utama diarahkan ke daftar produk
 Route::get('/products', [ProductController::class, 'show'])->name('products.show');
 
-Route::get('/product-details', [ProductController::class, 'details'])->name('product.details');
+// Detail produk
+Route::get('/produk/detail', [ProductController::class, 'details'])->name('details');
 
-Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+// Daftar semua produk
+//Route::get('/products', [ProductController::class, 'index'])->name('products');
 
+// Halaman Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
-Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+// Tambah item ke cart
+Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
 
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+// Remove dari cart
+Route::post('/cart/remove/{index}', [CartController::class, 'remove'])->name('cart.remove');
 
-Route::get('/payment-status', [CartController::class, 'paymentStatus'])->name('payment.status');
+// Menambah quantity di cart
+Route::put('/cart/update/{index}', [CartController::class, 'update'])->name('cart.update');
 
-Route::post('/cart/checkout', function () {
-    return redirect()->route('payment.status')->with('success', 'Checkout successful!');
-})->name('cart.checkout');
+// Checkout
+Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
 Route::get('/orders', [OrderController::class, 'show'])->name('orders.show');
 
 Route::get('/orders/{id}/details', [OrderController::class, 'details'])->name('order.details');
 
+// Show Wishlist
+Route::get('/wishlist', [WishlistController::class, 'show'])->name('wishlist');
+
+Route::get('/wishlist', [WishlistController::class, 'show'])->name('wishlist.index');
+
+// Tambah item dari products ke wishlist
+Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+
+// Remove item dari wishlist
+Route::post('/wishlist/remove/{index}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+
+// Tambah item dari wishlist ke cart
+Route::post('/wishlist/add-to-cart/{index}', [WishlistController::class, 'addToCart'])->name('wishlist.addToCart');
+
+// Move dari wishlist ke cart
+Route::post('/wishlist/move-to-cart/{index}', [WishlistController::class, 'moveToCart'])->name('wishlist.moveToCart');
 
 
 // DIBAWAH INI ADMIN
