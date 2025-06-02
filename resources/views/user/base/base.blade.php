@@ -23,7 +23,7 @@
 
 <body>
     @include('user.include.header')
-    <div class="container-fluid" style="background-image: url('{{ asset('images/bg-bookshelf.jpg') }}'); background-repeat: repeat; background-size: auto; min-width:100%; margin:0 auto;">
+    <div class="container-fluid" style="background-image: url('{{ asset('images/bg-bookshelf.jpg') }}'); background-repeat: repeat; background-size: auto; min-width:100%; margin-top:150px;">
         @yield('content')
     </div>
     @include('user.include.footer')

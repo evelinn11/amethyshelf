@@ -1,6 +1,29 @@
-.top-bar {
+/* .top-bar {
     background-color: #3d0d5d;
     padding: 16px 24px;
+} */
+.top-bar{
+    background-color: #3d0d5d;
+    padding: 16px 24px;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.bottom-bar {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+    padding-left: 3rem;
+    padding-right: 3rem; 
+    margin-top: 80px; /* sesuai tinggi .top-bar */
+    position: fixed;
+    z-index: 900;
+    width: 100%;
+    top: 80;
+    left: 0;
 }
 
 .brand-text {
@@ -46,15 +69,15 @@
     }
 }
 
-.bottom-bar {
+/* .bottom-bar {
     background-color: #f8f9fa;
     padding: 0px 20px;
     border-top: 1px solid #ddd;
     padding-left: 3rem;
-    /* jarak kiri */
+    /* jarak kiri 
     padding-right: 3rem;
-    /* jarak kanan */
-}
+    /* jarak kanan 
+} */
 
 .navbar .nav-link {
     color: #000;
@@ -126,4 +149,13 @@
     align-items: center;
     padding: 0;
     line-height: 1;
+}
+
+.dropdown-menu{
+    z-index: 1100; /* lebih tinggi dari .bottom-bar yang 1000 */
+    position: absolute; /* pastikan posisinya tetap */
+}
+
+.nav-item.dropdown {
+    position: relative;
 }

@@ -21,7 +21,7 @@
                 <a class="nav-link dropdown-toggle" href="#" role="button">
                     Felicia <i class="fas fa-user ms-2"></i>
                 </a>
-                <ul class="dropdown-menu" style="min-width:120px;">
+                <ul class="dropdown-menu" style="min-width:120px; height:80px;">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li>
                         <form id="logout-form" action="{{ route('signout') }}" method="POST" style="display: none;">
