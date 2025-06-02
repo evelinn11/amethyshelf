@@ -38,19 +38,19 @@
                 <tbody>
                     @foreach ($orders as $order)
                         <tr>
-                            <td>{{ $order->transactions_id }}</td>
+                            <td>{{ $order->id }}</td>
                             
                             <td class="text-capitalize">
-                                @if ($order->transactions_payment_method)
-                                    {{ $order->transactions_payment_method }}
+                                @if ($order->payment_method)
+                                    {{ $order->payment_method }}
                                 @else
                                     <span class="text-muted">-</span>
                                 @endif
                             </td>
-                            <td>Rp {{ number_format($order->transactions_total_amount, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
                             <td>
                                 @php
-                                    $status = strtolower($order->transactions_order_status);
+                                    $status = strtolower($order->order_status);
                                     $statusColors = [
                                         'completed' => 'success',
                                         'in delivery' => 'primary',
@@ -62,7 +62,7 @@
                                     $color = $statusColors[$status] ?? 'info';
                                 @endphp
                                 <span class="badge bg-{{ $color }} badge-status">
-                                    {{ ucwords($order->transactions_order_status) }}
+                                    {{ ucwords($order->order_status) }}
                                 </span>
                             </td>
                             <td>
@@ -76,7 +76,7 @@
                             </td>
                             <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>
                             <td>
-                                <a href="{{ route('order.details', ['id' => $order->transactions_id]) }}" class="btn btn-sm button-purple text-white">View Details</a>
+                                <a href="{{ route('order.details', ['id' => $order->id]) }}" class="btn btn-sm button-purple text-white">View Details</a>
                             </td>
                         </tr>
                     @endforeach
