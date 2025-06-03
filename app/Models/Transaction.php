@@ -8,7 +8,7 @@ class Transaction extends Model
 {
     //
     protected $fillable = [
-        'user_id',
+        'users_id',
         'payment_method',
         'total_amount',
         'order_status',
@@ -17,7 +17,7 @@ class Transaction extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'users_id');
     }
 
     public function details()
