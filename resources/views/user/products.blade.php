@@ -171,16 +171,21 @@
 
                     <div class="product-actions">
                         {{-- Wishlist --}}
-                        <form action="{{ route('wishlist.add') }}" method="POST" style="display: inline;">
+                        @php
+                            $wishlist = session('wishlist', []);
+                            $inWishlist = collect($wishlist)->contains('title', $product->products_title);
+                        @endphp
+
+                        <form action="{{ route('wishlist.toggle') }}" method="POST" style="display: inline;">
                             @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="product_name" value="{{ $product->products_title }}">
                             <input type="hidden" name="product_author" value="{{ $product->products_author_name }}">
                             <input type="hidden" name="product_price" value="{{ $product->products_price }}">
                             <input type="hidden" name="product_image"
                                 value="{{ $product->primaryImage->product_images_url }}">
+
                             <button type="submit" class="product-icon" title="Wishlist">
-                                <i class="fas fa-heart"></i>
+                                <i class="{{ $inWishlist ? 'fas' : 'far' }} fa-heart" style="color: {{ $inWishlist ? '#e3342f' : '#ffffff' }}"></i>
                             </button>
                         </form>
 

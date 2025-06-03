@@ -65,4 +65,30 @@ class WishlistController extends Controller
     return redirect()->route('wishlist.index')->with('success', 'Item berhasil ditambahkan ke cart!');
     }
 
+    public function toggle(Request $request)
+    {
+        $wishlist = session()->get('wishlist', []);
+
+        $index = collect($wishlist)->search(function ($item) use ($request) {
+            return $item['title'] === $request->product_name;
+        });
+
+        if ($index !== false) {
+            // Jika sudah ada, hapus
+            unset($wishlist[$index]);
+            $wishlist = array_values($wishlist);
+            session(['wishlist' => $wishlist]);
+            return back()->with('success', 'Produk dihapus dari wishlist!');
+        } else {
+            // Jika belum ada, tambahkan
+            $wishlist[] = [
+                'title' => $request->product_name,
+                'author' => $request->product_author,
+                'price' => $request->product_price,
+                'image' => $request->product_image,
+            ];
+            session(['wishlist' => $wishlist]);
+            return back()->with('success', 'Produk ditambahkan ke wishlist!');
+        }
+    }
 }

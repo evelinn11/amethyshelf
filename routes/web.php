@@ -74,6 +74,9 @@ Route::post('/wishlist/add-to-cart/{index}', [WishlistController::class, 'addToC
 // Move dari wishlist ke cart
 Route::post('/wishlist/move-to-cart/{index}', [WishlistController::class, 'moveToCart'])->name('wishlist.moveToCart');
 
+// Toggle, ubah warna heart wishlist
+Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+
 // Checkout
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
