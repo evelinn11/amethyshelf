@@ -3,6 +3,7 @@
 @push('styles')
   {{-- <link rel="stylesheet" href="{{ asset('css/user/product-details.css') }}"> --}}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   
 <style>
 
@@ -270,8 +271,10 @@ ul li {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease; */
 
-    width: 100%;
-    max-width: 400px;
+    /* width: 100%;
+    max-width: 400px; */
+    height: 650px;
+    width: 400px;
     border-radius: 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     object-fit: cover;
@@ -500,26 +503,77 @@ ul li {
 /* ini utk slider */
 /* .carousel-item img {
         object-fit: cover;
-        max-width: 400px;
+        max-width: 400px; 
     } */
 
+    /* PUNNYA BERNARD */
+
+.product-carousel-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+.product-carousel-inner {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.carousel-1-wrapper {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    flex-grow: 1;
+}
+.carousel-1 {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+.product-image-card {
+    flex: 0 0 auto;
+    width: 450px;
+    height: 650px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.product-image-full {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.scroll-btn {
+    background-color: rgba(0,0,0,0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+.scroll-btn:hover {
+    background-color: rgba(0,0,0,0.7);
+}
 </style>
 @endpush
 
 @section('content')
+
+{{-- PUNYA BERNARD COBA --}}
+
     <div class="content-wrapper" style="padding: 20px;">
         <div class="product-card">
             <!-- Gambar Produk -->
-            <img src="{{ asset($product->primaryImage->product_images_url) }}"
+            {{-- <img src="{{ asset($product->primaryImage->product_images_url) }}"
             alt="{{ $product->products_title }}" class="product-image mx-auto" styles="max-width:400px">
-            
+             --}}
 
             <!-- Gambar Produk (Carousel) SAIA PUSINGGG-->
-            {{-- <div id="productCarousel" class="carousel slide mx-auto" data-bs-ride="false" style="max-width: 400px;">
+            {{-- <div id="productCarousel" class="carousel slide mx-auto" data-bs-ride="carousel" data-bs-interval="5000" style="height: 650px; width: 450px;">
                 <div class="carousel-inner">
                     @foreach ($product->images as $key => $image)
                         <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                            <img src="{{ asset($image->product_images_url) }}" class="d-block w-100" alt="Image {{ $key + 1 }}" class="product-image mx-auto" style="max-width: 400px;">
+                            <img src="{{ asset($image->product_images_url) }}" class="d-block w-100" alt="Image {{ $key + 1 }}" class="product-image mx-auto" style="height: 650px; width: 450px;">
                         </div>
                     @endforeach
                 </div>
@@ -532,6 +586,101 @@ ul li {
                     </button>
                 @endif
             </div> --}}
+
+            {{-- <div class="container-fluid px-0" id="car">
+                <div id="carouselExample" class="carousel slide mx-auto" data-bs-ride="carousel" data-bs-interval="5000" style="height: 650px; width: 450px;">
+                    <div class="carousel-inner">
+                        @foreach ($product->images as $key => $image)
+                            <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                <img src="{{ asset($image->product_images_url) }}" alt="Image {{ $key + 1 }}" class="d-block w-100" style="height: 650px; width: 450px;">
+                                <div class="carousel-caption-center" style="color: #ffffff;">
+                                    <h2>{{ $product->name }}</h2>
+                                    <p>{{ $product->description }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @if($product->images->count() > 1)
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    @endif
+                </div>
+            </div> --}}
+
+            {{-- <div class="container-fluid px-0" id="car">
+                <div id="carouselExample" class="carousel slide mx-auto" data-bs-ride="carousel" data-bs-interval="5000" style="height: 650px; width: 450px;">
+                    <div class="carousel-inner">
+                        @foreach ($product->images as $key => $image)
+                            <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                <img src="{{ asset($image->product_images_url) }}" alt="Image {{ $key + 1 }}" class="d-block w-100" style="height: 650px; width: 450px;">
+                                <div class="carousel-caption-center" style="color: #ffffff;">
+                                    <h2>{{ $product->name }}</h2>
+                                    <p>{{ $product->description }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @if($product->images->count() > 1)
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    @endif
+                </div>
+            </div> --}}
+
+            
+                    <!-- Gambar Produk (Carousel) SAIA PUSINGGG-->
+            {{-- <div id="productCarousel" class="carousel slide mx-auto" data-bs-ride="carousel" data-bs-interval="5000" style="height: 650px; width: 450px;">
+                <div class="carousel-inner">
+                    @foreach ($product->images as $key => $image)
+                        <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                            <img src="{{ asset($image->product_images_url) }}" class="d-block w-100" alt="Image {{ $key + 1 }}" class="product-image mx-auto" style="height: 650px; width: 450px;">
+                        </div>
+                    @endforeach
+                </div>
+                @if($product->images->count() > 1)
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                @endif
+            </div> --}}
+
+            <div class="product-carousel-container">
+                <div class="product-carousel-inner">
+                    <button class="scroll-btn left" onclick="scrollCarousel('carousel-product-images', -1)" aria-label="Scroll Left">&#10094;</button>
+                    
+                    <div class="carousel-1-wrapper">
+                        <div class="carousel-1" id="carousel-product-images">
+                            {{-- Elemen yang discroll --}}
+                            @forelse ($product->images as $image)
+                                <div class="product-image-card">
+                                    <img src="{{ asset($image->product_images_url) }}" alt="Product Image" class="product-image-full">
+                                </div>
+                            @empty
+                                <p class="text-muted">No images found for this product.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <button class="scroll-btn right" onclick="scrollCarousel('carousel-product-images', 1)" aria-label="Scroll Right">&#10095;</button>
+                </div>
+            </div>
 
 
             <div class="product-info">
@@ -629,33 +778,33 @@ ul li {
         }
 
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const scrollContainer = document.querySelector('.scroll-container');
-            const scrollLeftBtn = document.querySelector('.scroll-btn.left');
-            const scrollRightBtn = document.querySelector('.scroll-btn.right');
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const scrollContainer = document.querySelector('.scroll-container');
+        //     const scrollLeftBtn = document.querySelector('.scroll-btn.left');
+        //     const scrollRightBtn = document.querySelector('.scroll-btn.right');
 
-            const getCardScrollAmount = () => {
-                const card = scrollContainer.querySelector('.card');
-                const style = window.getComputedStyle(card);
-                const marginLeft = parseFloat(style.marginLeft);
-                const marginRight = parseFloat(style.marginRight);
-                return card.offsetWidth + marginLeft + marginRight;
-            };
+        //     const getCardScrollAmount = () => {
+        //         const card = scrollContainer.querySelector('.card');
+        //         const style = window.getComputedStyle(card);
+        //         const marginLeft = parseFloat(style.marginLeft);
+        //         const marginRight = parseFloat(style.marginRight);
+        //         return card.offsetWidth + marginLeft + marginRight;
+        //     };
 
-            scrollLeftBtn.addEventListener('click', () => {
-                scrollContainer.scrollBy({
-                    left: -getCardScrollAmount(),
-                    behavior: 'smooth'
-                });
-            });
+        //     scrollLeftBtn.addEventListener('click', () => {
+        //         scrollContainer.scrollBy({
+        //             left: -getCardScrollAmount(),
+        //             behavior: 'smooth'
+        //         });
+        //     });
 
-            scrollRightBtn.addEventListener('click', () => {
-                scrollContainer.scrollBy({
-                    left: getCardScrollAmount(),
-                    behavior: 'smooth'
-                });
-            });
-        });
+        //     scrollRightBtn.addEventListener('click', () => {
+        //         scrollContainer.scrollBy({
+        //             left: getCardScrollAmount(),
+        //             behavior: 'smooth'
+        //         });
+        //     });
+        // });
 
         function scrollCarousel(id, direction) {
             const carousel = document.getElementById(id);
@@ -678,4 +827,14 @@ ul li {
 
         
     </script>
+    <script>
+function scrollCarousel(id, direction) {
+    const container = document.getElementById(id);
+    const scrollAmount = 460; // pixel per scroll
+    container.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+}
+</script>
 @endsection
