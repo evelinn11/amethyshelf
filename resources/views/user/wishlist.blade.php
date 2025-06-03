@@ -35,7 +35,7 @@
                             </form>
                         </td>
                         <td>
-                            <form action="{{ route('wishlist.moveToCart', $index) }}" method="POST" onsubmit="return confirm('Add this item to cart?');">
+                            <form action="{{ route('cart.add', $index) }}" method="POST" onsubmit="return confirm('Add this item to cart?');">
                             @csrf
                             <button type="submit" class="btn btn-purple-outline">Add To Cart</button>
                             </form>

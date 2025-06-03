@@ -42,7 +42,7 @@
                             $total += $subtotal;
                         @endphp
                         <tr>
-                            <td><img src="{{ asset('storage/'.$item->product->primaryImage->product_images_path) }}" alt="{{ $item->product->products_title }}" width="60"></td>
+                            <td><img src="{{ asset($item->product->primaryImage->product_images_url) }}" alt="{{ $item->product->products_title }}" width="60"></td>
                             <td>{{ $item->product->products_title }}</td>
                             <td>{{ $item->product->products_author_name }}</td>
                             <td>Rp {{ number_format($item->cart_details_price, 0, ',', '.') }}</td>
