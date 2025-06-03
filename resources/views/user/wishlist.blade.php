@@ -51,48 +51,6 @@
 
 @endsection
 
-<style>
-    .text-purple {
-        color: #6c33ff;
-        font-weight: 600;
-    }
-    .btn-purple {
-        background-color: #b497ff;
-        color: #2e2e2e;
-        border: none;
-        padding: 6px 14px;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .btn-purple:hover {
-        background-color: #7a49ff;
-        color: white;
-    }
-    .btn-purple-outline {
-        background-color: transparent;
-        border: 2px solid #b497ff;
-        color: #6c33ff;
-        padding: 6px 14px;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .btn-purple-outline:hover {
-        background-color: #6c33ff;
-        color: white;
-        border-color: #6c33ff;
-    }
-    .table thead th {
-        border-bottom: 2px solid #a084ff;
-    }
-    .table tbody tr:not(:last-child) {
-        border-bottom: 1px solid #c9bfff;
-    }
-</style>
-
 <script>
     function removeRow(button) {
         if (!confirm('Are you sure you want to remove this item from your wishlist?')) return;

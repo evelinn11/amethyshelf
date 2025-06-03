@@ -48,7 +48,7 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
 
 // Remove dari cart
-Route::post('/cart/remove/{index}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
 // Menambah quantity di cart
 Route::put('/cart/update/{index}', [CartController::class, 'update'])->name('cart.update');
