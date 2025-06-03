@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\SignUpController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ForgetPasswordController;
@@ -52,9 +53,6 @@ Route::post('/cart/remove/{index}', [CartController::class, 'remove'])->name('ca
 // Menambah quantity di cart
 Route::put('/cart/update/{index}', [CartController::class, 'update'])->name('cart.update');
 
-// Checkout
-Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
-
 Route::get('/orders', [OrderController::class, 'show'])->name('orders.show');
 
 Route::get('/orders/{id}/details', [OrderController::class, 'details'])->name('order.details');
@@ -75,6 +73,17 @@ Route::post('/wishlist/add-to-cart/{index}', [WishlistController::class, 'addToC
 
 // Move dari wishlist ke cart
 Route::post('/wishlist/move-to-cart/{index}', [WishlistController::class, 'moveToCart'])->name('wishlist.moveToCart');
+
+// Checkout
+Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+
+Route::get('/payment/status', [PaymentController::class, 'checkStatus'])->name('payment.status');
+Route::get('/payment/return', [PaymentController::class, 'handleReturn'])->name('payment.return');
+
+// sementara, loginnya error soalnya
+Route::get('/login', function () {
+    return redirect()->route('signin.show');
+})->name('login');
 
 
 // DIBAWAH INI ADMIN

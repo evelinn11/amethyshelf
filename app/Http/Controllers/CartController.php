@@ -2,95 +2,149 @@
 
 namespace App\Http\Controllers;
 
+use Midtrans\Snap;
+use Midtrans\Config;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Cart;
+use App\Models\CartDetail;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $cart = session()->get('cart', []);
-        return view('user.cart', compact('cart'));
+        $userId = 1;
+
+        $cart = Cart::with(['details.product'])
+            ->where('users_id', $userId)
+            ->where('carts_status_del', false)
+            ->first();
+
+        return view('user.cart', [
+            'cartItems' => $cart ? $cart->details : collect()
+        ]);
     }
 
     public function add(Request $request)
     {
-        $productName = $request->input('product_name');
-        $productAuthor = $request->input('product_author');
+        $productId = $request->input('product_id');
         $productPrice = $request->input('product_price');
-        $productImage = $request->input('product_image');
+        $userId = 1;
 
-        // Ambil cart dari session, atau inisialisasi array kosong
-        $cart = session()->get('cart', []);
+        // Cari cart aktif milik user
+        $cart = Cart::firstOrCreate(
+            ['users_id' => $userId, 'carts_status_del' => false],
+            ['carts_id' => strtoupper(Str::random(16))]
+        );
 
-        // Cek apakah produk sudah ada di cart berdasarkan title (atau bisa kriteria lain)
-        $foundKey = null;
-        foreach ($cart as $key => $item) {
-            if ($item['name'] === $productName) {
-                $foundKey = $key;
-                break;
-            }
-        }
+        // Cek apakah produk sudah ada
+        $detail = CartDetail::where('carts_id', $cart->carts_id)
+            ->where('products_id', $productId)
+            ->where('cart_details_status_del', false)
+            ->first();
 
-        if ($foundKey !== null) {
-            // Produk sudah ada, tambah quantity
-            $cart[$foundKey]['quantity'] += 1;
+        if ($detail) {
+            $detail->increment('cart_details_amount');
         } else {
-            // Produk belum ada, tambah item baru
-            $cart[] = [
-                'name' => $productName,
-                'author' => $productAuthor,
-                'price' => (int) $productPrice,
-                'image' => asset($productImage), // supaya sesuai dengan blade
-                'quantity' => 1,
-            ];
+            CartDetail::create([
+                'carts_id' => $cart->carts_id,
+                'products_id' => $productId,
+                'cart_details_price' => $productPrice,
+                'cart_details_amount' => 1
+            ]);
         }
-
-        // Simpan kembali ke session
-        session(['cart' => $cart]);
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
 
-
-    public function remove($index)
-    {   
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$index])) {
-            unset($cart[$index]);
-            $cart = array_values($cart); // Reset index
-            session(['cart' => $cart]);
-        }
+    public function remove($id)
+    {
+        $item = CartDetail::findOrFail($id);
+        $item->delete();
 
         return redirect()->route('cart.index')->with('success', 'Item dihapus dari keranjang!');
     }
 
-    public function update(Request $request, $index)
+    public function update(Request $request, $id)
     {
-    $cart = session('cart', []);
+        $detail = CartDetail::findOrFail($id);
 
-    if (!isset($cart[$index])) {
-        return redirect()->route('cart.index')->with('error', 'Item tidak ditemukan di keranjang.');
+        $action = $request->input('action');
+        $quantity = (int) $request->input('quantity', 1);
+
+        if ($action === 'increment') {
+            $detail->increment('cart_details_amount');
+        } elseif ($action === 'decrement') {
+            if ($detail->cart_details_amount > 1) {
+                $detail->decrement('cart_details_amount');
+            }
+        } else {
+            if ($quantity >= 1) {
+                $detail->update(['cart_details_amount' => $quantity]);
+            }
+        }
+
+        return redirect()->route('cart.index');
     }
 
-    $action = $request->input('action');
-    $quantity = (int) $request->input('quantity', 1);
+    public function checkout(Request $request)
+    {
+        $userId = 1; // ganti pakai Auth::id() kalau sudah login
 
-    if ($action === 'increment') {
-        $cart[$index]['quantity'] += 1;
-    } elseif ($action === 'decrement') {
-        if ($cart[$index]['quantity'] > 1) {
-            $cart[$index]['quantity'] -= 1;
+        // Ambil cart aktif beserta detail dan produk
+        $cart = Cart::with(['details.product'])
+            ->where('users_id', $userId)
+            ->where('carts_status_del', false)
+            ->first();
+
+        if (!$cart || $cart->details->isEmpty()) {
+            return redirect()->back()->with('error', 'Keranjang kamu kosong!');
         }
-    } else {
-        // Jika manual input quantity
-        if ($quantity >= 1) {
-            $cart[$index]['quantity'] = $quantity;
+
+        $totalPrice = $cart->details->sum(function ($item) {
+            return $item->cart_details_price * $item->cart_details_amount;
+        });
+
+        // Buat invoice number unik
+        $invoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6));
+
+        // Midtrans Config
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        // Buat parameter transaksi Midtrans
+        $params = [
+            'transaction_details' => [
+                'order_id' => $invoiceNumber,
+                'gross_amount' => $totalPrice,
+            ],
+            'customer_details' => [
+                'first_name' => 'Guest Customer',
+                'email' => 'guest@example.com',
+            ],
+            'callbacks' => [
+                'finish' => route('payment.return', $invoiceNumber),
+            ]
+        ];
+
+        try {
+            $snapUrl = Snap::createTransaction($params)->redirect_url;
+
+            // Tandai item keranjang sudah diproses, misalnya dengan soft delete
+            foreach ($cart->details as $detail) {
+                $detail->cart_details_status_del = true;
+                $detail->save();
+            }
+
+            // Atau bisa hapus semua detail langsung:
+            // $cart->details()->delete();
+
+            return redirect()->away($snapUrl);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Checkout gagal: ' . $e->getMessage());
         }
-    }
-
-    session(['cart' => $cart]);
-
-    return redirect()->route('cart.index');
     }
 }

@@ -20,8 +20,8 @@
     <div class="wishlist-container container mt-4">
         <h2>My Cart</h2>
 
-        @if(!empty($cart) && count($cart) > 0)
-            <table class="table table-bordered">
+        @if($cartItems->isNotEmpty())
+            <table class="table table-bordered cart-table">
                 <thead class="table-secondary">
                     <tr>
                         <th>Cover</th>
@@ -35,41 +35,41 @@
                 </thead>
                 <tbody>
                     @php $total = 0; @endphp
-                    @foreach ($cart as $index => $item)
+                    @foreach ($cartItems as $item)
                         @php
-                            $subtotal = $item['price'] * $item['quantity'];
+                            // Menghitung subtotal dengan field yang sesuai
+                            $subtotal = $item->cart_details_price * $item->cart_details_amount;
                             $total += $subtotal;
                         @endphp
                         <tr>
-                            <td><img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" width="60"></td>
-                            <td>{{ $item['title'] }}</td>
-                            <td>{{ $item['author'] }}</td>
-                            <td>Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
-                            
+                            <td><img src="{{ asset('storage/'.$item->product->primaryImage->product_images_path) }}" alt="{{ $item->product->products_title }}" width="60"></td>
+                            <td>{{ $item->product->products_title }}</td>
+                            <td>{{ $item->product->products_author_name }}</td>
+                            <td>Rp {{ number_format($item->cart_details_price, 0, ',', '.') }}</td>
                             <td>
-                            <form action="{{ route('cart.update', $index) }}" method="POST" style="display: flex; align-items: center;">
-                                @csrf
-                                @method('PUT')
-                                
-                                <button type="submit" name="action" value="decrement" class="btn btn-sm btn-light">-</button>
+                                <form action="{{ route('cart.update', $item->id) }}" method="POST" style="display: flex; align-items: center;">
+                                    @csrf
+                                    @method('PUT')
 
-                                <input 
-                                type="number" 
-                                name="quantity" 
-                                value="{{ $item['quantity'] }}" 
-                                min="1" 
-                                style="width: 50px; text-align: center; margin: 0 5px;"
-                                onchange="this.form.submit()"
-                                >
+                                    <button type="submit" name="action" value="decrement" class="btn btn-sm btn-light">-</button>
 
-                                <button type="submit" name="action" value="increment" class="btn btn-sm btn-light">+</button>
-                            </form>
+                                    <input 
+                                        type="number" 
+                                        name="quantity" 
+                                        value="{{ $item->cart_details_amount }}" 
+                                        min="1" 
+                                        style="width: 50px; text-align: center; margin: 0 5px;"
+                                        onchange="this.form.submit()"
+                                    >
+
+                                    <button type="submit" name="action" value="increment" class="btn btn-sm btn-light">+</button>
+                                </form>
                             </td>
-
                             <td>Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
                             <td>
-                                <form action="{{ route('cart.remove', $index) }}" method="POST">
+                                <form action="{{ route('cart.remove', $item->id) }}" method="POST">
                                     @csrf
+                                    @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                                 </form>
                             </td>
@@ -85,7 +85,6 @@
                     <button type="submit" class="btn btn-purple">Checkout</button>
                 </form>
             </div>
-
         @else
             <div class="alert alert-info">Keranjang kamu masih kosong.</div>
         @endif
