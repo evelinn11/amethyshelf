@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Midtrans\Snap;
+use App\Models\Cart;
 use Midtrans\Config;
+use App\Models\Product;
+use App\Models\CartDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Cart;
-use App\Models\CartDetail;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -28,17 +29,34 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
+        // Tangkap data dari request
         $productId = $request->input('product_id');
         $productPrice = $request->input('product_price');
-        $userId = 1;
+        $userId = 1; // ganti nanti dengan auth()->id() jika login
 
-        // Cari cart aktif milik user
+        // Jika product_id tidak dikirim, cari lewat title dan author
+        if (!$productId) {
+            $title = $request->input('product_name');
+            $author = $request->input('product_author');
+
+            $product = Product::where('products_title', $title)
+                        ->where('products_author_name', $author)
+                        ->first();
+
+            if (!$product) {
+                return redirect()->back()->with('error', 'Produk tidak ditemukan di database.');
+            }
+
+            $productId = $product->id;
+        }
+
+        // Cari cart aktif
         $cart = Cart::firstOrCreate(
             ['users_id' => $userId, 'carts_status_del' => false],
             ['carts_id' => strtoupper(Str::random(16))]
         );
 
-        // Cek apakah produk sudah ada
+        // Cek apakah produk sudah ada di keranjang
         $detail = CartDetail::where('carts_id', $cart->carts_id)
             ->where('products_id', $productId)
             ->where('cart_details_status_del', false)

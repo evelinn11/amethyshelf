@@ -13,9 +13,9 @@ body {
 }
 
 .btn-purple {
-    background-color: #b497ff;
-    color: #2e2e2e;
-    border: none;
+    background-color: #3C1361;
+    border-color: #3C1361;
+    color: white;
     padding: 6px 14px;
     border-radius: 6px;
     font-weight: 600;
@@ -26,22 +26,6 @@ body {
 .btn-purple:hover {
     background-color: #7a49ff;
     color: white;
-}
-w .btn-purple-outline {
-    background-color: transparent;
-    border: 2px solid #b497ff;
-    color: #6c33ff;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-purple-outline:hover {
-    background-color: #6c33ff;
-    color: white;
-    border-color: #6c33ff;
 }
 
 .table thead th {
@@ -63,7 +47,7 @@ w .btn-purple-outline {
 }
 
 .wishlist-table {
-    min-width: 736px; /* 👈 Keeps the table from shrinking */
+    min-width: 736px;
 }
 
 .text-remove {
