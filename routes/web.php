@@ -129,7 +129,7 @@ Route::get('/edit-category', [StoreController::class, 'show_edit_category'])
 Route::get('/admin-orders', [StoreController::class, 'show_orders'])
 ->name('admin-orders');
 
-Route::get('/admin-order-details', [StoreController::class, 'show_order_details'])
+Route::get('/admin-order-details/{id}', [StoreController::class, 'show_order_details'])
 ->name('admin-order-details');
 
 Route::middleware('guest')->group(function () {

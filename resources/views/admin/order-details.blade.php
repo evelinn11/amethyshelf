@@ -106,155 +106,156 @@
             text-decoration: none;
         }
 
-         @media (max-width: 768px) {
-        .grid-2 {
-            flex-direction: column;
+        @media (max-width: 768px) {
+            .grid-2 {
+                flex-direction: column;
+            }
+
+            .payment-details {
+                border-left: none;
+                padding-left: 0;
+            }
         }
 
-        .payment-details {
-            border-left: none;
-            padding-left: 0;
-        }
-    }
-
-    .info-block {
-        flex: 1;
-        min-width: 300px;
-    }
-
-    .info-row {
-        margin-bottom: 8px;
-    }
-
-    .info-row strong {
-        width: 130px;
-        display: inline-block;
-    }
-
-    .highlight-box {
-        background-color: #f4efff;
-        border-radius: 6px;
-        padding: 15px;
-        margin-top: 10px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-    }
-
-    th,
-    td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f7f7f7;
-    }
-
-    .status-box {
-        border: 1px solid #ccc;
-        padding: 15px;
-        border-radius: 8px;
-        background-color: #fff;
-    }
-
-    .status-box .status {
-        font-weight: bold;
-        color: green;
-    }
-
-    .payment-details {
-        border-left: 1px solid #ccc;
-        padding-left: 20px;
-    }
-
-    .order-details-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .transaction-id {
-        color: #4a00c9;
-        font-weight: bold;
-        text-decoration: none;
-    }
-    
-     .table-responsive-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        display: block;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .table-responsive-wrapper table {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .table-responsive-wrapper::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    .table-responsive-wrapper::-webkit-scrollbar-thumb {
-        background: #ccc;
-        border-radius: 3px;
-    }
-
-    /* Fix for mobile screens */
-    @media (max-width: 768px) {
-        .order-details-container {
-            margin-left: 0;
-            max-width: 100vw;
-            padding: 10px;
-            margin-top: 80px;
+        .info-block {
+            flex: 1;
+            min-width: 300px;
         }
 
-        .table-responsive-wrapper {
-            overflow-x: auto;
-            display: block;
-            -webkit-overflow-scrolling: touch; /* for iOS smooth scroll */
+        .info-row {
+            margin-bottom: 8px;
         }
 
-        .table-responsive-wrapper table {
-            min-width: 600px; /* Force horizontal scroll */
+        .info-row strong {
+            width: 130px;
+            display: inline-block;
         }
 
-        .section-box {
+        .highlight-box {
+            background-color: #f4efff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        table {
             width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f7f7f7;
         }
 
         .status-box {
-            width: 100%;
-            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fff;
         }
-    }
 
-    @media (max-width: 625px) {
-    .table-responsive-wrapper {
-        overflow-x: auto;
-        display: block;
-        -webkit-overflow-scrolling: touch; 
-    }
+        .status-box .status {
+            font-weight: bold;
+            color: green;
+        }
 
-    .table-responsive-wrapper table {
-        min-width: 600px;
-    }
+        .payment-details {
+            border-left: 1px solid #ccc;
+            padding-left: 20px;
+        }
 
-    .table-responsive-wrapper::-webkit-scrollbar {
-        height: 6px;
-    }
+        .order-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .table-responsive-wrapper::-webkit-scrollbar-thumb {
-        background: #bbb;
-        border-radius: 3px;
-    }
-}
+        .transaction-id {
+            color: #4a00c9;
+            font-weight: bold;
+            text-decoration: none;
+        }
 
+        .table-responsive-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-responsive-wrapper table {
+            width: 100%;
+            min-width: 100%;
+        }
+
+        .table-responsive-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-responsive-wrapper::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        /* Fix for mobile screens */
+        @media (max-width: 768px) {
+            .order-details-container {
+                margin-left: 0;
+                max-width: 100vw;
+                padding: 10px;
+                margin-top: 80px;
+            }
+
+            .table-responsive-wrapper {
+                overflow-x: auto;
+                display: block;
+                -webkit-overflow-scrolling: touch;
+                /* for iOS smooth scroll */
+            }
+
+            .table-responsive-wrapper table {
+                min-width: 600px;
+                /* Force horizontal scroll */
+            }
+
+            .section-box {
+                width: 100%;
+            }
+
+            .status-box {
+                width: 100%;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 625px) {
+            .table-responsive-wrapper {
+                overflow-x: auto;
+                display: block;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table-responsive-wrapper table {
+                min-width: 600px;
+            }
+
+            .table-responsive-wrapper::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .table-responsive-wrapper::-webkit-scrollbar-thumb {
+                background: #bbb;
+                border-radius: 3px;
+            }
+        }
     </style>
 
     <div class="order-details-container">
@@ -265,24 +266,24 @@
         <div class="grid-2 section-box">
             <div class="info-block">
                 <div class="info-row"><strong>Transaction ID:</strong> <a class="transaction-id"
-                        href="#">T20250401001</a></div>
-                <div class="info-row"><strong>Name:</strong> Budi Setiawan</div>
-                <div class="info-row"><strong>Email:</strong> budi@gmail.com</div>
-                <div class="info-row"><strong>Phone Number:</strong> 0812345678</div>
-                <div class="info-row"><strong>Created at:</strong> 10 Mar 2025 15:30</div>
+                        href="#">{{ $order->id }}</a></div>
+                <div class="info-row"><strong>Name:</strong>{{ $order->user->name }}</div>
+                <div class="info-row"><strong>Email:</strong> {{ $order->user->email }}</div>
+                <div class="info-row"><strong>Phone Number:</strong> {{ $order->user->phone_number }}</div>
+                <div class="info-row"><strong>Created at:</strong> {{ $order->created_at->format('d M Y H:i') }}</div>
 
                 <div class="highlight-box">
                     <strong>Address</strong><br>
-                    Citraland CBD Boulevard, Made, Kec. Sambikerep, Kota Surabaya, Jawa Timur, 60219, Indonesia.<br>
-                    081231231321
+                    {{ $order->user->address }}
                 </div>
             </div>
 
             <div class="payment-details">
-                <div class="info-row"><strong>Payment Method:</strong> QRIS</div>
+                <div class="info-row"><strong>Payment Method:</strong> {{ $order->payment_method ?? '-' }}</div>
                 <div class="info-row"><strong>Payment URL:</strong> <a href="#">Link</a></div>
-                <div class="info-row"><strong>Total Books:</strong> 4</div>
-                <div class="info-row"><strong>Final Amount:</strong> <span style="color: #4a00c9">Rp. 400.000</span></div>
+                <div class="info-row"><strong>Total Books:</strong> {{ $order->details->sum('quantity') }}</div>
+                <div class="info-row"><strong>Final Amount:</strong> <span style="color: #4a00c9">Rp.
+                        {{ number_format($order->total_amount, 0, ',', '.') }}</span></div>
             </div>
         </div>
 
@@ -300,21 +301,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Atomic Habits</td>
-                                <td>2</td>
-                                <td>Rp. 150.000</td>
-                                <td>Rp. 300.000</td>
-                            </tr>
-                            <tr>
-                                <td>Bumi Manusia</td>
-                                <td>2</td>
-                                <td>Rp. 50.000</td>
-                                <td>Rp. 100.000</td>
-                            </tr>
+                            @foreach ($order->details as $detail)
+                                <tr>
+                                    <td>{{ $detail->product->products_title }}</td>
+                                    <td>{{ $detail->quantity }}</td>
+                                    <td>Rp. {{ number_format($detail->unit_price, 0, ',', '.') }}</td>
+                                    <td>Rp. {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
                             <tr>
                                 <td colspan="3" style="text-align: right;"><strong>Total</strong></td>
-                                <td><strong>Rp. 400.000</strong></td>
+                                <td><strong>Rp. {{ number_format($order->total_amount, 0, ',', '.') }}</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -323,11 +320,7 @@
 
             <div class="status-box" style="flex: 1">
                 <h3>Order Status:</h3>
-                <p class="status">Completed</p>
-                <div style="margin-top: 15px;">
-                    <strong>Shipping Number:</strong><br>
-                    TJNEXPRESS12324
-                </div>
+                <p class="status">{{ $order->order_status }}</p>
             </div>
         </div>
     </div>

@@ -53,9 +53,7 @@
                                     $status = strtolower($order->order_status);
                                     $statusColors = [
                                         'completed' => 'success',
-                                        'in delivery' => 'primary',
                                         'pending' => 'warning text-dark',
-                                        'failed' => 'danger',
                                         'cancelled' => 'danger',
                                         'expired' => 'secondary',
                                     ];
