@@ -1,60 +1,82 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Midtrans\Config;
+use Midtrans\Transaction as MidtransTransaction;
+use App\Models\Transaction;
 
 class PaymentController extends Controller
 {
-    public function handleReturn(Request $request)
+    public function handleReturn(Transaction $transactions)
     {
-        // Ambil data dari session
-        $payment = session('payment');
+        // Midtrans Config
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
 
-        if (!$payment) {
-            return redirect()->route('cart.index')->with('error', 'Tidak ada transaksi yang ditemukan.');
+        try {
+
+            /** @var object $status */
+            $status = MidtransTransaction::status($transactions->order_id);
+
+            if ($status->transaction_status == 'settlement' || $status->transaction_status == 'capture') {
+                $transactions->order_status = 'completed';
+            } elseif ($status->transaction_status == 'pending') {
+                $transactions->order_status = 'pending';
+            } elseif ($status->transaction_status == 'expire') {
+                $transactions->order_status = 'expired';
+            } elseif ($status->transaction_status == 'cancel') {
+                $transactions->order_status = 'cancelled';
+            } else {
+                $transactions->status = $status->transaction_status;
+            }
+
+            $transactions->save();
+
+            return view('user.payment_status', [
+                'order' => $transactions,
+                'status_message' => 'Payment status has been updated automatically.'
+            ]);
+
+        } catch (\Exception $e) {
+            return redirect()->route('payment.status', $transactions)
+                ->with('error', 'Auto-check failed: ' . $e->getMessage());
         }
-
-        // Tidak ada panggilan ke Midtrans, hanya pakai data session
-        $statusCode = $payment['status'] ?? 'unknown';
-
-        $statusMessage = match ($statusCode) {
-            'paid' => 'Pembayaran sudah diterima. Terima kasih!',
-            'pending' => 'Pembayaran masih menunggu konfirmasi.',
-            'expired' => 'Pembayaran sudah kadaluarsa.',
-            'cancelled' => 'Pembayaran dibatalkan.',
-            default => 'Status pembayaran: ' . $statusCode,
-        };
-
-        return view('payment.payment_status', [
-            'order' => (object) $payment,
-            'status_message' => $statusMessage,
-        ]);
     }
 
-    public function checkStatus()
+    public function checkStatus(Transaction $transactions)
     {
-        // Ambil data dari session
-        $payment = session('payment');
+        // Same as handleReturn logic
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
 
-        if (!$payment) {
-            return redirect()->route('cart.index')->with('error', 'Belum ada transaksi pembayaran.');
+        try {
+            /** @var object $status */
+            $status = MidtransTransaction::status($transactions->invoice_number);
+
+            if ($status->transaction_status == 'settlement' || $status->transaction_status == 'capture') {
+                $transactions->status = 'paid';
+            } elseif ($status->transaction_status == 'pending') {
+                $transactions->status = 'pending';
+            } elseif ($status->transaction_status == 'expire') {
+                $transactions->status = 'expired';
+            } elseif ($status->transaction_status == 'cancel') {
+                $transactions->status = 'cancelled';
+            } else {
+                $transactions->status = $status->transaction_status;
+            }
+
+            $transactions->save();
+
+            return view('user.payment_status', [
+                'order' => $transactions,
+                'status_message' => 'Payment status checked manually.'
+            ]);
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to check payment status: ' . $e->getMessage());
         }
-
-        // Tidak cek ke Midtrans, hanya tampilkan status yang tersimpan
-        $statusCode = $payment['status'] ?? 'unknown';
-
-        $statusMessage = match ($statusCode) {
-            'paid' => 'Pembayaran sudah diterima. Terima kasih!',
-            'pending' => 'Pembayaran masih menunggu konfirmasi.',
-            'expired' => 'Pembayaran sudah kadaluarsa.',
-            'cancelled' => 'Pembayaran dibatalkan.',
-            default => 'Status pembayaran: ' . $statusCode,
-        };
-
-        return view('payment.payment_status', [
-            'order' => (object) $payment,
-            'status_message' => $statusMessage,
-        ]);
     }
 }

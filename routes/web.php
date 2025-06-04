@@ -80,8 +80,9 @@ Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wi
 // Checkout
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
-Route::get('/payment/status', [PaymentController::class, 'checkStatus'])->name('payment.status');
-Route::get('/payment/return', [PaymentController::class, 'handleReturn'])->name('payment.return');
+Route::get('/payment/return/{order}', [PaymentController::class, 'handleReturn'])->name('payment.return');
+
+Route::get('/payment/status/{order}', [PaymentController::class, 'checkStatus'])->name('payment.status');
 
 // sementara, loginnya error soalnya
 Route::get('/login', function () {

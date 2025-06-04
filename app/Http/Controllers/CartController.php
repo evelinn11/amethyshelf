@@ -29,34 +29,33 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-        // Tangkap data dari request
         $productId = $request->input('product_id');
         $productPrice = $request->input('product_price');
-        $userId = 1; // ganti nanti dengan auth()->id() jika login
+        $userId = 1; // nanti ganti auth()->id()
 
-        // Jika product_id tidak dikirim, cari lewat title dan author
         if (!$productId) {
             $title = $request->input('product_name');
             $author = $request->input('product_author');
 
             $product = Product::where('products_title', $title)
-                        ->where('products_author_name', $author)
-                        ->first();
+                ->where('products_author_name', $author)
+                ->first();
 
             if (!$product) {
+                if ($request->ajax()) {
+                    return response()->json(['error' => 'Produk tidak ditemukan'], 404);
+                }
                 return redirect()->back()->with('error', 'Produk tidak ditemukan di database.');
             }
 
             $productId = $product->id;
         }
 
-        // Cari cart aktif
         $cart = Cart::firstOrCreate(
             ['users_id' => $userId, 'carts_status_del' => false],
             ['carts_id' => strtoupper(Str::random(16))]
         );
 
-        // Cek apakah produk sudah ada di keranjang
         $detail = CartDetail::where('carts_id', $cart->carts_id)
             ->where('products_id', $productId)
             ->where('cart_details_status_del', false)
@@ -69,8 +68,18 @@ class CartController extends Controller
                 'carts_id' => $cart->carts_id,
                 'products_id' => $productId,
                 'cart_details_price' => $productPrice,
-                'cart_details_amount' => 1
+                'cart_details_amount' => 1,
+                'cart_details_status_del' => false,
             ]);
+        }
+
+        // Hitung jumlah produk unik di cart
+        $count = CartDetail::where('carts_id', $cart->carts_id)
+            ->where('cart_details_status_del', false)
+            ->count();
+
+        if ($request->ajax()) {
+            return response()->json(['count' => $count]);
         }
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang');
@@ -163,6 +172,7 @@ class CartController extends Controller
             return redirect()->away($snapUrl);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Checkout gagal: ' . $e->getMessage());
+            dd($e->getMessage());
         }
     }
 }
