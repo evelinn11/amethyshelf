@@ -566,12 +566,20 @@ ul li {
         -webkit-overflow-scrolling: touch;
     }
 
+    .carousel-1-wrapperr{
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 10px;
+        -webkit-overflow-scrolling: touch;
+        width:300px;
+    }
+
     .carousel-1 img {
         flex: 0 0 auto;
         scroll-snap-align: center;
-        width: 100%;
-        max-width: 320px;
-        height: auto;
+        width: 300px;
+        height: 500px;
         border-radius: 12px;
         object-fit: contain;
         display: block;
@@ -580,27 +588,53 @@ ul li {
 
 
   .product-carousel-container {
-    width: 100%;
-    max-width: 360px;
+    width: 300px;
+    max-width: 300px;
     margin: 0 auto;
     padding: 0;
 }
 
+.product-carousel-inner{
+    width: 300px;
+}
+
   .product-image-card{
-    width: 200px;
-    height: auto;
+    width: 300px;
+    height: 450px;
     /* max-height: 500px; */
     border-radius: 12px;
   }
 
+  .product-image-card img{
+    height: 450px;
+    width: 300px;
+    /* max-height: 500px; */
+    border-radius: 12px;
+  }
+
+  .product-image-full {
+    width: 300;
+    height: 450px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+
+}
+
+.product-image-full:hover {
+    transform: scale(1.02);
+}
+
   .product-carousel-inner{
-    max-width: 200px;
+    max-width: 300px;
   }
   .product-carousel-container{
-    max-width: 200px;
+    max-width: 300px;
   }
   .product-image-full{
-    max-width: 200px;
+    max-width: 300px;
+    height: 500px;
   }
 
   .product-info h2 {
@@ -655,6 +689,15 @@ ul li {
   .summary-text, .description-list li {
     font-size: 14px;
   }
+
+  .book-card img {
+    width: 100%;
+    height: 170px; /* atur tinggi sesuai kebutuhan */
+    object-fit: cover; /* atau contain, sesuai preferensi */
+    border-radius: 8px;
+ }
+
+
 }
 
 </style>
