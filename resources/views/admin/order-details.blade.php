@@ -127,7 +127,7 @@
         }
 
         .info-row strong {
-            width: 130px;
+            width: 150px;
             display: inline-block;
         }
 
@@ -169,7 +169,7 @@
 
         .payment-details {
             border-left: 1px solid #ccc;
-            padding-left: 20px;
+            padding-left: 15px;
         }
 
         .order-details-header {
@@ -267,7 +267,7 @@
             <div class="info-block">
                 <div class="info-row"><strong>Transaction ID:</strong> <a class="transaction-id"
                         href="#">{{ $order->id }}</a></div>
-                <div class="info-row"><strong>Name:</strong>{{ $order->user->name }}</div>
+                <div class="info-row"><strong>Name:</strong> {{ $order->user->name }}</div>
                 <div class="info-row"><strong>Email:</strong> {{ $order->user->email }}</div>
                 <div class="info-row"><strong>Phone Number:</strong> {{ $order->user->phone_number }}</div>
                 <div class="info-row"><strong>Created at:</strong> {{ $order->created_at->format('d M Y H:i') }}</div>
@@ -279,7 +279,7 @@
             </div>
 
             <div class="payment-details">
-                <div class="info-row"><strong>Payment Method:</strong> {{ $order->payment_method ?? '-' }}</div>
+                <div class="info-row"><strong>Payment Method:</strong> {{ strtoupper($order->payment_method ?? '-') }}</div>
                 <div class="info-row"><strong>Payment URL:</strong> <a href="#">Link</a></div>
                 <div class="info-row"><strong>Total Books:</strong> {{ $order->details->sum('quantity') }}</div>
                 <div class="info-row"><strong>Final Amount:</strong> <span style="color: #4a00c9">Rp.
@@ -320,7 +320,7 @@
 
             <div class="status-box" style="flex: 1">
                 <h3>Order Status:</h3>
-                <p class="status">{{ $order->order_status }}</p>
+                <h5 class="status">{{ ucfirst($order->order_status) }}</h5>
             </div>
         </div>
     </div>

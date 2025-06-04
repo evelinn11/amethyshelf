@@ -219,13 +219,12 @@
                                 <td class="px-4 py-2">{{ $order->user->name }}</td>
                                 <td class="px-4 py-2">Rp. {{ number_format($order->total_amount, 0, ',', '.') }}</td>
                                 <td class="px-4 py-2">
-                                    <span
-                                        class="font-semibold
-                                            @if ($order->order_status == 'pending') text-yellow-500
-                                            @elseif($order->order_status == 'completed') text-green-500
-                                            @elseif($order->order_status == 'cancelled') text-red-500
-                                            @elseif($order->order_status == 'expired') text-gray-500 @endif">
-                                        {{ $order->order_status }}
+                                    <span class="font-semibold 
+                                        {{ $order->order_status == 'pending' ? '!text-yellow-500' : '' }}
+                                        {{ $order->order_status == 'completed' ? '!text-green-500' : '' }}
+                                        {{ $order->order_status == 'cancelled' ? '!text-red-500' : '' }}
+                                        {{ $order->order_status == 'expired' ? '!text-gray-500' : '' }}">
+                                        {{ ucfirst($order->order_status) }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-2 text-indigo-600 hover:underline">

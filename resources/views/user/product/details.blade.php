@@ -1,43 +1,43 @@
 @extends('user.base.base')
 
 @push('styles')
-    {{-- <link rel="stylesheet" href="{{ asset('css/user/product-details.css') }}"> --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  {{-- <link rel="stylesheet" href="{{ asset('css/user/product-details.css') }}"> --}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  
+<style>
 
-    <style>
-        .product-card {
-            max-width: 1200px;
-            margin: auto;
-            padding: 30px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            align-items: flex-start;
-        }
+.product-card {
+     max-width: 1200px;
+     margin: auto;
+     padding: 30px;
+     background: #ffffff;
+     border-radius: 10px;
+     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+     display: flex;
+     flex-wrap: wrap;
+     gap: 30px;
+     align-items: flex-start;
+ }
+/* .product-card img{
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+} */
+.product-image {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
 
-        /* .product-card img{
-            width: 100%;
-            max-width: 400px;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        } */
-        .product-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .product-image:hover {
-            transform: scale(1.02);
-        }
+.product-image:hover {
+    transform: scale(1.02);
+}
 
         .product-info {
             flex: 1;
@@ -188,15 +188,14 @@
             margin-bottom: 8px;
         }
 
-        @media (max-width: 768px) {
-            .product-card {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .product-image {
-                max-width: 100%;
-            }
+@media (max-width: 768px) {
+    .product-card {
+        flex-direction: column;
+        align-items: center;
+    }
+    .product-image-full {
+        max-width: 100%;
+    }
 
             .product-info {
                 width: 100%;
@@ -259,9 +258,9 @@
 
         /* DIBAWAH INI UNTUK SLIDER IMG */
 
-        .carousel-inner {
-            min-height: 400px;
-        }
+ .carousel-inner {
+    min-height: 400px;
+}
 
         .carousel-item {
             height: auto;
@@ -279,17 +278,18 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease; */
 
-            width: 100%;
-            max-width: 400px;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .carousel-item img:hover {
-            transform: scale(1.02);
-        }
+    /* width: 100%;
+    max-width: 400px; */
+    height: 650px;
+    width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.carousel-item img:hover {
+    transform: scale(1.02);
+}
 
 
         /*DIBAWAH INI ALL REKOMENDASI */
@@ -350,31 +350,30 @@
             margin-right: 1px;
         }
 
-        .card:hover {
-            transform: scale(1.1);
-            z-index: 10;
-            box-shadow: 0 8px 16px rgba(128, 0, 128, 0.6);
-            /* stronger shadow on hover */
-        }
+.card:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 8px 16px rgba(128, 0, 128, 0.6); /* stronger shadow on hover */
+}
 
-        .scroll-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: white;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
-            user-select: none;
-            font-size: 18px;
-            color: #3C1361;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    user-select: none;
+    font-size: 18px;
+    color: #3C1361;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
         .scroll-btn.left {
             left: 15px;
@@ -446,26 +445,26 @@
             position: relative;
         }
 
-        .carousel-1 {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 20px;
-            padding-bottom: 10px;
-            max-width: 1050px;
-            scrollbar-width: none;
-            scroll-behavior: smooth;
-            flex-wrap: nowrap;
-            -webkit-overflow-scrolling: touch;
-            overflow-x: auto;
-        }
+.carousel-1 {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding-bottom: 10px;
+    max-width: 1050px;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+}
 
-        .carousel-1-wrapper {
-            overflow-x: hidden;
-            max-width: 100%;
-            position: relative;
-            margin: 0 auto;
-        }
+.carousel-1-wrapper {
+    overflow-x: hidden;
+    max-width: 100%;
+    position: relative;
+    margin: 0 auto;
+ }
 
         .book-card {
             flex: 0 0 auto;
@@ -512,40 +511,248 @@
             overflow: hidden;
         }
 
-        /* ini utk slider */
-        /* .carousel-item img {
-                object-fit: cover;
-                max-width: 400px;
-            } */
-    </style>
+/*DIBAWAH INI ALL SLIDER YAH */
+.product-carousel-container {
+    width: 450px;
+    /* max-width: 450px; */
+    margin: 0 auto;
+}
+.product-carousel-inner {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.carousel-1-wrapper {
+    /* overflow-x: auto;
+    scroll-behavior: smooth;
+    flex-grow: 1; */
+
+    overflow-x: hidden;
+    max-width: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+.carousel-1 {
+    /* display: flex;
+    gap: 1rem;
+    padding: 0.5rem; */
+
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding-bottom: 10px;
+    max-width: 980px;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+}
+
+
+.product-image-card {
+    flex: 0 0 auto;
+    width: 450px;
+    height: 650px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.product-image-full {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+
+}
+
+.product-image-full:hover {
+    transform: scale(1.02);
+}
+
+
+.scroll-btn { 
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    user-select: none;
+    font-size: 18px;
+    color: #3C1361;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-btn:hover {
+    background-color: rgba(194, 125, 250, 0.7);
+}
+
+
+@media (max-width: 576px) {
+  .product-card {
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+    .carousel-1 {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .carousel-1 img {
+        flex: 0 0 auto;
+        scroll-snap-align: center;
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        border-radius: 12px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+    }
+
+
+  .product-carousel-container {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+  .product-image-card{
+    width: 200px;
+    height: auto;
+    /* max-height: 500px; */
+    border-radius: 12px;
+  }
+
+  .product-carousel-inner{
+    max-width: 200px;
+  }
+  .product-carousel-container{
+    max-width: 200px;
+  }
+  .product-image-full{
+    max-width: 200px;
+  }
+
+  .product-info h2 {
+    font-size: 24px;
+  }
+
+  .product-info h5 {
+    font-size: 20px;
+  }
+
+  .author {
+    font-size: 16px;
+  }
+
+  .category {
+    font-size: 12px;
+  }
+
+  .product-controls {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .scroll-carousel {
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .card {
+    width: 100px;
+    height: 140px;
+    font-size: 12px;
+  }
+
+  .recomm-container {
+    padding: 16px;
+  }
+
+  .recomm-title::after {
+    width: 80px;
+  }
+
+  .summary-box, .description-box {
+    padding: 15px;
+  }
+
+  .summary-box h3, .description-box h3 {
+    font-size: 16px;
+  }
+
+  .summary-text, .description-list li {
+    font-size: 14px;
+  }
+}
+
+</style>
 @endpush
 
 @section('content')
+
     <div class="content-wrapper" style="padding: 20px;">
         <div class="product-card">
-            <!-- Gambar Produk -->
-            <img src="{{ asset($product->primaryImage->product_images_url) }}" alt="{{ $product->products_title }}"
-                class="product-image mx-auto" styles="max-width:400px">
 
+            <div class="product-carousel-container">
+                <div class="product-carousel-inner">
 
-            <!-- Gambar Produk (Carousel) SAIA PUSINGGG-->
-            {{-- <div id="productCarousel" class="carousel slide mx-auto" data-bs-ride="false" style="max-width: 400px;">
-                <div class="carousel-inner">
-                    @foreach ($product->images as $key => $image)
-                        <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                            <img src="{{ asset($image->product_images_url) }}" class="d-block w-100" alt="Image {{ $key + 1 }}" class="product-image mx-auto" style="max-width: 400px;">
+                    @if($product->images->count() > 1)
+
+                    <button class="scroll-btn left" onclick="scrollCarousel('carousel-product-images', -1)" aria-label="Scroll Left">&#10094;</button>
+                    
+                    <div class="carousel-1-wrapper">
+                        <div class="carousel-1" id="carousel-product-images">
+                            {{-- Elemen yang discroll --}}
+                            @forelse ($product->images as $image)
+                                <div class="product-image-card">
+                                    <img src="{{ asset($image->product_images_url) }}" alt="Product Image" class="product-image-full">
+                                </div>
+                            @empty
+                                <p class="text-muted">No images found for this product.</p>
+                            @endforelse
                         </div>
-                    @endforeach
+                    </div>
+
+                    <button class="scroll-btn right" onclick="scrollCarousel('carousel-product-images', 1)" aria-label="Scroll Right">&#10095;</button>
+
+                    @elseif ($product->images->count() == 1)
+                    <div class="carousel-1-wrapper">
+                        <div class="carousel-1" id="carousel-product-images">
+                            {{-- Elemen yang discroll --}}
+                            @forelse ($product->images as $image)
+                                <div class="product-image-card">
+                                    <img src="{{ asset($image->product_images_url) }}" alt="Product Image" class="product-image-full">
+                                </div>
+                            @empty
+                                <p class="text-muted">No images found for this product.</p>
+                            @endforelse
+                        </div>
+                    </div>
+                    @endif
+
+                    
                 </div>
-                @if ($product->images->count() > 1)
-                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
-                @endif
-            </div> --}}
+                
 
 
             <div class="product-info">
@@ -672,35 +879,6 @@
             }
         }
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const scrollContainer = document.querySelector('.scroll-container');
-            const scrollLeftBtn = document.querySelector('.scroll-btn.left');
-            const scrollRightBtn = document.querySelector('.scroll-btn.right');
-
-            const getCardScrollAmount = () => {
-                const card = scrollContainer.querySelector('.card');
-                const style = window.getComputedStyle(card);
-                const marginLeft = parseFloat(style.marginLeft);
-                const marginRight = parseFloat(style.marginRight);
-                return card.offsetWidth + marginLeft + marginRight;
-            };
-
-            scrollLeftBtn.addEventListener('click', () => {
-                scrollContainer.scrollBy({
-                    left: -getCardScrollAmount(),
-                    behavior: 'smooth'
-                });
-            });
-
-            scrollRightBtn.addEventListener('click', () => {
-                scrollContainer.scrollBy({
-                    left: getCardScrollAmount(),
-                    behavior: 'smooth'
-                });
-            });
-        });
-
         function scrollCarousel(id, direction) {
             const carousel = document.getElementById(id);
             if (carousel) {
@@ -718,6 +896,26 @@
                     behavior: 'smooth'
                 });
             }
+        }
+    </script>
+    <script>
+        function scrollCarousel(id, direction) {
+            const container = document.getElementById(id);
+            const scrollAmount = 470; // pixel per scroll
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+    <script>
+        function scrollCarousel(id, direction) {
+            const container = document.getElementById(id);
+            const scrollAmount = 470; // pixel per scroll
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
         }
     </script>
 @endsection
