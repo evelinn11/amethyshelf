@@ -16,9 +16,6 @@ body {
     background-color: #3C1361;
     border-color: #3C1361;
     color: white;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

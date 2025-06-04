@@ -4,21 +4,22 @@
     <link rel="stylesheet" href="{{ asset('css/user/cart.css') }}">
 @endpush
 
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-
 @section('content')
     <div class="wishlist-container container mt-4">
         <h2>My Cart</h2>
+
+        {{-- Flash Messages --}}
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
 
         @if ($cartItems->isNotEmpty())
             <table class="table table-bordered cart-table">
@@ -37,7 +38,6 @@
                     @php $total = 0; @endphp
                     @foreach ($cartItems as $item)
                         @php
-                            // Menghitung subtotal dengan field yang sesuai
                             $subtotal = $item->cart_details_price * $item->cart_details_amount;
                             $total += $subtotal;
                         @endphp
@@ -89,3 +89,20 @@
         @endif
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        // Auto-hide flash messages after 3 seconds
+        setTimeout(function () {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                // Tambahkan efek transisi halus jika ingin
+                alert.style.transition = 'opacity 0.5s ease-out';
+                alert.style.opacity = '0';
+
+                // Setelah efek selesai (500ms), hapus dari DOM
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 3000);
+    </script>
+@endpush
