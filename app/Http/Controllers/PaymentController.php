@@ -19,7 +19,7 @@ class PaymentController extends Controller
         try {
 
             /** @var object $status */
-            $status = MidtransTransaction::status($transactions->order_id);
+            $status = MidtransTransaction::status($transactions->invoice_number);
 
             if ($status->transaction_status == 'settlement' || $status->transaction_status == 'capture') {
                 $transactions->order_status = 'completed';
@@ -30,18 +30,18 @@ class PaymentController extends Controller
             } elseif ($status->transaction_status == 'cancel') {
                 $transactions->order_status = 'cancelled';
             } else {
-                $transactions->status = $status->transaction_status;
+                $transactions->order_status = $status->transaction_status;
             }
 
             $transactions->save();
 
             return view('user.payment_status', [
-                'order' => $transactions,
+                'transactions' => $transactions,
                 'status_message' => 'Payment status has been updated automatically.'
             ]);
 
         } catch (\Exception $e) {
-            return redirect()->route('payment.status', $transactions)
+            return redirect()->route('payment.status', $transactions->id)
                 ->with('error', 'Auto-check failed: ' . $e->getMessage());
         }
     }
@@ -57,21 +57,21 @@ class PaymentController extends Controller
             $status = MidtransTransaction::status($transactions->invoice_number);
 
             if ($status->transaction_status == 'settlement' || $status->transaction_status == 'capture') {
-                $transactions->status = 'paid';
+                $transactions->order_status = 'paid';
             } elseif ($status->transaction_status == 'pending') {
-                $transactions->status = 'pending';
+                $transactions->order_status = 'pending';
             } elseif ($status->transaction_status == 'expire') {
-                $transactions->status = 'expired';
+                $transactions->order_status = 'expired';
             } elseif ($status->transaction_status == 'cancel') {
-                $transactions->status = 'cancelled';
+                $transactions->order_status = 'cancelled';
             } else {
-                $transactions->status = $status->transaction_status;
+                $transactions->order_status = $status->transaction_status;
             }
 
             $transactions->save();
 
             return view('user.payment_status', [
-                'order' => $transactions,
+                'transactions' => $transactions,
                 'status_message' => 'Payment status checked manually.'
             ]);
 
