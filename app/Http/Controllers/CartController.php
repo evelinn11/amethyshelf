@@ -18,7 +18,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $userId = 1;
+        $userId = 2;
 
         $cart = Cart::with(['details.product'])
             ->where('users_id', $userId)
@@ -34,7 +34,8 @@ class CartController extends Controller
     {
         $productId = $request->input('product_id');
         $productPrice = $request->input('product_price');
-        $userId = 1;
+        $quantity = (int) $request->input('quantity', 1);
+        $userId = 2;
 
         if (!$productId) {
             $title = $request->input('product_name');
@@ -65,13 +66,13 @@ class CartController extends Controller
             ->first();
 
         if ($detail) {
-            $detail->increment('cart_details_amount');
+            $detail->increment('cart_details_amount', $quantity);
         } else {
             CartDetail::create([
                 'carts_id' => $cart->carts_id,
                 'products_id' => $productId,
                 'cart_details_price' => $productPrice,
-                'cart_details_amount' => 1,
+                'cart_details_amount' => $quantity,
                 'cart_details_status_del' => false,
             ]);
         }
@@ -119,7 +120,7 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $userId = 1; // nanti pakai Auth::id() kalau sudah login
+        $userId = 2; // nanti pakai Auth::id() kalau sudah login
 
         $cart = Cart::with('details')->where('users_id', $userId)->where('carts_status_del', false)->first();
 

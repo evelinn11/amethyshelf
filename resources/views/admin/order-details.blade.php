@@ -83,12 +83,7 @@
             border-radius: 8px;
             background-color: #fff;
         }
-
-        .status-box .status {
-            font-weight: bold;
-            color: green;
-        }
-
+        
         .payment-details {
             border-left: 1px solid #ccc;
             padding-left: 20px;
@@ -162,9 +157,24 @@
             background-color: #fff;
         }
 
-        .status-box .status {
+        .status {
             font-weight: bold;
+        }
+
+        .status-completed {
             color: green;
+        }
+
+        .status-pending {
+            color: orange;
+        }
+
+        .status-cancelled {
+            color: red;
+        }
+
+        .status-expired {
+            color: gray;
         }
 
         .payment-details {
@@ -320,7 +330,15 @@
 
             <div class="status-box" style="flex: 1">
                 <h3>Order Status:</h3>
-                <h5 class="status">{{ ucfirst($order->order_status) }}</h5>
+                <h5
+                    class="status 
+                        {{ $order->order_status === 'completed' ? 'status-completed' : '' }}
+                        {{ $order->order_status === 'pending' ? 'status-pending' : '' }}
+                        {{ $order->order_status === 'cancelled' ? 'status-cancelled' : '' }}
+                        {{ $order->order_status === 'expired' ? 'status-expired' : '' }}">
+                    {{ ucfirst($order->order_status) }}
+                </h5>
+
             </div>
         </div>
     </div>

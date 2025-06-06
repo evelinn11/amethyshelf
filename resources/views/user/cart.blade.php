@@ -57,7 +57,8 @@
                                         class="btn btn-sm btn-light">-</button>
 
                                     <input type="number" name="quantity" value="{{ $item->cart_details_amount }}"
-                                        min="1" style="width: 50px; text-align: center; margin: 0 5px;"
+                                        min="1"
+                                        style="width: 50px; text-align: center; margin: 0 5px;"
                                         onchange="this.form.submit()">
 
                                     <button type="submit" name="action" value="increment"
@@ -93,7 +94,7 @@
 @push('scripts')
     <script>
         // Auto-hide flash messages after 3 seconds
-        setTimeout(function () {
+        setTimeout(function() {
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
                 // Tambahkan efek transisi halus jika ingin

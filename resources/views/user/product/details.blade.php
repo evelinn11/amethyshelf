@@ -22,25 +22,25 @@
         }
 
         /* .product-card img{
-            width: 100%;
-            max-width: 400px;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        } */
+                                    width: 100%;
+                                    max-width: 400px;
+                                    border-radius: 16px;
+                                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+                                    object-fit: cover;
+                                    transition: transform 0.3s ease;
+                                } */
         /* .product-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
+                                    width: 100%;
+                                    max-width: 400px;
+                                    border-radius: 16px;
+                                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+                                    object-fit: cover;
+                                    transition: transform 0.3s ease;
+                                }
 
-        .product-image:hover {
-            transform: scale(1.02);
-        } */
+                                .product-image:hover {
+                                    transform: scale(1.02);
+                                } */
 
         .product-info {
             flex: 1;
@@ -88,11 +88,12 @@
         }
 
         .quantity-control {
-            display: flex;
+            display: inline-flex;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
             overflow: hidden;
             background: #f8fafc;
+            margin-right: 1rem;
         }
 
         .quantity-control button {
@@ -263,8 +264,8 @@
         /* DIBAWAH INI UNTUK SLIDER IMG */
 
         /* .carousel-inner {
-            min-height: 400px;
-        } */
+                                    min-height: 400px;
+                                } */
 
         .carousel-item {
             height: auto;
@@ -275,15 +276,15 @@
 
         .carousel-item img {
             /* height: 100%;
-            width: auto;
-            max-height: 400px;
-            border-radius: 16px;
-            object-fit: cover;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease; */
+                                    width: auto;
+                                    max-height: 400px;
+                                    border-radius: 16px;
+                                    object-fit: cover;
+                                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+                                    transition: transform 0.3s ease; */
 
             /* width: 100%;
-            max-width: 400px; */
+                                    max-width: 400px; */
             height: 650px;
             width: 400px;
             border-radius: 16px;
@@ -493,8 +494,8 @@
 
         .carousel-1-wrapper {
             /* overflow-x: auto;
-            scroll-behavior: smooth;
-            flex-grow: 1; */
+                                    scroll-behavior: smooth;
+                                    flex-grow: 1; */
 
             overflow-x: hidden;
             max-width: 100%;
@@ -504,8 +505,8 @@
 
         .carousel-1 {
             /* display: flex;
-            gap: 1rem;
-            padding: 0.5rem; */
+                                    gap: 1rem;
+                                    padding: 0.5rem; */
 
             display: flex;
             overflow-x: auto;
@@ -722,17 +723,53 @@
                 /* atau contain, sesuai preferensi */
                 border-radius: 8px;
             }
+        }
 
+        .button-purple {
+            background-color: #3C1361;
+            border: 1px solid #3C1361;
+            padding: 0.6rem 2.2rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline;
+            margin-top: 1rem;
+        }
 
+        .button-purple:hover {
+            background-color: #5936a2;
+            border-color: #5936a2;
+            color: white;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
         }
     </style>
 @endpush
 
 @section('content')
-
     <div class="content-wrapper" style="padding: 20px;">
-        <div class="product-card">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
 
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="product-card">
             <div class="product-carousel-container">
                 <div class="product-carousel-inner">
 
@@ -815,16 +852,27 @@
                 </div>
 
                 <div class="product-controls">
-                    <div class="quantity-control">
-                        <button onclick="decrement()">-</button>
-                        <input type="number" id="quantity" value="1" min="1">
-                        <button onclick="increment()">+</button>
-                    </div>
+                    <form action="{{ route('cart.add') }}" method="POST" style="display:inline;">
+                        @csrf
 
-                    <button class="btn btn-primary add-to-cart" data-name="{{ $product->products_title }}"
-                        data-author="{{ $product->products_author_name }}" data-price="{{ $product->products_price }}">
-                        Add to Cart
-                    </button>
+                        <div class="quantity-control">
+                            <button type="button" onclick="decrement()">-</button>
+                            <input type="number" name="quantity" id="quantity" value="1" min="1">
+                            <button type="button" onclick="increment()">+</button>
+                        </div>
+
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="product_name" value="{{ $product->products_title }}">
+                        <input type="hidden" name="product_author" value="{{ $product->products_author_name }}">
+                        <input type="hidden" name="product_price" value="{{ $product->products_price }}">
+                        <input type="hidden" name="product_image"
+                            value="{{ $product->primaryImage->product_images_url }}">
+                        <button type="submit" class="button-purple" data-name="{{ $product->products_title }}"
+                            data-author="{{ $product->products_author_name }}"
+                            data-price="{{ $product->products_price }}">
+                            Add to Cart
+                        </button>
+                    </form>
 
                     {{-- Wishlist --}}
                     @php
@@ -938,39 +986,39 @@
 @endsection
 
 @push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('.add-to-cart').click(function (e) {
-            e.preventDefault();
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.add-to-cart').click(function(e) {
+                e.preventDefault();
 
-            const button = $(this);
-            const title = button.data('name');
-            const author = button.data('author');
-            const price = button.data('price');
-            const quantity = parseInt($('#quantity').val()) || 1;
+                const button = $(this);
+                const title = button.data('name');
+                const author = button.data('author');
+                const price = button.data('price');
+                const quantity = parseInt($('#quantity').val()) || 1;
 
-            $.ajax({
-                url: '{{ route("cart.add") }}',
-                method: 'POST',
-                data: {
-                    product_name: title,
-                    product_author: author,
-                    product_price: price,
-                    quantity: quantity,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    alert('Produk berhasil ditambahkan ke keranjang!');
-                    if (response.cart_count !== undefined) {
-                        $('.cart-count').text(response.cart_count).show();
+                $.ajax({
+                    url: '{{ route('cart.add') }}',
+                    method: 'POST',
+                    data: {
+                        product_name: title,
+                        product_author: author,
+                        product_price: price,
+                        quantity: quantity,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        alert('Produk berhasil ditambahkan ke keranjang!');
+                        if (response.cart_count !== undefined) {
+                            $('.cart-count').text(response.cart_count).show();
+                        }
+                    },
+                    error: function() {
+                        alert('Gagal menambahkan produk ke keranjang.');
                     }
-                },
-                error: function () {
-                    alert('Gagal menambahkan produk ke keranjang.');
-                }
+                });
             });
         });
-    });
-</script>
+    </script>
 @endpush

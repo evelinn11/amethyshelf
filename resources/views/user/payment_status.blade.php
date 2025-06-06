@@ -37,7 +37,40 @@
         }
 
         .status-paid {
-            color: #28a745; /* Hijau untuk Paid/Completed */
+            color: #28a745;
+            /* Hijau untuk Paid/Completed */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-pending {
+            color: #ffc107;
+            /* Kuning */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-cancelled {
+            color: #dc3545;
+            /* Merah */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-expired {
+            color: #6c757d;
+            /* Abu-abu */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-unknown {
+            color: #343a40;
+            /* Hitam keabu-abuan */
             font-weight: 700;
             font-size: 1.2rem;
             margin-top: 1rem;
@@ -51,7 +84,7 @@
         }
 
         .button-purple {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             background-color: #3C1361;
             border: 1px solid #3C1361;
             padding: 0.6rem 2.2rem;
@@ -71,6 +104,26 @@
 
         .text-purple {
             color: #3C1361;
+        }
+
+        .button-red {
+            margin-top: 1rem;
+            background-color: #dc3545;
+            border: 1px solid #dc3545;
+            padding: 0.4rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button-red:hover {
+            background-color: #bb2d3b;
+            border-color: #bb2d3b;
+            color: white;
         }
     </style>
 @endpush
@@ -95,12 +148,31 @@
 
         <div>
             <div class="status-label">Payment Status:</div>
-            <div class="status-paid">{{ ucfirst($transactions->order_status) }}</div>
+            @php
+                $statusClass = match ($transactions->order_status) {
+                    'completed', 'paid' => 'status-paid',
+                    'pending' => 'status-pending',
+                    'cancelled' => 'status-cancelled',
+                    'expired' => 'status-expired',
+                    default => 'status-unknown',
+                };
+            @endphp
+
+            <div class="{{ $statusClass }}">{{ ucfirst($transactions->order_status) }}</div>
+
         </div>
 
         <div class="status-note">{{ $status_message }}</div>
 
         <a href="{{ route('payment.status', $transactions->id) }}" class="button-purple">Check Status Again</a>
         <a href="{{ route('orders.show') }}" class="button-purple">View My Orders</a>
+        @if ($transactions->order_status === 'pending' && $transactions->payment_method !== 'Akulaku' && $transactions->payment_method !== 'Convenience Store')
+            <form action="{{ route('transactions.cancel', $transactions->id) }}" method="POST"
+                style="display:block;" onsubmit="return confirm('Are you sure to cancel this transaction?');">
+                @csrf
+                <button class="button-red" type="submit">Cancel Order</button>
+            </form>
+        @endif
+
     </div>
 @endsection

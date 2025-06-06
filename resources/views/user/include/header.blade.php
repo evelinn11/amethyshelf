@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-center header-content gap-3">
         <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
             <div>
-                <h4 class="brand-text mb-0">AMETHYSHELF</h4>
+                <a href="home" style="text-decoration:none;"><h4 class="brand-text mb-0">AMETHYSHELF</h4></a>
                 <div class="brand-subtitle">ISB's Largest Bookstore</div>
             </div>
             <form action="{{ route('search.redirect') }}" method="GET" class="search-wrapper" style="flex:1;">

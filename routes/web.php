@@ -30,7 +30,7 @@ Route::get('/search-redirect', [ProductController::class, 'redirectToProductDeta
 
 // ini cart, wishlist, payment, checkout
 
-Route::get('/home', [HomeController::class, 'show'])->name('home.show');
+Route::get('/home', [HomeController::class, 'index'])->name('home.show');
 
 // Halaman utama diarahkan ke daftar produk
 Route::get('/products', [ProductController::class, 'show'])->name('products.show');
@@ -83,6 +83,9 @@ Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/payment/return/{transactions}', [PaymentController::class, 'handleReturn'])->name('payment.return');
 
 Route::get('/payment/status/{transactions}', [PaymentController::class, 'checkStatus'])->name('payment.status');
+
+Route::post('/transactions/{transaction}/cancel', [PaymentController::class, 'cancelTransaction'])
+    ->name('transactions.cancel');
 
 // sementara, loginnya error soalnya
 Route::get('/login', function () {

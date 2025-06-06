@@ -9,8 +9,8 @@
 
         <table class="table table-bordered">
             <tr>
-                <th>Transaction ID</th>
-                <td>{{ $order->id }}</td>
+                <th>Invoice Number</th>
+                <td>{{ $order->invoice_number }}</td>
             </tr>
             <tr>
                 <th>Payment Method</th>

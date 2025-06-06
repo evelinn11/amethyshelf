@@ -2,11 +2,6 @@ body {
     overflow-x: hidden;
 }
 
-.container {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
 .text-purple {
     color: #6c33ff;
     font-weight: 600;
@@ -14,7 +9,7 @@ body {
 
 .btn-purple {
     background-color: #3C1361;
-    border-color: #3C1361;
+    border-color: #3C1361;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -25,26 +20,41 @@ body {
     color: white;
 }
 
-.table thead th {
-    border-bottom: 2px solid #a084ff;
-}
-
-.table tbody tr:not(:last-child) {
-    border-bottom: 1px solid #c9bfff;
-}
-
 .wishlist-table {
-    width: 100%;
-    overflow-x: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(97, 67, 157, 0.2);
+    background: white;
+}
+
+.wishlist-table thead {
+    background-color: #cba7ff;
+    color: white;
+    font-weight: 600;
+}
+
+.wishlist-table tbody tr:hover {
+    background-color: white;
+}
+
+.wishlist-table tbody tr td {
+    vertical-align: middle;
+    /* bikin isi td sejajar vertikal tengah */
+}
+
+.wishlist-table tbody tr td.d-flex {
+    align-items: center;
+    /* buat flex container td sejajar tengah vertikal */
+}
+
+.wishlist-table img {
+    border-radius: 6px;
+    object-fit: cover;
 }
 
 .table-scroll-container {
     overflow-x: auto;
     width: 100%;
-}
-
-.wishlist-table {
-    min-width: 736px;
 }
 
 .text-remove {
@@ -111,12 +121,12 @@ body {
         flex-wrap: nowrap !important;
     }
 
-    .no-wrap-buttons > * {
+    .no-wrap-buttons>* {
         white-space: nowrap;
         flex-shrink: 0;
     }
 
-    .no-wrap-buttons > * {
+    .no-wrap-buttons>* {
         white-space: nowrap;
         flex-shrink: 0;
     }

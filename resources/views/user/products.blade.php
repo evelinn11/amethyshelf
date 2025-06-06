@@ -86,6 +86,7 @@
 
         .product-icon {
             background-color: #a78bfa;
+            border: 2px solid black;
             /* color: white; */
             width: 36px;
             height: 36px;
@@ -159,6 +160,18 @@
     <div class="content-wrapper" style="margin-top: 24px;">
         <h2>Product's Category: {{ $category->categories_name }}</h2>
 
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+        
         <div class="product-grid">
             @forelse($products as $product)
                 <div class="product-card">
@@ -185,25 +198,25 @@
                                 value="{{ $product->primaryImage->product_images_url }}">
 
                             <button type="submit" class="product-icon" title="Wishlist">
-                                <i class="{{ $inWishlist ? 'fas' : 'far' }} fa-heart" style="color: {{ $inWishlist ? '#e3342f' : '#ffffff' }}"></i>
+                                <i class="{{ $inWishlist ? 'fas' : 'far' }} fa-heart"
+                                    style="color: {{ $inWishlist ? '#e3342f' : '#ffffff' }}"></i>
                             </button>
                         </form>
 
                         {{-- Cart --}}
-                        <div class="product-icon" title="Tambah ke Keranjang">
-                            <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="product_name" value="{{ $product->products_title }}">
-                                <input type="hidden" name="product_author" value="{{ $product->products_author_name }}">
-                                <input type="hidden" name="product_price" value="{{ $product->products_price }}">
-                                <input type="hidden" name="product_image"
-                                    value="{{ $product->primaryImage->product_images_url }}">
-                                <button type="submit" class="product-icon" title="Tambah ke Keranjang">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </button>
-                            </form>
-                        </div>
+                        <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="product_name" value="{{ $product->products_title }}">
+                            <input type="hidden" name="product_author" value="{{ $product->products_author_name }}">
+                            <input type="hidden" name="product_price" value="{{ $product->products_price }}">
+                            <input type="hidden" name="product_image"
+                                value="{{ $product->primaryImage->product_images_url }}">
+
+                            <button type="submit" class="product-icon" title="Tambah ke Keranjang">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </form>
                     </div>
 
                     <a href="{{ route('product.show', $product->id) }}" class="product-link"
