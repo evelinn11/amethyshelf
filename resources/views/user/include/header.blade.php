@@ -108,7 +108,7 @@
                                             $cartId =
                                                 // nanti auth()->id()
                                                 optional(
-                                                    Cart::where('users_id', 1)
+                                                    Cart::where('users_id', 2)
                                                         ->where('carts_status_del', false)
                                                         ->latest()
                                                         ->first(),
