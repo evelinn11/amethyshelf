@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function show()
     {
-        $userId = '2'; //masih hardcode, nanti setelah ada auth baru bisa
+        $userId = Auth::id(); // ambil id user yang sedang login
         $orders = Transaction::where('users_id', $userId)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -19,7 +20,7 @@ class OrderController extends Controller
 
     public function details($id)
     {
-        $userId = '2'; //masih hardcode, nanti setelah ada auth baru bisa
+        $userId = Auth::id(); // ambil id user yang sedang login
 
         $order = Transaction::with(['details.product.primaryImage'])
             ->where('users_id', $userId)

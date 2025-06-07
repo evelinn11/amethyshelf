@@ -64,13 +64,13 @@
                                         {{ ucwords($order->order_status) }}
                                     </a>
                                 </td>
-                                <td>
+                                <td style="max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     @if ($order->payment_url && $order->order_status == 'pending')
                                         <a href="{{ $order->payment_url }}" target="_blank" class="btn btn-sm btn-primary">
                                             Pay Now
                                         </a>
                                     @else
-                                        <span class="text-muted">-</span>
+                                        <a href="{{ $order->payment_url }}" target="_blank" style="display: inline-block; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle;">{{ $order->payment_url }}</a>
                                     @endif
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>

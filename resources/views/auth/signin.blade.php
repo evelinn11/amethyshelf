@@ -107,6 +107,11 @@
       padding-right: 40px;
       border-radius: 25px;
     }
+
+    .error-placeholder {
+      min-height: 22px;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -125,27 +130,31 @@
       <div class="fw-semibold">@ 2025 AMETHYSHELF BY GROUP 1</div>
     </div>
 
+
     <div class="form-section">
       <h4 class="mb-4 text-center fw-bold">Sign In</h4>
       <form action="{{ route('signin.auth') }}" method="POST" novalidate>
         @csrf
-        <div class="input-icon-group mb-3">
-          <i class="fa-regular fa-envelope input-icon-left"></i>
-          <input
-            type="email"
-            class="form-control @error('email') is-invalid @enderror"
-            id="email"
-            name="email"
-            value="{{ old('email') }}"
-            required
-            autofocus
-            placeholder="Email"
-          >
-          @error('email')
-            <div class="invalid-feedback">
-              {{ $message }}
-            </div>
-          @enderror
+        <div class="input-icon-group mb-3" style="display: flex; flex-direction: column; position: relative;">
+          <div style="position: relative; width: 100%;">
+            <i class="fa-regular fa-envelope input-icon-left"></i>
+            <input
+              type="email"
+              class="form-control @error('email') is-invalid @enderror"
+              id="email"
+              name="email"
+              value="{{ old('email') }}"
+              required
+              autofocus
+              placeholder="Email"
+              style="box-sizing: border-box;"
+            >
+          </div>
+          <div class="error-placeholder" style="min-height:22px; width:100%;">
+            @error('email')
+              <span class="invalid-feedback d-block" style="position:static; font-size:14px; white-space:normal; margin-top:2px; width:100%; display:block; color:#dc3545;">{{ $message }}</span>
+            @enderror
+          </div>
         </div>
         <div class="input-icon-group mb-3">
           <i class="fa-solid fa-lock input-icon-left"></i>
@@ -165,7 +174,7 @@
           @enderror
         </div>
         <div class="mb-3 text-end text-small">
-          <a href="{{ route('emailverification.show') }}" style="color: inherit; text-decoration: none;">Forget Password?</a>
+          <a href="{{ route('changepassword.show') }}" style="color: inherit; text-decoration: none;">Forget Password?</a>
         </div>
         <div class="d-grid mb-3">
           <button type="submit" class="btn btn-custom w-100 mb-3">Sign In</button>

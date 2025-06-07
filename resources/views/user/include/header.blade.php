@@ -15,7 +15,7 @@
         <div class="text-white d-flex align-items-center me-5">
             <li class="nav-item dropdown hover-dropdown" style="list-style: none;">
                 <a class="nav-link dropdown-toggle" href="#" role="button">
-                    Felicia <i class="fas fa-user ms-2"></i>
+                    {{ explode(' ', Auth::user()->name)[0] }} <i class="fas fa-user ms-2"></i>
                 </a>
                 <ul class="dropdown-menu" style="min-width:120px; height:90px;">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -105,14 +105,12 @@
                                         @php
                                             use App\Models\Cart;
                                             use App\Models\CartDetail;
-                                            $cartId =
-                                                // nanti auth()->id()
-                                                optional(
-                                                    Cart::where('users_id', 2)
-                                                        ->where('carts_status_del', false)
-                                                        ->latest()
-                                                        ->first(),
-                                                )?->carts_id;
+                                            $cartId = optional(
+                                                Cart::where('users_id', Auth::id())
+                                                    ->where('carts_status_del', false)
+                                                    ->latest()
+                                                    ->first(),
+                                            )->carts_id;
                                             $cartCount = 0;
                                             if ($cartId) {
                                                 $cartCount = CartDetail::where('carts_id', $cartId)

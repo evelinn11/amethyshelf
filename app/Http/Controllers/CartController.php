@@ -18,16 +18,20 @@ class CartController extends Controller
 {
     public function index()
     {
-        $userId = 2;
-
-        $cart = Cart::with(['details.product'])
-            ->where('users_id', $userId)
+        $userId = Auth::id();
+        $cart = Cart::where('users_id', $userId)
             ->where('carts_status_del', false)
+            ->latest()
             ->first();
 
-        return view('user.cart', [
-            'cartItems' => $cart ? $cart->details : collect()
-        ]);
+        $cartItems = $cart
+            ? CartDetail::where('carts_id', $cart->carts_id)
+                ->where('cart_details_status_del', false)
+                ->with('product.primaryImage')
+                ->get()
+            : collect();
+
+        return view('user.cart', compact('cartItems'));
     }
 
     public function add(Request $request)
@@ -35,7 +39,11 @@ class CartController extends Controller
         $productId = $request->input('product_id');
         $productPrice = $request->input('product_price');
         $quantity = (int) $request->input('quantity', 1);
-        $userId = 2;
+        $userId = Auth::id(); // GANTI: gunakan user login
+
+        if (!$userId) {
+            return redirect()->route('signin.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
         if (!$productId) {
             $title = $request->input('product_name');
@@ -90,7 +98,12 @@ class CartController extends Controller
 
     public function remove($id)
     {
-        $item = CartDetail::findOrFail($id);
+        $userId = Auth::id();
+        $item = CartDetail::where('id', $id)
+            ->whereHas('cart', function($q) use ($userId) {
+                $q->where('users_id', $userId);
+            })
+            ->firstOrFail();
         $item->delete();
 
         return redirect()->route('cart.index')->with('success', 'Item dihapus dari keranjang!');
@@ -98,7 +111,12 @@ class CartController extends Controller
 
     public function update(Request $request, $id)
     {
-        $detail = CartDetail::findOrFail($id);
+        $userId = Auth::id();
+        $detail = CartDetail::where('id', $id)
+            ->whereHas('cart', function($q) use ($userId) {
+                $q->where('users_id', $userId);
+            })
+            ->firstOrFail();
 
         $action = $request->input('action');
         $quantity = (int) $request->input('quantity', 1);
@@ -120,7 +138,7 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $userId = 2; // nanti pakai Auth::id() kalau sudah login
+        $userId = Auth::id(); // nanti pakai Auth::id() kalau sudah login
 
         $cart = Cart::with('details')->where('users_id', $userId)->where('carts_status_del', false)->first();
 

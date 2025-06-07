@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Support\Facades\Auth;
 
-class SignUpController extends Controller
+class AdminSignUpController extends Controller
 {
-    //
     public function show()
     {
-        return view('auth.signup');
+        return view('auth.signup_admin');
     }
 
     public function signup(Request $request)
@@ -27,9 +27,9 @@ class SignUpController extends Controller
         // Insert ke database
         $user = User::create([
             'email' => $request->email,
-            'name' => $request->name,
             'password' => Hash::make($request->password),
-            'role' => 'U',
+            'name' => $request->name,
+            'role' => 'A',
             'address' => '-',
             'phone_number' => '-',
             'status_del' => 0,
@@ -37,15 +37,11 @@ class SignUpController extends Controller
             'updated_at' => now(),
         ]);
 
-        // Login user baru (opsional, jika ingin langsung login)
         Auth::login($user);
 
-        // Redirect sesuai role
-        if ($user->role === 'A') {
-            return redirect()->route('dashboard');
-        }
-        else if ($user->role === 'U') {
-            return redirect()->route('home.show');
-        }
+        // Pastikan session disimpan sebelum redirect
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard')->with('success', 'Admin successfully created.');
     }
 }

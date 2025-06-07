@@ -126,7 +126,6 @@
 </head>
 <body>
   <div class="card-custom">
-    <!-- Left Section -->
     <div class="left-section">
       <div class="logo mb-4">AMETHYSHELF</div>
       <div class="logo-img mb-3">
@@ -141,26 +140,49 @@
       <div class="fw-semibold">@ 2025 AMETHYSHELF BY GROUP 1</div>
     </div>
 
-    <!-- Right Section -->
     <div class="right-section form-section">
       <h4 class="mb-4 text-center fw-bold">Change Password</h4>
-      @if(isset($success) && $success)
-        <div class="alert alert-success text-center">Email verification successful! Please change your password.</div>
+      @if(!empty($alert_success) && request()->routeIs('changepassword.show'))
+        <div class="alert alert-success text-center">{{ $alert_success }}</div>
       @endif
+      <form action="{{ route('forgetpassword.send') }}" method="POST">
+        @csrf
+        <div class="input-icon-group mb-3">
+          <i class="fa-regular fa-envelope input-icon-left"></i>
+          <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email', $reset_email ?? '') }}" required />
+        </div>
+        <button class="btn btn-custom mb-3" type="submit">Kirim Kode Verifikasi</button>
+      </form>
+      @if(request()->routeIs('changepassword.show'))
       <form action="{{ route('changepassword.save') }}" method="POST">
         @csrf
-        <div class="input-icon-group">
+        <input type="hidden" name="email" value="{{ old('email', $reset_email ?? '') }}">
+        <div class="input-icon-group mb-3">
+          <i class="fa-solid fa-key input-icon-left"></i>
+          <input type="text" class="form-control" placeholder="Kode Verifikasi" name="token" required />
+          @error('token')
+            <span class="text-danger mt-1 position-absolute" style="left:0;top:100%;font-size:14px;">{{ $message }}</span>
+          @enderror
+        </div>
+        <div class="input-icon-group mb-3">
           <i class="fa-solid fa-lock input-icon-left"></i>
-          <input type="password" class="form-control" placeholder="Password" id="passwordInput1" name="password" required />
+          <input type="password" class="form-control" placeholder="Password Baru" id="passwordInput1" name="password" required />
           <i class="fa-regular fa-eye input-icon-right" id="togglePassword1"></i>
+          @error('password')
+            <span class="text-danger mt-1 position-absolute" style="left:0;top:100%;font-size:14px;">{{ $message }}</span>
+          @enderror
         </div>
-        <div class="input-icon-group">
+        <div class="input-icon-group mb-3">
           <i class="fa-solid fa-lock input-icon-left"></i>
-          <input type="password" class="form-control" placeholder="Repeat Password" id="passwordInput2" name="repeat_password" required />
+          <input type="password" class="form-control" placeholder="Ulangi Password Baru" id="passwordInput2" name="repeat_password" required />
           <i class="fa-regular fa-eye input-icon-right" id="togglePassword2"></i>
+          @error('repeat_password')
+            <span class="text-danger mt-1 position-absolute" style="left:0;top:100%;font-size:14px;">{{ $message }}</span>
+          @enderror
         </div>
-        <button class="btn btn-custom mb-3" type="submit">Change Password</button>
+        <button class="btn btn-custom mb-3" type="submit">Ganti Password</button>
       </form>
+      @endif
       <div class="text-center text-small">Remember your password? <a href="{{ route('signin.show') }}">Sign in</a></div>
     </div>
   </div>
