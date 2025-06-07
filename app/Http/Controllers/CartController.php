@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use Midtrans\Snap;
+use App\Models\Cart;
 use Midtrans\Config;
+use App\Models\Product;
+use App\Models\CartDetail;
+use App\Models\Transaction;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Cart;
-use App\Models\CartDetail;
+use App\Models\TransactionDetail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $userId = 1;
+        $userId = 2;
 
         $cart = Cart::with(['details.product'])
             ->where('users_id', $userId)
@@ -30,29 +34,55 @@ class CartController extends Controller
     {
         $productId = $request->input('product_id');
         $productPrice = $request->input('product_price');
-        $userId = 1;
+        $quantity = (int) $request->input('quantity', 1);
+        $userId = 2;
 
-        // Cari cart aktif milik user
+        if (!$productId) {
+            $title = $request->input('product_name');
+            $author = $request->input('product_author');
+
+            $product = Product::where('products_title', $title)
+                ->where('products_author_name', $author)
+                ->first();
+
+            if (!$product) {
+                if ($request->ajax()) {
+                    return response()->json(['error' => 'Produk tidak ditemukan'], 404);
+                }
+                return redirect()->back()->with('error', 'Produk tidak ditemukan di database.');
+            }
+
+            $productId = $product->id;
+        }
+
         $cart = Cart::firstOrCreate(
             ['users_id' => $userId, 'carts_status_del' => false],
             ['carts_id' => strtoupper(Str::random(16))]
         );
 
-        // Cek apakah produk sudah ada
         $detail = CartDetail::where('carts_id', $cart->carts_id)
             ->where('products_id', $productId)
             ->where('cart_details_status_del', false)
             ->first();
 
         if ($detail) {
-            $detail->increment('cart_details_amount');
+            $detail->increment('cart_details_amount', $quantity);
         } else {
             CartDetail::create([
                 'carts_id' => $cart->carts_id,
                 'products_id' => $productId,
                 'cart_details_price' => $productPrice,
-                'cart_details_amount' => 1
+                'cart_details_amount' => $quantity,
+                'cart_details_status_del' => false,
             ]);
+        }
+
+        $count = CartDetail::where('carts_id', $cart->carts_id)
+            ->where('cart_details_status_del', false)
+            ->count();
+
+        if ($request->ajax()) {
+            return response()->json(['count' => $count]);
         }
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang');
@@ -90,60 +120,71 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $userId = 1; // ganti pakai Auth::id() kalau sudah login
+        $userId = 2; // nanti pakai Auth::id() kalau sudah login
 
-        // Ambil cart aktif beserta detail dan produk
-        $cart = Cart::with(['details.product'])
-            ->where('users_id', $userId)
-            ->where('carts_status_del', false)
-            ->first();
+        $cart = Cart::with('details')->where('users_id', $userId)->where('carts_status_del', false)->first();
 
         if (!$cart || $cart->details->isEmpty()) {
-            return redirect()->back()->with('error', 'Keranjang kamu kosong!');
+            return redirect()->back()->with('error', 'Your cart is empty!');
         }
 
-        $totalPrice = $cart->details->sum(function ($item) {
-            return $item->cart_details_price * $item->cart_details_amount;
-        });
-
-        // Buat invoice number unik
-        $invoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6));
-
-        // Midtrans Config
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
-        // Buat parameter transaksi Midtrans
-        $params = [
-            'transaction_details' => [
-                'order_id' => $invoiceNumber,
-                'gross_amount' => $totalPrice,
-            ],
-            'customer_details' => [
-                'first_name' => 'Guest Customer',
-                'email' => 'guest@example.com',
-            ],
-            'callbacks' => [
-                'finish' => route('payment.return', $invoiceNumber),
-            ]
-        ];
-
+        DB::beginTransaction();
         try {
-            $snapUrl = Snap::createTransaction($params)->redirect_url;
+            $totalPrice = $cart->details->sum(fn($item) => $item->cart_details_price * $item->cart_details_amount);
 
-            // Tandai item keranjang sudah diproses, misalnya dengan soft delete
+            $transactions = Transaction::create([
+                'users_id' => $userId,
+                'invoice_number' => 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
+                'payment_method' => null,
+                'total_amount' => $totalPrice,
+                'order_status' => 'pending',
+                'payment_url' => null,
+            ]);
+
             foreach ($cart->details as $detail) {
-                $detail->cart_details_status_del = true;
-                $detail->save();
+                TransactionDetail::create([
+                    'transaction_id' => $transactions->id,
+                    'product_id' => $detail->products_id,
+                    'quantity' => $detail->cart_details_amount,
+                    'unit_price' => $detail->cart_details_price,
+                    'subtotal' => $detail->cart_details_price * $detail->cart_details_amount,
+                ]);
             }
 
-            // Atau bisa hapus semua detail langsung:
-            // $cart->details()->delete();
+            // Midtrans Config
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$isProduction = config('midtrans.is_production');
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $transactions->invoice_number,
+                    'gross_amount' => $totalPrice,
+                ],
+                'customer_details' => [
+                    'first_name' => 'Guest',
+                    'email' => 'guest@example.com',
+                ],
+                'callbacks' => [
+                    'finish' => route('payment.return', $transactions->id),
+                ],
+            ];
+
+            $snapUrl = Snap::createTransaction($params)->redirect_url;
+
+            $transactions->payment_url = $snapUrl;
+            $transactions->save();
+
+            // Tandai cart sudah selesai atau hapus jika mau
+            $cart->carts_status_del = true;
+            $cart->save();
+
+            DB::commit();
 
             return redirect()->away($snapUrl);
         } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->back()->with('error', 'Checkout gagal: ' . $e->getMessage());
         }
     }

@@ -70,13 +70,13 @@ class StoreController extends Controller
             'products_published_year' => 'required|digits:4|integer',
             'products_price' => 'required|numeric',
             'products_stock' => 'required|integer',
-            'products_summary' => 'required|string',            
-            'products_isbn' => 'required|string|max:255',       
+            'products_summary' => 'required|string',
+            'products_isbn' => 'required|string|max:255',
             'products_total_pages' => 'required|string|max:255',
-            'products_languange' => 'required|string|max:255',  
+            'products_languange' => 'required|string|max:255',
             'categories' => 'required|array',
             'categories.*' => 'integer|exists:categories,id',
-            'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $totalPages = $request->products_total_pages . ' halaman';
@@ -219,15 +219,10 @@ class StoreController extends Controller
             ];
         });
 
-        $categories = Category::with('products')->get();
-        $categoryCount = Category::count(); 
-
        return view('admin.category-books', [
         'books' => $books,
         'categoryName' => $category->categories_name,
-        'title' => $title,
-        'categoryCount' => $categoryCount,
-        'categories'=>$categories
+        'title' => $title
     ]);
     }
 
@@ -247,27 +242,26 @@ class StoreController extends Controller
 
         return view('admin.edit-cat', compact('category', 'title'));
     }
-        
+
     public function show_orders()
     {
         $title = 'Orders';
+        $orders = Transaction::with('user')->orderBy('created_at', 'desc')->get();
+        $totalOrders= Transaction::count();
+        $pending = Transaction::where('order_status', 'pending')->count();
+        $cancelled = Transaction::where('order_status', 'cancelled')->count();
+        $completed = Transaction::where('order_status', 'completed')->count();
 
-        $orders = [
-            ['date' => '10/5/25', 'order_id' => 'T20250510001', 'name' => 'Budi Setiawan', 'total_amount' => 400000, 'status' => 'Completed'],
-            ['date' => '10/5/25', 'order_id' => 'T20250510002', 'name' => 'Tina Marini', 'total_amount' => 200000, 'status' => 'Completed'],
-            ['date' => '10/5/25', 'order_id' => 'T20250510003', 'name' => 'Fajar Setyo', 'total_amount' => 350000, 'status' => 'Completed'],
-        ];
-        
-        return view('admin.orders', compact('title', 'orders'));
+        return view('admin.orders', compact('orders', 'totalOrders', 'pending', 'cancelled', 'completed'));
     }
 
-    public function show_order_details()
+    public function show_order_details($id)
     {
-        return view('admin.order-details', [
-            'title' => 'Orders'
-        ]);
-    }
+        $title = 'Order Details';
+        $order = Transaction::with(['user', 'details.product'])->findOrFail($id);
 
+        return view('admin.order-details', compact('title', 'order'));
+    }
 
     public function show_product(Request $request)
     {
@@ -298,7 +292,7 @@ class StoreController extends Controller
     public function show_edit_product($id)
     {
         $title = 'Product';
-        $product = Product::with('categories')->findOrFail($id); 
+        $product = Product::with('categories')->findOrFail($id);
         $categories = Category::all();
 
         return view('admin.edit-product', compact('title', 'product', 'categories'));
@@ -316,10 +310,8 @@ class StoreController extends Controller
 
         // Eager load the related products
         $categories = Category::with('products')->get();
-        $categoryCount = Category::count(); 
-        
 
-        return view('admin.category', compact('title', 'categories', 'categoryCount'));
+        return view('admin.category', compact('title', 'categories'));
         
         }
     }

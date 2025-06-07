@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-center header-content gap-3">
         <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
             <div>
-                <h4 class="brand-text mb-0">AMETHYSHELF</h4>
+                <a href="home" style="text-decoration:none;"><h4 class="brand-text mb-0">AMETHYSHELF</h4></a>
                 <div class="brand-subtitle">ISB's Largest Bookstore</div>
             </div>
             <form action="{{ route('search.redirect') }}" method="GET" class="search-wrapper" style="flex:1;">
@@ -63,17 +63,18 @@
                                         <a class="dropdown-item" href="{{ route('products.show', ['category' => $category->id]) }}">
                                             {{ $category->name }}
                                         </a> --}}
-                                        {{-- @foreach ($categories as $category)
+                                    {{-- @foreach ($categories as $category)
                                             <li><a class="dropdown-item" href="#">{{ $category->categories_name }}</a></li>
                                         @endforeach --}}
                                     {{-- </li>
                                     @endforeach --}}
-                                    @foreach($categories as $category)
+                                    @foreach ($categories as $category)
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('products.showByCategory', $category->id) }}">{{ $category->categories_name }}</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('products.showByCategory', $category->id) }}">{{ $category->categories_name }}</a>
                                         </li>
                                     @endforeach
-{{-- 
+                                    {{-- 
                                     @foreach ($categories as $category)
                                         <li>
                                             <a class="dropdown-item" href="{{ route('product.showByCategory', ['category' => $category->id]) }}">
@@ -101,7 +102,28 @@
                                     style="gap:4px;">
                                     <div style="position: relative; display: inline-block;">
                                         <i class="fas fa-shopping-cart"></i>
-                                        <span>1</span>
+                                        @php
+                                            use App\Models\Cart;
+                                            use App\Models\CartDetail;
+                                            $cartId =
+                                                // nanti auth()->id()
+                                                optional(
+                                                    Cart::where('users_id', 2)
+                                                        ->where('carts_status_del', false)
+                                                        ->latest()
+                                                        ->first(),
+                                                )?->carts_id;
+                                            $cartCount = 0;
+                                            if ($cartId) {
+                                                $cartCount = CartDetail::where('carts_id', $cartId)
+                                                    ->where('cart_details_status_del', false)
+                                                    ->count();
+                                            }
+                                        @endphp
+
+                                        @if ($cartCount > 0)
+                                            <span class="cart-count">{{ $cartCount }}</span>
+                                        @endif
                                     </div>
                                     My Cart
                                 </a>

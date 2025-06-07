@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Product;
+use App\Models\CartDetail;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WishlistController extends Controller
 {
@@ -30,40 +35,70 @@ class WishlistController extends Controller
 
     public function remove($index)
     {
-    $wishlist = session()->get('wishlist', []);
+        $wishlist = session()->get('wishlist', []);
 
-    if (isset($wishlist[$index])) {
-        unset($wishlist[$index]);
-        // Reindex array supaya key-nya rapi
-        $wishlist = array_values($wishlist);
-        session(['wishlist' => $wishlist]);
-    }
+        if (isset($wishlist[$index])) {
+            unset($wishlist[$index]);
+            // Reindex array supaya key-nya rapi
+            $wishlist = array_values($wishlist);
+            session(['wishlist' => $wishlist]);
+        }
 
-    return redirect()->route('wishlist.index')->with('success', 'Produk dihapus dari wishlist!');
+        return redirect()->route('wishlist.index')->with('success', 'Produk dihapus dari wishlist!');
     }
 
     public function moveToCart($index)
     {
-    $wishlist = session()->get('wishlist', []);
-    $cart = session()->get('cart', []);
+        $wishlist = session()->get('wishlist', []);
 
-    if (isset($wishlist[$index])) {
+        if (!isset($wishlist[$index])) {
+            return redirect()->route('wishlist.index')->with('error', 'Item tidak ditemukan di wishlist.');
+        }
+
         $item = $wishlist[$index];
 
-        // Tambahkan quantity saat masuk ke cart
-        $cart[] = [
-            'title' => $item['title'],
-            'author' => $item['author'],
-            'price' => $item['price'],
-            'image' => $item['image'],
-            'quantity' => 1,
-        ];
+        // Cari product_id berdasarkan title, atau kamu bisa kirim product_id juga dari frontend
+        $product = Product::where('products_title', $item['title'])->first();
 
-        session(['cart' => $cart]);
+        if (!$product) {
+            return redirect()->route('wishlist.index')->with('error', 'Produk tidak ditemukan di database.');
+        }
+
+        // Simpan ke tabel cart di database
+
+        $cart = Cart::firstOrCreate(
+            [
+                'users_id' => 2,
+                'carts_status_del' => false
+            ],
+            ['carts_id' => strtoupper(Str::random(16))]
+        );
+
+        $detail =CartDetail::where('carts_id', $cart->carts_id)
+            ->where('products_id', $product->id)
+            ->where('cart_details_status_del', false)
+            ->first();
+
+        if ($detail) {
+            $detail->increment('cart_details_amount');
+        } else {
+            CartDetail::create([
+                'carts_id' => $cart->carts_id,
+                'products_id' => $product->id,
+                'cart_details_price' => $product->products_price,
+                'cart_details_amount' => 1,
+                'cart_details_status_del' => false,
+            ]);
+        }
+
+        // Hapus item dari session wishlist
+        unset($wishlist[$index]);
+        $wishlist = array_values($wishlist);
+        session(['wishlist' => $wishlist]);
+
+        return redirect()->route('wishlist.index')->with('success', 'Item berhasil ditambahkan ke cart!');
     }
 
-    return redirect()->route('wishlist.index')->with('success', 'Item berhasil ditambahkan ke cart!');
-    }
 
     public function toggle(Request $request)
     {

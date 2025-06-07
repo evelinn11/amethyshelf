@@ -30,7 +30,7 @@ Route::get('/search-redirect', [ProductController::class, 'redirectToProductDeta
 
 // ini cart, wishlist, payment, checkout
 
-Route::get('/home', [HomeController::class, 'show'])->name('home.show');
+Route::get('/home', [HomeController::class, 'index'])->name('home.show');
 
 // Halaman utama diarahkan ke daftar produk
 Route::get('/products', [ProductController::class, 'show'])->name('products.show');
@@ -48,7 +48,7 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'add'])->name('cart.add');
 
 // Remove dari cart
-Route::post('/cart/remove/{index}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
 // Menambah quantity di cart
 Route::put('/cart/update/{index}', [CartController::class, 'update'])->name('cart.update');
@@ -80,8 +80,12 @@ Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wi
 // Checkout
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
-Route::get('/payment/status', [PaymentController::class, 'checkStatus'])->name('payment.status');
-Route::get('/payment/return', [PaymentController::class, 'handleReturn'])->name('payment.return');
+Route::get('/payment/return/{transactions}', [PaymentController::class, 'handleReturn'])->name('payment.return');
+
+Route::get('/payment/status/{transactions}', [PaymentController::class, 'checkStatus'])->name('payment.status');
+
+Route::post('/transactions/{transaction}/cancel', [PaymentController::class, 'cancelTransaction'])
+    ->name('transactions.cancel');
 
 // sementara, loginnya error soalnya
 Route::get('/login', function () {
@@ -129,7 +133,7 @@ Route::get('/edit-category', [StoreController::class, 'show_edit_category'])
 Route::get('/admin-orders', [StoreController::class, 'show_orders'])
 ->name('admin-orders');
 
-Route::get('/admin-order-details', [StoreController::class, 'show_order_details'])
+Route::get('/admin-order-details/{id}', [StoreController::class, 'show_order_details'])
 ->name('admin-order-details');
 
 Route::middleware('guest')->group(function () {

@@ -1,57 +1,178 @@
 @extends('user.base.base')
 
 @push('styles')
-  <link rel="stylesheet" href="{{ asset('css/user/payment.css') }}">
+    <style>
+        body {
+            background-color: #f8f3ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .status-card {
+            max-width: 480px;
+            margin: 5rem auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(97, 67, 157, 0.15);
+            padding: 2.5rem 3rem;
+            text-align: center;
+        }
+
+        .status-title {
+            color: #3C1361;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-label {
+            font-weight: 600;
+            color: #555;
+            margin-top: 1.2rem;
+        }
+
+        .status-value {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #3C1361;
+            margin-bottom: 0.7rem;
+        }
+
+        .status-paid {
+            color: #28a745;
+            /* Hijau untuk Paid/Completed */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-pending {
+            color: #ffc107;
+            /* Kuning */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-cancelled {
+            color: #dc3545;
+            /* Merah */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-expired {
+            color: #6c757d;
+            /* Abu-abu */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-unknown {
+            color: #343a40;
+            /* Hitam keabu-abuan */
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .status-note {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+
+        .button-purple {
+            margin-top: 1rem;
+            background-color: #3C1361;
+            border: 1px solid #3C1361;
+            padding: 0.6rem 2.2rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button-purple:hover {
+            background-color: #5936a2;
+            border-color: #5936a2;
+            color: white;
+        }
+
+        .text-purple {
+            color: #3C1361;
+        }
+
+        .button-red {
+            margin-top: 1rem;
+            background-color: #dc3545;
+            border: 1px solid #dc3545;
+            padding: 0.4rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button-red:hover {
+            background-color: #bb2d3b;
+            border-color: #bb2d3b;
+            color: white;
+        }
+    </style>
 @endpush
 
 @section('content')
-<div class="container mt-5">
-    <h2>Status Pembayaran</h2>
+    <div class="status-card">
+        <h2 class="status-title">Payment Status</h2>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-
-    <div class="card p-4 mt-3">
-        <p><strong>Invoice Number:</strong> {{ $order->invoice_number ?? 'N/A' }}</p>
-        <p><strong>Status:</strong> 
-            @if(isset($order->status))
-                @switch($order->status)
-                    @case('paid')
-                        <span class="text-success">Lunas</span>
-                        @break
-                    @case('pending')
-                        <span class="text-warning">Menunggu Pembayaran</span>
-                        @break
-                    @case('expired')
-                        <span class="text-danger">Kadaluarsa</span>
-                        @break
-                    @case('cancelled')
-                        <span class="text-danger">Dibatalkan</span>
-                        @break
-                    @default
-                        <span>{{ $order->status }}</span>
-                @endswitch
-            @else
-                Tidak ada status pembayaran.
-            @endif
-        </p>
-
-        @if(isset($status_message))
-            <div class="alert alert-info">{{ $status_message }}</div>
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <a href="{{ route('cart.index') }}" class="btn btn-primary mt-3">Kembali ke Keranjang</a>
-    </div>
-</div>
+        <div>
+            <div class="status-label">Invoice Number:</div>
+            <div class="status-value">{{ $transactions->invoice_number }}</div>
+        </div>
 
-<style>
-    .text-success { color: green; font-weight: 600; }
-    .text-warning { color: orange; font-weight: 600; }
-    .text-danger { color: red; font-weight: 600; }
-</style>
+        <div>
+            <div class="status-label">Total Amount:</div>
+            <div class="status-value">Rp{{ number_format($transactions->total_amount) }}</div>
+        </div>
+
+        <div>
+            <div class="status-label">Payment Status:</div>
+            @php
+                $statusClass = match ($transactions->order_status) {
+                    'completed', 'paid' => 'status-paid',
+                    'pending' => 'status-pending',
+                    'cancelled' => 'status-cancelled',
+                    'expired' => 'status-expired',
+                    default => 'status-unknown',
+                };
+            @endphp
+
+            <div class="{{ $statusClass }}">{{ ucfirst($transactions->order_status) }}</div>
+
+        </div>
+
+        <div class="status-note">{{ $status_message }}</div>
+
+        <a href="{{ route('payment.status', $transactions->id) }}" class="button-purple">Check Status Again</a>
+        <a href="{{ route('orders.show') }}" class="button-purple">View My Orders</a>
+        @if ($transactions->order_status === 'pending' && $transactions->payment_method !== 'Akulaku' && $transactions->payment_method !== 'Convenience Store')
+            <form action="{{ route('transactions.cancel', $transactions->id) }}" method="POST"
+                style="display:block;" onsubmit="return confirm('Are you sure to cancel this transaction?');">
+                @csrf
+                <button class="button-red" type="submit">Cancel Order</button>
+            </form>
+        @endif
+
+    </div>
 @endsection

@@ -58,72 +58,16 @@
         <button class="scroll-btn left" aria-label="Scroll Left">&#10094;</button>
 
         <div class="scroll-container ms-4 me-4 py-5 px-5">
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-graduation-cap"></i></div>
-                    <div class="label">Academics</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-palette"></i></div>
-                    <div class="label">Art and Photography</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-user"></i></div>
-                    <div class="label">Biography</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-briefcase"></i></div>
-                    <div class="label">Business</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-book"></i></div>
-                    <div class="label">Comic</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-laugh"></i></div>
-                    <div class="label">Comedy</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-landmark"></i></div>
-                    <div class="label">History</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-book"></i></div>
-                    <div class="label">Novel</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-rocket"></i></div>
-                    <div class="label">Science Fiction</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-heart"></i></div>
-                    <div class="label">Romance</div>
-                </div>
-            </a>
-            <a href="{{ route('products.show') }}">
-                <div class="card">
-                    <div class="icon"><i class="fas fa-user-graduate"></i></div>
-                    <div class="label">Self Help</div>
-                </div>
-            </a>
+            @foreach ($categories as $category)
+                <a href="{{ route('products.showByCategory', $category->id) }}">
+                    <div class="card">
+                        <div class="icon">
+                            <i class="fas {{ $iconMap[$category->categories_name] ?? 'fa-book' }}"></i>
+                        </div>
+                        <div class="label">{{ $category->categories_name }}</div>
+                    </div>
+                </a>
+            @endforeach
         </div>
 
         <button class="scroll-btn right" aria-label="Scroll Right">&#10095;</button>

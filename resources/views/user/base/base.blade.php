@@ -21,12 +21,16 @@
     @stack('styles')
 </head>
 
-<body>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+
     @include('user.include.header')
-    <div class="container-fluid" style="background-image: url('{{ asset('images/bg-bookshelf.jpg') }}'); background-repeat: repeat; background-size: auto; min-width:100%; margin-top:160px;">
+
+    <main style="flex: 1; background-image: url('{{ asset('images/bg-bookshelf.jpg') }}'); background-repeat: repeat; background-size: auto; min-width: 100%; margin-top: 150px;">
         @yield('content')
-    </div>
+    </main>
+
     @include('user.include.footer')
+
 </body>
 
 </html>

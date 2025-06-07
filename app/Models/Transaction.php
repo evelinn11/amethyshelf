@@ -8,7 +8,8 @@ class Transaction extends Model
 {
     //
     protected $fillable = [
-        'user_id',
+        'users_id',
+        'invoice_number',
         'payment_method',
         'total_amount',
         'order_status',

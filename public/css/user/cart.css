@@ -2,6 +2,19 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield;
+}
+
+
 h3 {
     color: #3c1361;
     font-weight: 700;
@@ -37,6 +50,22 @@ h3 {
 .cart-table img {
     border-radius: 6px;
     object-fit: cover;
+}
+
+.btn-purple {
+    background-color: #3C1361;
+    border-color: #3C1361;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-purple:hover {
+    background-color: #7a49ff;
+    color: white;
 }
 
 .text-remove {

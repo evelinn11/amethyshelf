@@ -17,7 +17,7 @@ class TransactionSeeder extends Seeder
         DB::table('transactions')->insert([
             [
                 'users_id' => 2,
-                'payment_method' => 'qris',
+                'payment_method' => 'QRIS',
                 'total_amount' => 150000.00,
                 'order_status' => 'completed',
                 'payment_url' => null,                
@@ -26,7 +26,7 @@ class TransactionSeeder extends Seeder
             ],
             [
                 'users_id' => 2,
-                'payment_method' => 'BCA VA',
+                'payment_method' => 'Bank Transfer',
                 'total_amount' => 199000.00,
                 'order_status' => 'completed',
                 'payment_url' => null,                
