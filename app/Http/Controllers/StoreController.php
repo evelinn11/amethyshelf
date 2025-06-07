@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Transaction;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,10 +28,30 @@ class StoreController extends Controller
     }
     public function show_dash()
     {
-        return view('admin.dashboard', [
-            'title' => 'Dashboard'
-        ]);
-    }
+        $totalSales = DB::table('transactions')->sum('total_amount');
+        $totalOrders = DB::table('transactions')->count();
+
+        $totalActiveOrders = DB::table('transactions')
+            ->whereIn('order_status', ['pending', 'processing'])
+            ->count();
+
+        $totalCompletedOrders = DB::table('transactions')
+            ->where('order_status', 'completed')
+            ->count();
+
+        $recentOrders = Transaction::with(['details', 'user'])
+        ->withSum('details', 'quantity')
+        ->orderBy('created_at', 'desc')
+        ->limit(8)
+        ->get();
+
+            return view('admin.dashboard', compact('totalOrders',
+                'totalSales', 
+                'totalCompletedOrders', 
+                'totalActiveOrders',  'recentOrders'),[
+                'title' => 'Dashboard'
+            ]);
+        }
 
     public function show_add_product()
     {
@@ -198,10 +219,15 @@ class StoreController extends Controller
             ];
         });
 
+        $categories = Category::with('products')->get();
+        $categoryCount = Category::count(); 
+
        return view('admin.category-books', [
         'books' => $books,
         'categoryName' => $category->categories_name,
-        'title' => $title
+        'title' => $title,
+        'categoryCount' => $categoryCount,
+        'categories'=>$categories
     ]);
     }
 
@@ -290,8 +316,10 @@ class StoreController extends Controller
 
         // Eager load the related products
         $categories = Category::with('products')->get();
+        $categoryCount = Category::count(); 
+        
 
-        return view('admin.category', compact('title', 'categories'));
+        return view('admin.category', compact('title', 'categories', 'categoryCount'));
         
         }
     }

@@ -29,7 +29,7 @@
 
 @media (max-width: 768px) {
     .admin-header {
-        position: fixed;
+        /* position: fixed; */
         top: 60px;
         left: 0;
         right: 0;

@@ -1,4 +1,5 @@
 @extends('admin.base.base')
+
 <head>
     <meta charset="UTF-8" />
     <title>Amethyshelf Admin - Categories</title>
@@ -17,9 +18,18 @@
             <input type="text" placeholder="Search by ID or name" />
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
-        <a href="{{ route("add-category") }}"><button class="add-btn">
-        <i class="fa-solid fa-plus"></i> Add New Category
-      </button></a>
+
+        @if ($categoryCount < 20)
+            <a href="{{ route('add-category') }}">
+                <button class="add-btn">
+                    <i class="fa-solid fa-plus"></i> Add New Category
+                </button>
+            </a>
+        @else
+            <button class="add-btn" disabled style="background-color: grey; cursor: not-allowed;">
+                <i class="fa-solid fa-ban"></i> Max 20 Categories
+            </button>
+        @endif
     </div>
 
     <div class="table-container-product"> 
@@ -54,7 +64,6 @@
 </div>
 
 <style>
-    /* Use the same style as product page */
     .dashboard-container {
         padding: 20px 20px;
         background-color: #f9f9f9;
@@ -110,20 +119,14 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        display: inline-flex;
+    }
+
+    .add-btn:hover:enabled {
+        background-color: #996bfa;
     }
 
     .search-add > a {
         text-decoration: none;
-        display: inline-block; /* or block, so it contains button nicely */
-    }
-
-    .add-btn:hover {
-        background-color: #996bfa;
-    }
-
-    .add-btn i {
-        font-size: 14px;
     }
 
     .table-container-product {
@@ -198,5 +201,4 @@
         }
     }
 </style>
-
 @endsection
