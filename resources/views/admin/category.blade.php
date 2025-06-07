@@ -49,10 +49,10 @@
                     <td>{{ $cat->categories_name }}</td>
                     <td>{{ $cat->products->count() }}</td>
                     <td>
-                        <a href="{{ route('edit-category') }}" class="edit">
+                        <a href="{{ route('edit-category', $cat->id) }}" class="edit">
                             <i class="fa-solid fa-pen"></i> Edit
                         </a>
-                        <a href="{{ route('category', ['delete_id' => $cat['id']]) }}" onclick="return confirm('Yakin ingin menghapus?')" class="delete">
+                        <a href="{{ route('delete-category', $cat->id) }}" onclick="return confirm('Yakin ingin menghapus?')" class="delete">
                             <i class="fa-solid fa-trash"></i> Delete
                         </a>
                     </td>
@@ -152,7 +152,7 @@
         padding: 8px 19px;
         text-align: left;
         border-bottom: 1px solid #eee;
-        font-size: 14px;
+        font-size: 13px;
         color: #333;
     }
 

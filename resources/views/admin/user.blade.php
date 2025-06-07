@@ -1,48 +1,65 @@
 @extends('admin.base.base')
-<head>
-    <meta charset="UTF-8" />
-    <title>Amethyshelf Admin - Category Books</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
 
 @section('content')
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3 shadow-lg z-3" role="alert" style="min-width: 300px;">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+
 <div class="dashboard-container">
     <div class="dashboard-header">
-        <h2>Books in “{{ $categoryName }}”</h2>
+        <h2>User List</h2>
     </div>
 
     <div class="search-add">
         <div class="search-bar">
-            <input type="text" placeholder="Search by ID or title or author" />
+            <input type="text" placeholder="Search by ID or name" />
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
-        <div class="form-buttons">
-            <button class="add-btn back">
-                <a href="{{ route('category') }}">Back</a>
+
+        <a href="{{ route("add-user") }}">
+            <button class="add-btn">
+                <i class="fa-solid fa-plus"></i> Add New User
             </button>
-        </div>
+        </a>
     </div>
 
-    <div class="table-container-product">
+    <div class="table-container-product"> 
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Price</th>
-                    <th>Stock</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-             <tbody>
-                @foreach ($books as $book)
+            <tbody>
+                @foreach ($users as $user)
                 <tr>
-                    <td>{{ $book['id'] }}</td>
-                    <td><div class="truncate-text">{{ $book['title'] }}</div></td>
-                    <td><div class="truncate-text">{{ $book['author'] }}</div></td>
-                    <td>Rp. {{ number_format($book['price'], 0, ',', '.') }}</td>
-                    <td>{{ $book['stock'] }}</td>
+                    <td>{{ $user->id }}</td>
+                    <td class="truncate-text">{{ $user->name }}</td>
+                    <td>{{ $user->role }}</td>
+                    <td class="truncate-text">{{ $user->address }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone_number }}</td>
+                    <td>
+                        <a href="{{ route('edit-user', $user->id) }}" class="edit">
+                            <i class="fa-solid fa-pen"></i> Edit
+                        </a>
+                        <form action="{{ route('delete-user', $user->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Yakin ingin menghapus?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete" style="background:none; border:none; padding:0; cursor:pointer; color:red;">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -52,9 +69,19 @@
 
 <style>
     .dashboard-container {
-        padding: 20px;
+        padding: 20px 20px;
         background-color: #f9f9f9;
         min-height: 100vh;
+    }
+
+    .truncate-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px; /* adjust to your preferred width */
+        display: inline-block;
+        vertical-align: middle;
+        cursor: default; /* so the cursor looks normal */
     }
 
     .dashboard-header h2 {
@@ -106,20 +133,14 @@
         display: flex;
         align-items: center;
         gap: 6px;
+    }
+
+    .add-btn:hover:enabled {
+        background-color: #996bfa;
+    }
+
+    .search-add > a {
         text-decoration: none;
-    }
-
-    .add-btn.back {
-        background-color: #999;
-    }
-
-    .add-btn.back a {
-        color: white;
-        text-decoration: none;
-    }
-
-    .add-btn.back:hover a {
-        color: black;
     }
 
     .table-container-product {
@@ -145,8 +166,29 @@
         padding: 8px 19px;
         text-align: left;
         border-bottom: 1px solid #eee;
-        font-size: 14px;
+        font-size: 13px;
         color: #333;
+    }
+
+    .edit {
+        color: #007bff;
+        margin-right: 10px;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .edit i {
+        margin-right: 4px;
+    }
+
+    .delete {
+        color: red;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .delete i {
+        margin-right: 4px;
     }
 
     @media (max-width: 768px) {
