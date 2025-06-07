@@ -17,19 +17,19 @@
     <div class="stats-cards">
         <div class="card">
             <h3>Total Sales</h3>
-            <p class="card-value">Rp. 1000.000.000</p>
+            <p class="card-value">Rp. {{ number_format($totalSales, 2, ',', '.') }}</p>
         </div>
         <div class="card">
             <h3>Total Orders</h3>
-            <p class="card-value">1000000</p>
+            <p class="card-value">{{ $totalOrders }}</p>
         </div>
         <div class="card">
-            <h3>Total Active Orders</h3>
-            <p class="card-value">100</p>
+            <h3>Active Orders</h3>
+            <p class="card-value">{{ $totalActiveOrders }}</p>
         </div>
         <div class="card">
-            <h3>Total Orders</h3>
-            <p class="card-value">1000</p>
+            <h3>Completed Orders</h3>
+            <p class="card-value">{{ $totalCompletedOrders }}</p>
         </div>
     </div>
 
@@ -52,63 +52,30 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>10/5/25</td>
-                    <td>T20250401001</td>
-                    <td>Budi Setiawan</td>
-                    <td>4</td>
-                    <td>Rp. 400.000</td>
-                    <td><span class="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                    <td>10/5/25</td>
-                    <td>T20250401001</td>
-                    <td>Budi Setiawan</td>
-                    <td>4</td>
-                    <td>Rp. 400.000</td>
-                    <td><span class="status completed">Completed</span></td>
-                </tr>
-                <tr>
-                    <td>10/5/25</td>
-                    <td>T20250401001</td>
-                    <td>Budi Setiawan</td>
-                    <td>4</td>
-                    <td>Rp. 400.000</td>
-                    <td><span class="status cancelled">Cancelled</span></td>
-                </tr>
-                <tr>
-                    <td>10/5/25</td>
-                    <td>T20250401001</td>
-                    <td>Budi Setiawan</td>
-                    <td>4</td>
-                    <td>Rp. 400.000</td>
-                    <td><span class="status cancelled">Cancelled</span></td>
-                </tr>
-                <tr>
-                    <td>10/5/25</td>
-                    <td>T20250401001</td>
-                    <td>Budi Setiawan</td>
-                    <td>4</td>
-                    <td>Rp. 400.000</td>
-                    <td><span class="status cancelled">Cancelled</span></td>
-                </tr>
-                <tr>
-                    <td>10/5/25</td>
-                    <td>T20250401001</td>
-                    <td>Budi Setiawan</td>
-                    <td>4</td>
-                    <td>Rp. 400.000</td>
-                    <td><span class="status cancelled">Cancelled</span></td>
-                </tr>
-                <tr>
-                    <td>10/5/25</td>
-                    <td>T20250401001</td>
-                    <td>Budi Setiawan</td>
-                    <td>4</td>
-                    <td>Rp. 400.000</td>
-                    <td><span class="status cancelled">Cancelled</span></td>
-                </tr>
+                @foreach ($recentOrders as $order)
+                    <tr>
+                        <td>{{ $order->created_at->format('d/m/y') }}</td>
+                        <td>{{ $order->invoice_number }}</td>
+                        <td>{{ $order->user->name ?? 'Unknown' }}</td>
+                        <td>{{ $order->details_sum_quantity ?? 0 }}</td>
+                        <td>Rp. {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                        <td>
+                            @php
+                                $statusClass = match(strtolower($order->order_status)) {
+                                    'pending' => 'pending',
+                                    'completed' => 'completed',
+                                    'cancelled' => 'cancelled',
+                                    default => '',
+                                };
+                            @endphp
+                            <span class="status {{ $statusClass }}">
+                                {{ ucfirst($order->order_status) }}
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
+
         </table>
     </div>
     </div>

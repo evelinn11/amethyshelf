@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Transaction;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
@@ -28,16 +31,101 @@ class StoreController extends Controller
     }
     public function show_dash()
     {
-        return view('admin.dashboard', [
-            'title' => 'Dashboard'
-        ]);
-    }
+        $totalSales = DB::table('transactions')->sum('total_amount');
+        $totalOrders = DB::table('transactions')->count();
+
+        $totalActiveOrders = DB::table('transactions')
+            ->whereIn('order_status', ['pending', 'processing'])
+            ->count();
+
+        $totalCompletedOrders = DB::table('transactions')
+            ->where('order_status', 'completed')
+            ->count();
+
+        $recentOrders = Transaction::with(['details', 'user'])
+        ->withSum('details', 'quantity')
+        ->orderBy('created_at', 'desc')
+        ->limit(8)
+        ->get();
+
+            return view('admin.dashboard', compact('totalOrders',
+                'totalSales', 
+                'totalCompletedOrders', 
+                'totalActiveOrders',  'recentOrders'),[
+                'title' => 'Dashboard'
+            ]);
+        }
 
     public function show_add_product()
     {
         return view('admin.add-product', [
             'title' => 'Add Product'
         ]);
+    }
+
+    public function show_add_user_post(Request $request)
+    {
+            $validated = $request->validate([
+            'name' => 'required|string|max:50',
+            'email' => 'required|email|max:100|unique:users,email',
+            'password' => 'required|string|min:6',
+            'phone' => 'required|digits_between:8,15',
+            'address' => 'required|string|max:150',
+            'role' => 'required|in:admin,staff',
+        ]);
+
+        try {
+            $roleChar = $request->role === 'admin' ? 'A' : 'U';
+
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone_number' => $request->phone,
+                'address' => $request->address,
+                'role' => $roleChar,
+                'status_del' => 0,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('User insert failed: '.$e->getMessage());
+            return redirect()->back()->withErrors('Insert failed: '.$e->getMessage());
+        }
+
+        return redirect()->route('user')->with('success', 'User successfully added!');
+    }
+
+    public function show_edit_user_post(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone_number' => 'required|numeric',
+            'address' => 'required',
+            'role' => 'required',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+        $user->role = $request->role;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('user')->with('success', 'User updated successfully.');
+    }
+
+    public function delete_user($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('user')->with('success', 'User deleted successfully!');
     }
 
     public function show_add_product_post(Request $request)
@@ -180,48 +268,57 @@ class StoreController extends Controller
         return view('user.home', []);
     }
 
-    public function show_category_books($categoryId)
-    {
-        $category = Category::with('products')->find($categoryId);
-        $title = "Category";
-
-        if (!$category) {
-            return redirect()->route('category')->with('error', 'Category not found.');
-        }
-
-        $books = $category->products->map(function ($book) {
-            return [
-                'id' => $book->id,
-                'title' => $book->products_title,
-                'author' => $book->products_author_name,
-                'price' => $book->products_price,
-                'stock' => $book->products_stock,
-            ];
-        });
-
-        return view('admin.category-books', [
-            'books' => $books,
-            'categoryName' => $category->categories_name,
-            'title' => $title
-        ]);
-    }
-
+    
     public function show_add_category()
     {
         return view('admin.add-cat', [
             'title' => 'Category'
         ]);
     }
-    public function show_edit_category()
+
+    public function show_add_category_post(Request $request)
+    {
+        $request->validate([
+        'categories_name' => 'required|max:35|unique:categories,categories_name',
+        'categories_description' => 'required',
+        ]);
+
+        Category::create([
+            'categories_name' => $request->categories_name,
+            'categories_description' => $request->categories_description,
+        ]);
+
+        return redirect()->route('category')->with('success', 'Category added successfully.');
+    }
+
+    public function show_edit_category($id)
     {
         $title = "Category";
-        $category = [
-            'name' => 'Art & Photography',
-            'description' => 'A collection of books that explore creative visual arts, techniques, and the art of photography, inspiring artists and photographers of all levels.'
-        ];
+        $category = Category::findOrFail($id);
+        $categories = Category::all(); // get all categories
 
-        return view('admin.edit-cat', compact('category', 'title'));
+        return view('admin.edit-cat', compact('category', 'title', 'categories'));
     }
+
+    public function show_edit_category_post(Request $request, $id)
+    {
+       // Validasi input
+        $request->validate([
+            'name' => 'required|string|max:35',
+            'description' => 'required|string',
+        ]);
+
+        $category = Category::findOrFail($id);
+
+        // Update data
+        $category->name = $request->input('name');
+        $category->description = $request->input('description');
+        $category->save();
+
+        // Redirect kembali ke halaman kategori dengan flash message sukses
+        return redirect()->route('category')->with('success', 'Category updated successfully!');
+    }
+
 
     public function show_orders()
     {
@@ -278,6 +375,31 @@ class StoreController extends Controller
         return view('admin.edit-product', compact('title', 'product', 'categories'));
     }
 
+    public function show_user()
+    {
+        $title = 'User';
+        $users = DB::table('users')
+        ->where('status_del', 0)
+        ->get();
+
+        return view('admin.user', compact('title', 'users'));
+    }
+
+    public function show_add_user()
+    {
+        $title = 'User';
+
+        return view('admin.add-user', compact('title'));
+    }
+
+    public function show_edit_user($id)
+    {
+        $title = 'User';
+        $user = User::findOrFail($id);
+
+        return view('admin.edit-user', compact('title', 'user'));
+    }
+
     public function show_category(Request $request)
     {
         $title = 'Category';
@@ -290,7 +412,13 @@ class StoreController extends Controller
 
         // Eager load the related products
         $categories = Category::with('products')->get();
+        $categoryCount = Category::count(); //
 
-        return view('admin.category', compact('title', 'categories'));
+        return view('admin.category', compact('title', 'categories','categoryCount'));
+        
+        }
     }
-}
+
+    
+
+

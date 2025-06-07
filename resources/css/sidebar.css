@@ -14,11 +14,12 @@ html {
 
 .sidebar {
     width: 250px;
-    height: 100vh;
     background-color: #4b2e83;
     color: white;
     position: fixed;
     padding: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .sidebar-title {

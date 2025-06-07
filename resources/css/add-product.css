@@ -25,7 +25,7 @@ body {
 .photo-slot,
 .photo-upload > div:not(.photo-slot) {
     /* photo-slot and previews */
-    flex: 0 0 auto; /* prevent shrinking */
+    /* flex: 0 0 auto; prevent shrinking */
     width: 100px; /* fixed width */
     height: 140px; /* fixed height */
     display: flex;
