@@ -3,22 +3,25 @@
     <div class="d-flex justify-content-between align-items-center header-content gap-3">
         <div class="d-flex align-items-center gap-3 flex-grow-1" style="min-width: 0;">
             <div>
-                <a href="home" style="text-decoration:none;"><h4 class="brand-text mb-0">AMETHYSHELF</h4></a>
+                <a href="home" style="text-decoration:none;">
+                    <h4 class="brand-text mb-0">AMETHYSHELF</h4>
+                </a>
                 <div class="brand-subtitle">ISB's Largest Bookstore</div>
             </div>
             <form action="{{ route('search.redirect') }}" method="GET" class="search-wrapper" style="flex:1;">
                 <i class="fas fa-search"></i>
-                <input type="text" name="q" class="form-control" placeholder="Cari Produk" required>
+                <input type="text" name="q" class="form-control" placeholder="Search Product" required>
             </form>
 
         </div>
         <div class="text-white d-flex align-items-center me-5">
             <li class="nav-item dropdown hover-dropdown" style="list-style: none;">
-                <a class="nav-link dropdown-toggle" href="#" role="button">
-                    {{ explode(' ', Auth::user()->name)[0] }} <i class="fas fa-user ms-2"></i>
-                </a>
-                <ul class="dropdown-menu" style="min-width:120px; height:90px;">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                @auth
+                    <a class="nav-link dropdown-toggle" href="#" role="button">
+                        {{ explode(' ', Auth::user()->name)[0] }} <i class="fas fa-user ms-2"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="min-width:120px; height:90px;">
+                    <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
                     <li>
                         <form id="logout-form" action="{{ route('signout') }}" method="POST" style="display: none;">
                             @csrf
@@ -30,6 +33,13 @@
                     </li>
 
                 </ul>
+                @endauth
+
+                @guest
+                    <a class="nav-link" href="{{ route('signin.show') }}">
+                        Login <i class="fas fa-sign-in-alt ms-2"></i>
+                    </a>
+                @endguest
             </li>
         </div>
 
@@ -87,7 +97,7 @@
                             </li>
                             <li class="nav-item mx-3"><a class="nav-link" href="{{ route('orders.show') }}">Order
                                     History</a></li>
-                            <li class="nav-item mx-3"><a class="nav-link" href="#">About Us</a></li>
+                            <li class="nav-item mx-3"><a class="nav-link" href="{{ route('about') }}">About Us</a></li>
                         </ul>
                     </div>
                     <!-- Kanan -->

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -12,15 +13,16 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\AdminSignUpController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Mail;
 
 //coba test kirim email
-Route::get('/test-email', function() {
-    Mail::raw('Ini adalah email test', function($message) {
+Route::get('/test-email', function () {
+    Mail::raw('Ini adalah email test', function ($message) {
         $message->to('tjandravarrel@gmail.com')
-                ->subject('Test Email dari Laravel');
+            ->subject('Test Email dari Laravel');
     });
-    
+
     return 'Email telah dikirim!';
 });
 
@@ -32,6 +34,7 @@ Route::get('/products', [ProductController::class, 'show'])->name('products.show
 Route::get('/produk/detail', [ProductController::class, 'details'])->name('details');
 Route::get('/home', [HomeController::class, 'index'])->name('home.show');
 Route::get('/search-redirect', [ProductController::class, 'redirectToProductDetail'])->name('search.redirect');
+Route::get('/about', [AboutController::class, 'show'])->name('about');
 
 
 // Route auth (login, signup, lupa password)
@@ -46,7 +49,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/forgetpassword', [ForgetPasswordController::class, 'sendVerification'])->name('forgetpassword.send');
 });
 
-Route::post('/signout',[AuthController::class, 'signout'])->name('signout');
+Route::post('/signout', [AuthController::class, 'signout'])->name('signout');
 
 // Route khusus user (role:U) - tidak bisa akses admin
 Route::middleware(['auth', 'role:U'])->group(function () {
@@ -66,6 +69,9 @@ Route::middleware(['auth', 'role:U'])->group(function () {
     Route::get('/payment/return/{transactions}', [PaymentController::class, 'handleReturn'])->name('payment.return');
     Route::get('/payment/status/{transactions}', [PaymentController::class, 'checkStatus'])->name('payment.status');
     Route::post('/transactions/{transaction}/cancel', [PaymentController::class, 'cancelTransaction'])->name('transactions.cancel');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // Route khusus admin bisa akses semua route user + admin
@@ -93,7 +99,7 @@ Route::middleware(['auth', 'role:A'])->group(function () {
     Route::post('/admin/signup', [AdminSignUpController::class, 'signup'])->name('admin.signup.submit');
     Route::post('/add-product-post', [StoreController::class, 'show_add_product_post'])->name('add-product-post');
     Route::post('/edit-product-post', [StoreController::class, 'show_edit_product_post'])->name('edit-product-post');
-    Route::delete('/product/{id}', [StoreController::class, 'destroy'])->name('product.destroy');
+    Route::delete('/delete-product/{id}', [StoreController::class, 'delete_product'])->name('delete-product');
     Route::get('/dashboard', [StoreController::class, 'show_dash'])->name('dashboard');
     Route::get('/add-product', [StoreController::class, 'show_add_product'])->name('add-product');
     Route::get('/product', [StoreController::class, 'show_product'])->name('product');
@@ -105,15 +111,15 @@ Route::middleware(['auth', 'role:A'])->group(function () {
     Route::get('/admin-order-details/{id}', [StoreController::class, 'show_order_details'])->name('admin-order-details');
 
     //celin add
-    Route::get('/user', [StoreController::class, 'show_user'])-> name('user');
-    Route::get('/add-user', [StoreController::class, 'show_add_user'])-> name('add-user');
-    Route::get('/edit-user/{id}', [StoreController::class, 'show_edit_user'])-> name('edit-user');
+    Route::get('/user', [StoreController::class, 'show_user'])->name('user');
+    Route::get('/add-user', [StoreController::class, 'show_add_user'])->name('add-user');
+    Route::get('/edit-user/{id}', [StoreController::class, 'show_edit_user'])->name('edit-user');
     Route::post('/add-user-post', [StoreController::class, 'show_add_user_post'])->name('add-user-post');
     Route::post('/edit-user-post/{id}', [StoreController::class, 'show_edit_user_post'])->name('edit-user-post');
     Route::delete('/delete-user/{id}', [StoreController::class, 'delete_user'])->name('delete-user');
 
     Route::post('/add-category-post', [StoreController::class, 'show_add_category_post'])->name('add-category-post');
     Route::get('/edit-category/{id}', [StoreController::class, 'show_edit_category'])->name('edit-category');
-    Route::get('/edit-category-post/{id}', [StoreController::class, 'show_edit_category_post'])->name('edit-category-post');
-    Route::delete('/delete-category/{id}', [StoreController::class, 'destroy'])->name('delete-category');
+    Route::post('/edit-category-post/{id}', [StoreController::class, 'show_edit_category_post'])->name('edit-category-post');
+    Route::delete('/delete-category/{id}', [StoreController::class, 'delete_category'])->name('delete-category');
 });

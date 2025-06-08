@@ -154,8 +154,6 @@
     <div class="add-cat-form">
         <form action="{{ route('edit-category-post', $category->id) }}" method="POST">
             @csrf
-            @method('PUT')
-
             <div class="form-group">
                 <label for="name">Name</label>
                 <input id="name" type="text" name="name" placeholder="Maximum 35 characters" maxlength="35" required
@@ -164,7 +162,7 @@
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" rows="6" placeholder="Enter the Category's Description" required>{{ old('description', $desc) }}</textarea>
+                <textarea id="description" name="description" rows="6" placeholder="Enter the Category's Description" required>{{ old('description', $category->categories_description) }}</textarea>
             </div>
 
             <div class="form-buttons">

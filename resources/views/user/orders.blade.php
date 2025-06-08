@@ -70,7 +70,7 @@
                                             Pay Now
                                         </a>
                                     @else
-                                        <a href="{{ $order->payment_url }}" target="_blank" style="display: inline-block; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle;">{{ $order->payment_url }}</a>
+                                        <a href="{{ $order->payment_url }}" target="_blank" style="display: inline-block; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; text-decoration:none;">-</a>
                                     @endif
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>

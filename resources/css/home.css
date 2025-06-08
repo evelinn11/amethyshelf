@@ -49,9 +49,11 @@ body::before {
     scrollbar-width: none;
     scroll-snap-type: x mandatory;
 }
+
 .scroll-container::-webkit-scrollbar {
     display: none;
 }
+
 .carousel-indicators button {
     background-color: purple !important;
     opacity: 0.4 !important;
@@ -91,7 +93,8 @@ body::before {
 .card:hover {
     transform: scale(1.1);
     z-index: 10;
-    box-shadow: 0 8px 16px rgba(128, 0, 128, 0.6); /* stronger shadow on hover */
+    box-shadow: 0 8px 16px rgba(128, 0, 128, 0.6);
+    /* stronger shadow on hover */
 }
 
 .icon {
@@ -194,10 +197,11 @@ body::before {
     border-radius: 12px;
     border: 1px solid rgb(168, 167, 167);
     border-width: 1px;
-    width: 140px;
-    padding: 15px;
+    width: 200px;
+    padding: 12px;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+
 }
 
 .book-card:hover {
@@ -206,18 +210,29 @@ body::before {
 
 .book-card img {
     width: 100%;
-    height: auto;
+    height: 250px;
+    /* atur tinggi sesuai kebutuhan */
+    object-fit: cover;
+    /* atau contain, sesuai preferensi */
     border-radius: 8px;
 }
 
 .book-title {
     font-weight: bold;
     margin: 10px 0 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .book-author {
     font-size: 13px;
     color: #555;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .arrows {
@@ -236,4 +251,15 @@ body::before {
     padding: 0;
     box-shadow: none;
     color: black;
+}
+
+@media (max-width: 768px) {
+    .book-card {
+        min-width: 120px;
+        max-width: 120px;
+    }
+
+    .card-img-top {
+        height: 150px;
+    }
 }

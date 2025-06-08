@@ -67,14 +67,33 @@ html {
     cursor: pointer;
     font-size: 16px;
     display: block;
-    margin: 30px auto 0 auto; /* center the button horizontally, with space above */
+    margin: 30px auto 0 auto;
+    /* center the button horizontally, with space above */
     margin-left: 30px;
-    width: auto;
+    width: 150px;
     gap: 6px;
 }
 
+.admin-btn {
+    background-color: white;
+    color: #4b2e83;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 30px auto 0 auto;
+    /* center the button horizontally, with space above */
+    margin-left: 30px;
+    width: 150px;
+    gap: 6px;
+}
+
+
 .logout-icon {
-    font-size: 20px; /* makes the icon a bit bigger */
+    font-size: 20px;
+    /* makes the icon a bit bigger */
 }
 
 .logout-btn:hover {
@@ -123,7 +142,7 @@ html {
         border-radius: 8px;
         padding: 10px 0;
         z-index: 1000;
-        max-height: 300px;
+        max-height: 350px;
     }
 
     .sidebar.active {
@@ -146,6 +165,13 @@ html {
     }
 
     .logout-btn {
+        font-size: 13px;
+        padding: 8px 20px;
+        margin: 10px 20px 0 20px;
+        width: calc(100% - 40px);
+    }
+
+    .admin-btn {
         font-size: 13px;
         padding: 8px 20px;
         margin: 10px 20px 0 20px;

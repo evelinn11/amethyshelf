@@ -896,7 +896,7 @@
                             value="{{ $product->primaryImage->product_images_url }}">
 
                         <button type="submit" class="product-icon" title="Wishlist"
-                            style="background: none; border: none;">
+                            style="background: none; border: none; padding-top:20px">
                             <i class="{{ $inWishlist ? 'fas wishlist wishlist-filled' : 'far fa-heart wishlist' }} fa-heart"
                                 style="color: #ef4444; {{ $inWishlist ? '#e3342f' : '#ffffff' }}; font-size: 1.5rem;"></i>
                         </button>

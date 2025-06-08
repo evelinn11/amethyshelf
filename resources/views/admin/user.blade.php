@@ -27,11 +27,11 @@
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
 
-        <a href="{{ route("add-user") }}">
+        {{-- <a href="{{ route("add-user") }}">
             <button class="add-btn">
                 <i class="fa-solid fa-plus"></i> Add New User
             </button>
-        </a>
+        </a> --}}
     </div>
 
     <div class="table-container-product"> 

@@ -43,18 +43,21 @@ class StoreController extends Controller
             ->count();
 
         $recentOrders = Transaction::with(['details', 'user'])
-        ->withSum('details', 'quantity')
-        ->orderBy('created_at', 'desc')
-        ->limit(8)
-        ->get();
+            ->withSum('details', 'quantity')
+            ->orderBy('created_at', 'desc')
+            ->limit(8)
+            ->get();
 
-            return view('admin.dashboard', compact('totalOrders',
-                'totalSales', 
-                'totalCompletedOrders', 
-                'totalActiveOrders',  'recentOrders'),[
-                'title' => 'Dashboard'
-            ]);
-        }
+        return view('admin.dashboard', compact(
+            'totalOrders',
+            'totalSales',
+            'totalCompletedOrders',
+            'totalActiveOrders',
+            'recentOrders'
+        ), [
+            'title' => 'Dashboard'
+        ]);
+    }
 
     public function show_add_product()
     {
@@ -65,7 +68,7 @@ class StoreController extends Controller
 
     public function show_add_user_post(Request $request)
     {
-            $validated = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:50',
             'email' => 'required|email|max:100|unique:users,email',
             'password' => 'required|string|min:6',
@@ -87,8 +90,8 @@ class StoreController extends Controller
                 'status_del' => 0,
             ]);
         } catch (\Exception $e) {
-            Log::error('User insert failed: '.$e->getMessage());
-            return redirect()->back()->withErrors('Insert failed: '.$e->getMessage());
+            Log::error('User insert failed: ' . $e->getMessage());
+            return redirect()->back()->withErrors('Insert failed: ' . $e->getMessage());
         }
 
         return redirect()->route('user')->with('success', 'User successfully added!');
@@ -126,6 +129,20 @@ class StoreController extends Controller
         $user->delete();
 
         return redirect()->route('user')->with('success', 'User deleted successfully!');
+    }
+
+    public function delete_product($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('product')->with('success', 'Book deleted successfully!');
+    }
+
+    public function delete_category($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->route('category')->with('success', 'Category deleted successfully!');
     }
 
     public function show_add_product_post(Request $request)
@@ -268,7 +285,7 @@ class StoreController extends Controller
         return view('user.home', []);
     }
 
-    
+
     public function show_add_category()
     {
         return view('admin.add-cat', [
@@ -279,8 +296,8 @@ class StoreController extends Controller
     public function show_add_category_post(Request $request)
     {
         $request->validate([
-        'categories_name' => 'required|max:35|unique:categories,categories_name',
-        'categories_description' => 'required',
+            'categories_name' => 'required|max:35|unique:categories,categories_name',
+            'categories_description' => 'required',
         ]);
 
         Category::create([
@@ -302,7 +319,7 @@ class StoreController extends Controller
 
     public function show_edit_category_post(Request $request, $id)
     {
-       // Validasi input
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:35',
             'description' => 'required|string',
@@ -311,8 +328,8 @@ class StoreController extends Controller
         $category = Category::findOrFail($id);
 
         // Update data
-        $category->name = $request->input('name');
-        $category->description = $request->input('description');
+        $category->categories_name = $request->name;
+        $category->categories_description = $request->description;
         $category->save();
 
         // Redirect kembali ke halaman kategori dengan flash message sukses
@@ -324,7 +341,7 @@ class StoreController extends Controller
     {
         $title = 'Orders';
         $orders = Transaction::with('user')->orderBy('created_at', 'desc')->get();
-        $totalOrders= Transaction::count();
+        $totalOrders = Transaction::count();
         $pending = Transaction::where('order_status', 'pending')->count();
         $cancelled = Transaction::where('order_status', 'cancelled')->count();
         $completed = Transaction::where('order_status', 'completed')->count();
@@ -379,8 +396,8 @@ class StoreController extends Controller
     {
         $title = 'User';
         $users = DB::table('users')
-        ->where('status_del', 0)
-        ->get();
+            ->where('status_del', 0)
+            ->get();
 
         return view('admin.user', compact('title', 'users'));
     }
@@ -414,11 +431,6 @@ class StoreController extends Controller
         $categories = Category::with('products')->get();
         $categoryCount = Category::count(); //
 
-        return view('admin.category', compact('title', 'categories','categoryCount'));
-        
-        }
+        return view('admin.category', compact('title', 'categories', 'categoryCount'));
     }
-
-    
-
-
+}

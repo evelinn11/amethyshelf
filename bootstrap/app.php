@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->redirectGuestsTo('/signin');  // pastikan route ini ada dan bernama 'login'
         $middleware->alias([
             'role' => CheckRoleMiddleware::class,
             'auth.custom' => AuthMiddleware::class,

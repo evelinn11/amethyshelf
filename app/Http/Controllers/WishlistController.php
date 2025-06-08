@@ -8,6 +8,7 @@ use App\Models\CartDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
@@ -57,7 +58,6 @@ class WishlistController extends Controller
 
         $item = $wishlist[$index];
 
-        // Cari product_id berdasarkan title, atau kamu bisa kirim product_id juga dari frontend
         $product = Product::where('products_title', $item['title'])->first();
 
         if (!$product) {
@@ -68,7 +68,7 @@ class WishlistController extends Controller
 
         $cart = Cart::firstOrCreate(
             [
-                'users_id' => 2,
+                'users_id' => Auth::id(),
                 'carts_status_del' => false
             ],
             ['carts_id' => strtoupper(Str::random(16))]

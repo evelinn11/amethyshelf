@@ -36,7 +36,7 @@
                     @if ($order->payment_url && $order->order_status == 'pending')
                         <a href="{{ $order->payment_url }}" target="_blank" class="btn btn-sm btn-primary">Pay Now</a>
                     @else
-                        <a href="{{ $order->payment_url }}" target="_blank">{{ $order->payment_url }}</a>
+                        <a href="{{ $order->payment_url }}" target="_blank" style="display: inline-block; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; text-decoration:none;">-</a>
                     @endif
                 </td>
             </tr>

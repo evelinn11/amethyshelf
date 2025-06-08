@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    
+
     // public function show()
     // {
     //     return view('user.products');
@@ -42,14 +42,14 @@ class ProductController extends Controller
         $categoryIds = $product->categories->pluck('id');
 
         $recommendations = Product::with('primaryImage')
-        ->whereHas('categories', function ($query) use ($categoryIds) {
-            $query->whereIn('categories.id', $categoryIds);
-        })
-        ->where('id', '!=', $product->id)
-        ->inRandomOrder()
-        ->take(10)
-        ->get();
-        
+            ->whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.id', $categoryIds);
+            })
+            ->where('id', '!=', $product->id)
+            ->inRandomOrder()
+            ->take(10)
+            ->get();
+
         return view('user.product.details', compact('product', 'recommendations'));
     }
 
@@ -58,14 +58,11 @@ class ProductController extends Controller
     {
         $query = $request->input('q');
 
-        // Cari berdasarkan title produk (case-insensitive)
-        $product = Product::where('products_title', 'LIKE', '%' . $query . '%')->first();
+        $products = Product::with('primaryImage') // pastikan eager load
+            ->where('products_title', 'LIKE', '%' . $query . '%')
+            ->paginate(12); // bisa ganti jumlah
 
-        if ($product) {
-            return redirect()->route('product.show', ['id' => $product->id]);
-        } else {
-            return redirect()->back()->with('error', 'Produk tidak ditemukan.');
-        }
+        return view('user.search_results', compact('products', 'query'));
     }
 
 

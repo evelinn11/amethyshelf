@@ -82,42 +82,17 @@
                 aria-label="Scroll Left">&#10094;</button>
             <div class="carousel-1-wrapper">
                 <div class="carousel-1" id="carousel-editor">
-                    <div class="book-card">
-                        <img src="images/Bumi.jpg" alt="Bumi Manusia">
-                        <div class="book-title">Bumi Manusia</div>
-                        <div class="book-author">By Pramoedya Ananta Toer</div>
-
-                    </div>
-                    <div class="book-card">
-                        <img src="images/habit.jpg" alt="Habit">
-                        <div class="book-title">Habit</div>
-                        <div class="book-author">By Charles Duhigg</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/laskar-pelangi.jpg" alt="Laskar Pelangi">
-                        <div class="book-title">Laskar Pelangi</div>
-                        <div class="book-author">By Andrea Hirata</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/tentang-kamu.jpg" alt="Tentang Kamu">
-                        <div class="book-title">Tentang Kamu</div>
-                        <div class="book-author">By Tere Liye</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/atomic-habits.jpg" alt="Atomic habits">
-                        <div class="book-title">Atomic Habits</div>
-                        <div class="book-author">By James Clear</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/laut-bercerita.jpg" alt="Laut Bercerita">
-                        <div class="book-title">Laut Bercerita</div>
-                        <div class="book-author">By Leila Chudori</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/dilan.jpg" alt="Dilan">
-                        <div class="book-title">Dilan</div>
-                        <div class="book-author">By Pidi Baiq</div>
-                    </div>
+                    @foreach ($editorsPickBooks as $book)
+                        <div class="book-card">
+                            <a href="{{ route('product.show', ['id' => $book->id]) }}" class="product-link"
+                                style="text-decoration: none;">
+                                <img src="{{ asset($book->primaryImage->product_images_url) }}"
+                                    alt="{{ $book->products_title }}" class="card-img-top">
+                                <div class="book-title" style="color:black">{{ $book->products_title }}</div>
+                                <div class="book-author">By {{ $book->products_author_name }}</div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <button class="scroll-btn right" onclick="scrollCarousel('carousel-editor', 1)"
@@ -134,43 +109,17 @@
                 aria-label="Scroll Left">&#10094;</button>
             <div class="carousel-1-wrapper">
                 <div class="carousel-1" id="carousel-hottest">
-                    <div class="book-card">
-                        <img src="images/dilan.jpg" alt="Dilan">
-                        <div class="book-title">Dilan</div>
-                        <div class="book-author">By Pidi Baiq</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/laut-bercerita.jpg" alt="Laut Bercerita">
-                        <div class="book-title">Laut Bercerita</div>
-                        <div class="book-author">By Leila Chudori</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/habit.jpg" alt="Habit">
-                        <div class="book-title">Habit</div>
-                        <div class="book-author">By Charles Duhigg</div>
-                    </div>
-
-                    <div class="book-card">
-                        <img src="images/tentang-kamu.jpg" alt="Tentang Kamu">
-                        <div class="book-title">Tentang Kamu</div>
-                        <div class="book-author">By Tere Liye</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/laskar-pelangi.jpg" alt="Laskar Pelangi">
-                        <div class="book-title">Laskar Pelangi</div>
-                        <div class="book-author">By Andrea Hirata</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/Bumi.jpg" alt="Bumi Manusia">
-                        <div class="book-title">Bumi Manusia</div>
-                        <div class="book-author">By Pramoedya Ananta Toer</div>
-                    </div>
-                    <div class="book-card">
-                        <img src="images/atomic-habits.jpg" alt="Atomic habits">
-                        <div class="book-title">Atomic Habits</div>
-                        <div class="book-author">By James Clear</div>
-                    </div>
-
+                    @foreach ($topBooks as $book)
+                        <div class="book-card">
+                            <a href="{{ route('product.show', ['id' => $book->id]) }}" class="product-link"
+                                style="text-decoration: none;">
+                                <img src="{{ asset($book->product_images_url) }}" alt="{{ $book->products_title }}"
+                                    class="card-img-top">
+                                <div class="book-title" style="color:black">{{ $book->products_title }}</div>
+                                <div class="book-author">By {{ $book->products_author_name }}</div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <button class="scroll-btn right" onclick="scrollCarousel('carousel-hottest', 1)"
@@ -186,36 +135,40 @@
                 <div class="carousel-1" id="carousel-hottest">
                     <div class="testimonial-box">
                         <p class="testimonial-text">
-                            “The best deh Oke banget puas cepet sample makasih amethyshelf”
+                            “E-commerce ini benar-benar membantu saya menemukan buku favorit dengan mudah. Pelayanan cepat dan
+                            ramah!”
                         </p>
                         <div class="stars">★ ★ ★ ★ ★</div>
-                        <div class="name">Felicia Kathrin</div>
-                        <div class="location">Jawa Timur</div>
+                        <div class="name">Rina Saraswati</div>
+                        <div class="location">Jakarta</div>
                     </div>
                     <div class="testimonial-box">
                         <p class="testimonial-text">
-                            “The best deh Oke banget puas cepet sample makasih amethyshelf”
+                            “Pengiriman tepat waktu dan kualitas barang sesuai harapan. Recomended banget untuk pecinta
+                            buku.”
                         </p>
-                        <div class="stars">★ ★ ★ ★ ★</div>
-                        <div class="name">Felicia Kathrin</div>
-                        <div class="location">Jawa Timur</div>
+                        <div class="stars">★ ★ ★ ★ ☆</div>
+                        <div class="name">Andi Pratama</div>
+                        <div class="location">Bandung</div>
                     </div>
                     <div class="testimonial-box">
                         <p class="testimonial-text">
-                            “The best deh Oke banget puas cepet sample makasih amethyshelf”
+                            “Sistem mudah digunakan, banyak pilihan buku menarik, dan harga terjangkau.”
                         </p>
                         <div class="stars">★ ★ ★ ★ ★</div>
-                        <div class="name">Felicia Kathrin</div>
-                        <div class="location">Jawa Timur</div>
+                        <div class="name">Siti Aisyah</div>
+                        <div class="location">Surabaya</div>
                     </div>
                     <div class="testimonial-box">
                         <p class="testimonial-text">
-                            “The best deh Oke banget puas cepet sample makasih amethyshelf”
+                            “Customer service sangat membantu ketika saya ada kendala. Sangat puas berbelanja
+                            di sini.”
                         </p>
-                        <div class="stars">★ ★ ★ ★ ★</div>
-                        <div class="name">Felicia Kathrin</div>
-                        <div class="location">Jawa Timur</div>
+                        <div class="stars">★ ★ ★ ★ ☆</div>
+                        <div class="name">Dedi Wijaya</div>
+                        <div class="location">Yogyakarta</div>
                     </div>
+
                 </div>
             </div>
         </div>
