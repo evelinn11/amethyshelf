@@ -36,25 +36,32 @@
                 <tbody>
                     @foreach ($wishlist as $index => $item)
                         <tr>
-                            <td><img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" width="60"></td>
-                            <td>{{ $item['title'] }}</td>
-                            <td>{{ $item['author'] }}</td>
-                            <td>Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
-                            <td>
+                            <td data-label="Cover">
+                                <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" width="60">
+                            </td>
+                            <td data-label="Title">
+                                {{ $item['title'] }}
+                            </td>
+                            <td data-label="Author">
+                                {{ $item['author'] }}
+                            </td>
+                            <td data-label="Price">
+                                Rp {{ number_format($item['price'], 0, ',', '.') }}
+                            </td>
+                            <td data-label="Remove">
                                 <form action="{{ route('wishlist.remove', $index) }}" method="POST"
                                     onsubmit="return confirm('Are you sure you want to remove this item from your wishlist?');">
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                                 </form>
                             </td>
-                            <td>
+                            <td data-label="Add to Cart">
                                 <form action="{{ route('wishlist.moveToCart', ['index' => $index]) }}" method="POST"
                                     style="display: inline-block;">
                                     @csrf
                                     <button type="submit" class="btn btn-sm btn-purple">
                                         Add to Cart
                                     </button>
-
                                 </form>
                             </td>
                         </tr>
