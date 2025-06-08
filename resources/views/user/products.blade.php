@@ -151,6 +151,51 @@
             color: inherit;
             display: block;
         }
+
+        /* Ini style pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 32px;
+            list-style: none;
+            padding-left: 0;
+            gap: 4px;
+        }
+
+        .pagination li {
+            display: inline;
+        }
+
+        .pagination li a,
+        .pagination li span {
+            color: #4B5563;
+            padding: 8px 14px;
+            text-decoration: none;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .pagination li a:hover {
+            background-color: #a78bfa;
+            color: white;
+        }
+
+        .pagination li.active span {
+            background-color: #7c3aed;
+            color: white;
+            border-color: #7c3aed;
+        }
+
+        .pagination li.disabled span {
+            color: #9ca3af;
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+            cursor: not-allowed;
+        }
+
     </style>
 @endpush
 
@@ -230,5 +275,11 @@
                 <p>There's no product in this category.</p>
             @endforelse
         </div>
+        {{-- Pagination --}}
+        @if ($products->hasPages())
+            <div class="mt-4 d-flex justify-content-center">
+                {{ $products->appends(request()->except('page'))->links() }}
+            </div>
+        @endif
     </div>
 @endsection

@@ -27,7 +27,7 @@ class ProductController extends Controller
     {
         $category = Category::findOrFail($id);
         // $products = $category->products()->get(); // ambil semua produk yang punya kategori ini
-        $products = $category->products()->with('primaryImage')->get();
+        $products = $category->products()->with('primaryImage')->paginate(8);
 
         return view('user.products', compact('category', 'products'));
     }
