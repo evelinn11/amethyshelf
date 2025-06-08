@@ -25,6 +25,7 @@
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
+            margin-left: 15px;
         }
 
         .section-box h2 {
@@ -79,9 +80,24 @@
 
         .status-box {
             border: 1px solid #ccc;
-            padding: 15px;
             border-radius: 8px;
             background-color: #fff;
+            display:flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        h3{
+            font-size: 20px;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        h5{
+            font-size: 20px;
+            margin-top:8px;
+            margin-left:5px;
+            font-weight: 600;
         }
         
         .payment-details {
@@ -294,6 +310,18 @@
                 <div class="info-row"><strong>Total Books:</strong> {{ $order->details->sum('quantity') }}</div>
                 <div class="info-row"><strong>Final Amount:</strong> <span style="color: #4a00c9">Rp.
                         {{ number_format($order->total_amount, 0, ',', '.') }}</span></div>
+                <hr style="margin-top: 20px; margin-bottom: 10px; border: 1px solid #ccc;">
+
+                <div class="status-box">
+                    <h3 style="margin-bottom: 5px;">Order Status:</h3>
+                    <h5 class="status 
+                        {{ $order->order_status === 'completed' ? 'status-completed' : '' }}
+                        {{ $order->order_status === 'pending' ? 'status-pending' : '' }}
+                        {{ $order->order_status === 'cancelled' ? 'status-cancelled' : '' }}
+                        {{ $order->order_status === 'expired' ? 'status-expired' : '' }}">
+                        {{ ucfirst($order->order_status) }}
+                    </h5>
+                </div>
             </div>
         </div>
 
@@ -326,19 +354,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-            <div class="status-box" style="flex: 1">
-                <h3>Order Status:</h3>
-                <h5
-                    class="status 
-                        {{ $order->order_status === 'completed' ? 'status-completed' : '' }}
-                        {{ $order->order_status === 'pending' ? 'status-pending' : '' }}
-                        {{ $order->order_status === 'cancelled' ? 'status-cancelled' : '' }}
-                        {{ $order->order_status === 'expired' ? 'status-expired' : '' }}">
-                    {{ ucfirst($order->order_status) }}
-                </h5>
-
             </div>
         </div>
     </div>

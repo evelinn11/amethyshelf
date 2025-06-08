@@ -182,22 +182,70 @@
             width: 90%;
             text-align: center;
             font-size: 12px;
-            margin-left: 10px;
+            margin-left: 20px;
         }
 
         .search-bar {
             flex: 1;
+            margin-right:20px
+
         }
 
         .dashboard-container {
             margin-top: 130px;
         }
+
+        .search-add {
+            flex-direction: column;
+            align-items: flex-start; /* align children to the left */
+            gap: 10px;
+        }
+
+    }
+
+    @media (max-width: 845px) {
+
+        .search-bar {
+            flex: 1;
+            margin-right:50px
+
+        }
+    }
+
+    @media (max-width: 1059px) {
+        .add-btn {
+            width: 90%;
+            text-align: center;
+            font-size: 12px;
+            margin-left: 20px;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin-right:10px
+        }
+        .search-add {
+            flex-direction: column;
+            align-items: flex-start; /* align children to the left */
+            gap: 10px;
+        }
+
     }
 
     @media (max-width: 480px) {
         .add-btn {
             padding: 6px 10px;
             font-size: 13px;
+        }
+
+        .search-bar input{
+            flex: 1;
+            margin-right:20px
+        }
+
+        .search-bar i{
+            flex: 1;
+            margin-right:20px
         }
     }
 </style>

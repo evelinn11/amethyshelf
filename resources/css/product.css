@@ -120,6 +120,7 @@ body {
     cursor: pointer;
     margin-right: 10px;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .add-btn i {
@@ -205,16 +206,105 @@ body {
     color: #6f42c1;
 }
 
-@media (max-width: 768px) {
+/* Keep your existing styles, then add/replace these */
+
+@media (max-width: 1024px) {
     .add-btn {
-        width: 90%;
-        text-align: center;
-        font-size: 12px;
-        margin-left: 10px;
+        margin-left: 23px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 850px) {
+    .search-add {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .search-bar {
-        flex: 1;
+    .search-add > div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .clear {
+        margin-top: 10px;
+        margin-left: 23px; /* match .add-btn's left margin */
+    }
+}
+
+@media (max-width: 766px) and (min-width: 601px) {
+    .search-add {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+
+    .search-add > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    .search-bar input {
+        width: 100%; /* smaller input so no overlap */
+        transition: width 0.3s ease;
+        max-width: none; /* remove fixed max */
+    }
+
+    .category-filter {
+        font-size: 12px;
+        padding: 5px 8px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .add-btn {
+        margin-left: 0;
+        margin-top: 0;
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 7px 12px;
+        font-size: 13px;
+        white-space: nowrap;
+        width: auto;
+    }
+}
+
+/* Below 600px: stack vertically */
+@media (max-width: 600px) {
+    .search-add {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px; /* spacing between rows */
+    }
+
+    .search-add > div {
+        flex-direction: row; /* keep input and select inline */
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .search-bar input {
+        width: 100%; /* input full width */
+    }
+
+    .category-filter {
+        flex-shrink: 0;
+    }
+
+    .add-btn {
+        margin-left: 22px; /* align with inputs */
+        margin-top: 0;
+        width: auto;
+        white-space: nowrap;
+        padding: 8px 14px;
+        font-size: 14px;
     }
 }
 

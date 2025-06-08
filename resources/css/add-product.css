@@ -266,3 +266,27 @@ textarea {
     background: #9a6de0;
     color: white;
 }
+
+@media (max-width: 766px) {
+    .checkbox-group label {
+        font-size: 9.5px;
+    }
+}
+
+@media (max-width: 742px) {
+    .checkbox-group label {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 555px) {
+    .checkbox-group label {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 466px) {
+    .checkbox-group label {
+        font-size: 9px;
+    }
+}

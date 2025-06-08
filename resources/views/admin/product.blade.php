@@ -9,6 +9,7 @@
 @section('content')
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amethyshelf Acdmin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -19,7 +20,7 @@
     </div>
 
     <div class="search-add">
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div>
       
       <form action="{{ route('product') }}" method="GET" class="search-bar">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by ID, title or author then hit 'Enter'">
@@ -31,19 +32,11 @@
               </option>
           @endforeach
       </select>
-      </form>
-
-
-      <form action="{{ route('product') }}" method="GET">
-        <button type="submit" class="clear">Reset</button>
-      </form>
       </div>
 
-      <a href="{{ route('add-product') }}">
-        <button class="add-btn">
-          <i class="fa-solid fa-plus"></i> Add New Book
-        </button>
-      </a>
+      <a href="{{ route('add-product') }}" class="add-btn">
+      <i class="fa-solid fa-plus"></i> Add New Book
+    </a>
     </div>
 
     <div class="table-container-product">

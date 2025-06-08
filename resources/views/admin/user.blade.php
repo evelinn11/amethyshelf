@@ -1,6 +1,14 @@
 @extends('admin.base.base')
 
 @section('content')
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amethyshelf Acdmin</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
 @if(session('success'))
 <div class="alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3 shadow-lg z-3" role="alert" style="min-width: 300px;">
     {{ session('success') }}

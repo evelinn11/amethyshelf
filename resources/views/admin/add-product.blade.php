@@ -86,7 +86,7 @@
               </div>
             <div class="form-group">
               <label>Summary</label>
-              <textarea rows="5" name="products_summary" class="{{ $errors->has('products_summary') ? 'input-error' : '' }}">{{ old('products_summary') }}</textarea>
+              <textarea rows="9" name="products_summary" class="{{ $errors->has('products_summary') ? 'input-error' : '' }}">{{ old('products_summary') }}</textarea>
                @if ($errors->has('products_summary'))
                 <p class="error-message">{{ $errors->first('products_summary') }}</p>
               @endif

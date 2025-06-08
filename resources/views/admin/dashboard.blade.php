@@ -253,6 +253,7 @@ td {
 
     .stats-cards {
         justify-content: center; /* optional, for better mobile layout */
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .card {

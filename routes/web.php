@@ -99,9 +99,21 @@ Route::middleware(['auth', 'role:A'])->group(function () {
     Route::get('/product', [StoreController::class, 'show_product'])->name('product');
     Route::get('/edit-product/{id}', [StoreController::class, 'show_edit_product'])->name('edit-product');
     Route::get('/category', [StoreController::class, 'show_category'])->name('category');
-    Route::get('/categorybooks{categoryId}', [StoreController::class, 'show_category_books'])->name('category-books');
     Route::get('/add-category', [StoreController::class, 'show_add_category'])->name('add-category');
     Route::get('/edit-category', [StoreController::class, 'show_edit_category'])->name('edit-category');
     Route::get('/admin-orders', [StoreController::class, 'show_orders'])->name('admin-orders');
     Route::get('/admin-order-details/{id}', [StoreController::class, 'show_order_details'])->name('admin-order-details');
+
+    //celin add
+    Route::get('/user', [StoreController::class, 'show_user'])-> name('user');
+    Route::get('/add-user', [StoreController::class, 'show_add_user'])-> name('add-user');
+    Route::get('/edit-user/{id}', [StoreController::class, 'show_edit_user'])-> name('edit-user');
+    Route::post('/add-user-post', [StoreController::class, 'show_add_user_post'])->name('add-user-post');
+    Route::post('/edit-user-post/{id}', [StoreController::class, 'show_edit_user_post'])->name('edit-user-post');
+    Route::delete('/delete-user/{id}', [StoreController::class, 'delete_user'])->name('delete-user');
+
+    Route::post('/add-category-post', [StoreController::class, 'show_add_category_post'])->name('add-category-post');
+    Route::get('/edit-category/{id}', [StoreController::class, 'show_edit_category'])->name('edit-category');
+    Route::get('/edit-category-post/{id}', [StoreController::class, 'show_edit_category_post'])->name('edit-category-post');
+    Route::delete('/delete-category/{id}', [StoreController::class, 'destroy'])->name('delete-category');
 });
