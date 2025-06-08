@@ -1,66 +1,17 @@
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    background-color: #f9f9f9;
 }
 
-
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none !important;
-    margin: 0;
-}
-
-input[type=number] {
-    -moz-appearance: textfield; /* Firefox */
-    appearance: textfield;
-}
-
-
-h3 {
-    color: #3c1361;
-    font-weight: 700;
-}
-
-.cart-table {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(97, 67, 157, 0.2);
-    background: white;
-}
-
-.cart-table thead {
-    background-color: #cba7ff;
-    color: white;
+.text-purple {
+    color: #6c33ff;
     font-weight: 600;
-}
-
-.cart-table tbody tr:hover {
-    background-color: white;
-}
-
-.cart-table tbody tr td {
-    vertical-align: middle;
-    /* bikin isi td sejajar vertikal tengah */
-}
-
-.cart-table tbody tr td.d-flex {
-    align-items: center;
-    /* buat flex container td sejajar tengah vertikal */
-}
-
-.cart-table img {
-    border-radius: 6px;
-    object-fit: cover;
 }
 
 .btn-purple {
     background-color: #3C1361;
-    border-color: #3C1361;
-    color: white;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-color: #3C1361;
+    color: #fff;
 }
 
 .btn-purple:hover {
@@ -68,73 +19,152 @@ h3 {
     color: white;
 }
 
-.text-remove {
-    color: #b338ff;
-    font-weight: 600;
-    cursor: pointer;
-    user-select: none;
-}
-
-.text-remove:hover {
-    color: #6c33ff;
-    text-decoration: underline;
-}
-
-.btn-primary {
-    background-color: #cba7ff;
-    border: none;
-    font-weight: 600;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-.btn-primary:hover {
-    background-color: #a074ff;
-}
-
-.alert {
-    border-radius: 8px;
-}
-
-/* styling tombol quantity - 1 + */
-.qty-controls {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.qty-controls button {
-    border: 1.5px solid #6c33ff;
-    background-color: white;
-    color: #6c33ff;
-    font-weight: 700;
-    font-size: 1rem;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    padding: 0;
-    line-height: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.qty-controls span.qty-number {
-    min-width: 24px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.qty-controls button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.table-responsive {
+/* Table Styling */
+.cart-table {
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.cart-table th,
+.cart-table td {
+    text-align: left;
+    vertical-align: middle;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+}
+
+.cart-table img {
+    max-width: 60px;
+    height: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .table-responsive {
+        display: none !important;
+    }
+
+    .cart-mobile-item {
+        display: flex;
+        background-color: white;
+        margin-bottom: 1.5rem;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+    }
+
+    .cart-mobile-item img {
+        width: 90px;
+        height: 130px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .cart-mobile-details {
+        flex-grow: 1;
+    }
+
+    .cart-mobile-details h5 {
+        margin: 0 0 5px 0;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .cart-mobile-details p {
+        margin: 3px 0;
+        color: #555;
+        font-size: 0.9rem;
+    }
+
+    .cart-mobile-qty-remove {
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .cart-mobile-qty-remove form {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .cart-mobile-qty-remove input[type="number"] {
+        width: 50px;
+        text-align: center;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .cart-mobile-qty-remove button {
+        padding: 4px 8px;
+        font-size: 0.9rem;
+    }
+
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table, .cart-table tbody, .cart-table tr, .cart-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .cart-table tr {
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #fff;
+    }
+
+    .cart-table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .cart-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .cart-table td:last-child {
+        border-bottom: none;
+    }
+
+    .cart-mobile-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        padding: 0 10px;
+        background-color: transparent;
+    }
+
+    .total-mobile {
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin: 0;
+        text-align: left;
+        color: #6c33ff;
+    }
+
+    .btn-purple {
+        width: auto;
+        font-size: 1rem;
+        border-radius: 6px;
+    }
 }

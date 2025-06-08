@@ -38,7 +38,6 @@
 
         .status-paid {
             color: #28a745;
-            /* Hijau untuk Paid/Completed */
             font-weight: 700;
             font-size: 1.2rem;
             margin-top: 1rem;
@@ -46,7 +45,6 @@
 
         .status-pending {
             color: #ffc107;
-            /* Kuning */
             font-weight: 700;
             font-size: 1.2rem;
             margin-top: 1rem;
@@ -54,7 +52,6 @@
 
         .status-cancelled {
             color: #dc3545;
-            /* Merah */
             font-weight: 700;
             font-size: 1.2rem;
             margin-top: 1rem;
@@ -62,7 +59,6 @@
 
         .status-expired {
             color: #6c757d;
-            /* Abu-abu */
             font-weight: 700;
             font-size: 1.2rem;
             margin-top: 1rem;
@@ -70,7 +66,6 @@
 
         .status-unknown {
             color: #343a40;
-            /* Hitam keabu-abuan */
             font-weight: 700;
             font-size: 1.2rem;
             margin-top: 1rem;
@@ -124,6 +119,41 @@
             background-color: #bb2d3b;
             border-color: #bb2d3b;
             color: white;
+        }
+
+        /* === Responsive Adjustment === */
+        @media (max-width: 576px) {
+            body {
+                padding: 1rem;
+            }
+
+            .status-card {
+                margin: 2rem auto;
+                padding: 2rem 1.2rem;
+            }
+
+            .button-purple,
+            .button-red {
+                width: 100%;
+                padding: 0.75rem;
+                font-size: 1rem;
+            }
+
+            .status-title {
+                font-size: 1.5rem;
+            }
+
+            .status-value {
+                font-size: 1.1rem;
+            }
+
+            .status-label {
+                font-size: 0.95rem;
+            }
+
+            .status-note {
+                font-size: 0.85rem;
+            }
         }
     </style>
 @endpush
