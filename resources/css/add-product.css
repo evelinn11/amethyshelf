@@ -180,7 +180,7 @@ body {
 }
 
 .column {
-    flex: 1;
+    flex: 1 1 100%;
     min-width: 300px;
 }
 
@@ -270,6 +270,28 @@ textarea {
 @media (max-width: 766px) {
     .checkbox-group label {
         font-size: 9.5px;
+    }
+
+    .form-split {
+        flex-direction: column;
+    }
+
+    .column {
+        min-width: 100%;
+    }
+
+    .photo-upload {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .add-book-form {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .checkbox-group {
+        grid-template-columns: repeat(2, 1fr); /* Reduce category columns */
     }
 }
 
